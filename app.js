@@ -7,7 +7,7 @@ const http = require("http");
 dotenv.config();
 let app = express();
 mongoose.connect(
-  process.env.DB_CONNECT,
+  process.env.DATABASE,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => console.log("Connected to db")
 );
