@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ("partials/head.ejs") %>
+</head>
+
+<body>
+    <header>
+        <%- include ("partials/header.ejs") %>
+    </header>
+    <br />
+    <br />
+    <div class="container">
+        <a class="btn btn-outline-dark" href="javascript:history.back()">&#x2190; Go Back</a>
+        <hr>
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div class="box-element">
+
+                    <h3><u>Delivery Details</u></h3>
+                    <hr>
+                    <h5><strong>Order Id: </strong>
+                        <%= orders.orderid %>
+                    </h5>
+                    <h5><strong>Phone Number: </strong>
+                        <%= orders.phone_number %>
+                    </h5>
+                    <h5><strong>Order Placed:</strong>
+                        <%= orders.order_day %>
+                    </h5>
+                    <h5><strong>Delivery Address:</strong>
+                        <%= orders.address %>
+                    </h5>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="box-element">
+                    <h3><u>Bill</u></h3>
+                    <hr>
+                    <h5><strong>GST: </strong>
+                        <%= orders.gst %>
+                    </h5>
+                    <h5><strong>CGST: </strong>
+                        <%= orders.cgst %>
+                    </h5>
+                    <h5><strong>SGST:</strong>
+                        <%= orders.sgst %>
+                    </h5>
+                    <h5><strong>Delivery Charge: </strong> &#8377;
+                        <%= orders.delivery_charge %>
+                    </h5>
+                    <h5><strong>Total:</strong> &#8377;<u> <%= orders.total %></u></h5>
+                </div>
+            </div>
+        </div>
+        <br>
+        <h4><u>Status:</u>
+            <h3>
+                <%= orders.orderStatus %>
+            </h3>
+        </h4>
+        <br>
+        <div class="row">
+            <div class="col-lg-12 sm-4 md-8">
+                <table class="table">
+                    <h3><u>Ordered Items</u></h3>
+                    <hr>
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Item</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% orders.cart.products.forEach(function(item){%>
+                            <tr>
+                                <td><img style="width: 150px; height: 120px;" src="<%= item.image_url %>" /></td>
+                                <td>
+                                    <p>
+                                        <%= item.item_name %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>&#8377;
+                                        <%= item.price %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <%= item.qty_purchased %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>&#8377;
+                                        <%= item.price * item.qty_purchased %>
+                                    </p>
+                                </td>
+                            </tr>
+                            <%})%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+
+</html>
