@@ -3,6 +3,12 @@ const User = require("../model/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { registerValidation, loginValidation } = require("../validation");
+router.get("/", (req, res) => {
+  res.redirect("/login");
+});
+router.get("/login", (res, req) => {
+  res.render("login");
+});
 
 router.post("/register", async (req, res) => {
   //Validating that the body follows the schema
