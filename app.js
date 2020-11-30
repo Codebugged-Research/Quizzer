@@ -18,11 +18,13 @@ const rewardRoute = require("./routes/rewardRouter");
 
 //Middlewares
 app.use(cors());
+app.set("view engine", "ejs");
 app.use(express.json());
-app.use("/admin", authRoute);
-app.use("/admin/dashboard", dashboardRoute);
-app.use("/admin/reward", rewardRoute);
-app.use("/admin/question", questionRoute);
+app.use(express.static(__dirname + "/public"));
+app.use("api/auth", authRoute);
+app.use("api/admin/dashboard", dashboardRoute);
+app.use("api/admin/reward", rewardRoute);
+app.use("api/admin/question", questionRoute);
 
 // app.listen(3000, () => console.log("Server started"));
 const httpServer = http.createServer(app);
