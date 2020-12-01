@@ -50,7 +50,8 @@ router.post("/login", async (req, res) => {
     { _id: user._id, name: user.name },
     process.env.TOKEN_SECRET
   );
-  res.render("adminUI/admin", { token: token });
+  const role = user.role;
+  res.render("adminUI/admin", { token: token, role: role });
   // res.header("auth-token", token).send(token);
 });
 
