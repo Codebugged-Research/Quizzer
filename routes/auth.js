@@ -4,11 +4,9 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { registerValidation, loginValidation } = require("../validation");
-router.get("/", (req, res) => {
-  res.redirect("/login");
-});
+
 router.get("/login", (req, res) => {
-  res.render("views/adminUI/login");
+  res.render("login");
 });
 
 router.post("/register", async (req, res) => {
@@ -52,7 +50,7 @@ router.post("/login", async (req, res) => {
     { _id: user._id, name: user.name },
     process.env.TOKEN_SECRET
   );
-  res.render("admin", { token: token });
+  res.render("adminUI/admin", { token: token });
   // res.header("auth-token", token).send(token);
 });
 

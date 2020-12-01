@@ -3,14 +3,11 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
       min: 6,
       max: 255,
     },
     phone: {
       type: String,
-      type: String,
-      required: true,
       min: 10,
       max: 10,
     },
@@ -28,7 +25,6 @@ const userSchema = new mongoose.Schema(
     },
     username: {
       type: String,
-      required: true,
     },
     dob: {
       type: Date,

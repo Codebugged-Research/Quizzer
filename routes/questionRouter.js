@@ -78,7 +78,7 @@ questionRouter.get("/details/:id", async (req, res) => {
 });
 //EJS Template for this route to be added
 questionRouter.get("/:id", async (req, res) => {
-  await Campground.findById(req.params.id, (err, foundQuiz) => {
+  await Quiz.findById(req.params.id, (err, foundQuiz) => {
     res.render("", { quiz: foundQuiz });
   });
 });
