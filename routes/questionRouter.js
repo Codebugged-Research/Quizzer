@@ -4,7 +4,7 @@ let Quiz = require("../models/quiz");
 
 questionRouter.get("/", async (req, res) => {
   // console.log('get all questions')
-  Quiz.find({}, (err, allCampgrounds) => {
+  Quiz.find({}, (err, allquestions) => {
     if (err) {
       console.log(err);
     } else {
@@ -15,7 +15,9 @@ questionRouter.get("/", async (req, res) => {
   });
   res.status(200).json(questions);
 });
-
+questionRouter.get("/add", async (req, res) => {
+  res.render("adminUI/create-quiz");
+});
 questionRouter.post("/add", async (req, res) => {
   // console.log('add product')
   const name = req.body.name;
