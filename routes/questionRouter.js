@@ -1,6 +1,7 @@
 const express = require("express");
 const questionRouter = express.Router();
 let Quiz = require("../models/quiz");
+let Question = require("../models/question");
 
 questionRouter.get("/", async (req, res) => {
   // console.log('get all questions')
@@ -16,27 +17,26 @@ questionRouter.get("/", async (req, res) => {
   res.status(200).json(questions);
 });
 questionRouter.get("/add", async (req, res) => {
-  res.render("adminUI/create-quiz");
+  res.render("adminUI/questionsCreate");
 });
 questionRouter.post("/add", async (req, res) => {
   // console.log('add product')
-  const name = req.body.name;
   const desc = req.body.description;
-  const duration = req.body.duration;
-  const newQuiz = {
-    name: name,
+  const options = [req.body.option];
+  const correct = req.body.answer;
+  const newQuestion = {
     description: desc,
-    duration: duration,
+    options: options,
+    answer: correct,
   };
 
-  await Quiz.create(newQuiz, (err, newlyCreated) => {
+  await Question.create(newQuestion, (err, newlyCreated) => {
     if (err) {
       console.log(err);
     } else {
-      res.redirect("/dashboard");
+      res.redirect("/admin");
     }
   });
-  res.status(201).json(question);
 });
 
 questionRouter.post("/:id/edit", async (req, res) => {

@@ -32,7 +32,7 @@ router.post("/register", async (req, res) => {
   });
   try {
     const savedUser = await user.save();
-    res.send({ _id: user._id, name: user.name , token: token});
+    res.send({ _id: user._id, name: user.name, token: token });
   } catch (err) {
     res.status(400).send(err);
   }
@@ -49,12 +49,9 @@ router.post("/login", async (req, res) => {
   const validPass = await bcrypt.compare(req.body.password, user.password);
   if (!validPass) return res.status(400).send("Invalid Password");
 
-  const token = jwt.sign(
-    { _id: user._id, name: user.name },
-    process.env.TOKEN_SECRET
-  );
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
   const role = user.role;
-  res.render("adminUI/admin", { token: token, role: role });
+  res.render("adminUI/admin", { token: token, role: role, user: user });
   // res.header("auth-token", token).send(token);
 });
 
