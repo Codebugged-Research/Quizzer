@@ -21,14 +21,15 @@ router.post("/register", async (req, res) => {
   //Hashing passwords
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
-  const token = jwt.sign(
-    { _id: user._id, name: user.name },
-    process.env.TOKEN_SECRET
-  );
+ 
   const user = new User({
     email: req.body.email,
     password: hashedPassword,
   });
+   const token = jwt.sign(
+    { _id: user._id, email: user.email },
+    process.env.TOKEN_SECRET
+  );
   try {
     const savedUser = await user.save();
     res.send({ _id: user._id, token: token });
