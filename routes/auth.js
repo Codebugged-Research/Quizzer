@@ -26,7 +26,6 @@ router.post("/register", async (req, res) => {
     process.env.TOKEN_SECRET
   );
   const user = new User({
-    name: req.body.name,
     email: req.body.email,
     password: hashedPassword,
   });
