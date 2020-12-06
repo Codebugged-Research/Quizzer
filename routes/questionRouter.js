@@ -21,10 +21,16 @@ questionRouter.get("/add", async (req, res) => {
 });
 questionRouter.post("/add", async (req, res) => {
   // console.log('add product')
-  const desc = req.body.description;
-  const options = [req.body.option];
-  const correct = req.body.answer;
-  const newQuestion = {
+  let desc = req.body.description;
+  let options = [
+    req.body.option1,
+    req.body.option2,
+    req.body.option3,
+    req.body.option4,
+  ];
+
+  let correct = req.body.answer;
+  let newQuestion = {
     description: desc,
     options: options,
     answer: correct,
@@ -38,14 +44,20 @@ questionRouter.post("/add", async (req, res) => {
     }
   });
 });
-
-questionRouter.post("/:id/edit", async (req, res) => {
-  Quiz.findById(req.params.id, (err, foundQuiz) => {
-    res.render("quiz/edit", { quiz: foundQuiz });
-  });
+questionRouter.get("/:quiz_id/questions", async (req, res) => {
+  res.render("adminUI/allquestions");
 });
 
-questionRouter.post("/update/:id", async (req, res) => {
+questionRouter.get(
+  "/:quiz_id/questions/:question_id/edit",
+  async (req, res) => {
+    Question.findById(req.params.id, (err, foundQuestion) => {
+      res.render("adminUI/edit_question", { question: foundQuestion });
+    });
+  }
+);
+
+questionRouter.post("/:id", async (req, res) => {
   // console.log('get update product')
   // console.log(req.body)
   await Quiz.findByIdAndUpdate(

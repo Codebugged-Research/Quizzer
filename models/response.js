@@ -15,5 +15,6 @@ let responseSchema = mongoose.Schema({
     },
     questionDescription: { type: String },
   },
+  reward: { type: String },
 });
 module.exports = mongoose.model("Response", responseSchema);

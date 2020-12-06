@@ -20,7 +20,6 @@ mongoose.connect(
 const authRoute = require("./routes/auth");
 const dashboardRoute = require("./routes/dashboard");
 const questionRoute = require("./routes/questionRouter");
-const rewardRoute = require("./routes/rewardRouter");
 
 //Middlewares
 app.use(cors());
@@ -41,7 +40,6 @@ app.set("views", path.join(__dirname, "views"));
 // });
 app.use(authRoute);
 app.use("/api/admin/dashboard", dashboardRoute);
-app.use("/api/admin/reward", rewardRoute);
 app.use("/api/admin/question", questionRoute);
 
 app.listen(3000, () => console.log("Server started"));

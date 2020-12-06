@@ -2,47 +2,60 @@
 <html lang="en">
 
 <head>
-    <%- include("partials/head") %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body>
-    <header>
-        <%- include("partials/header") %>
-    </header>
-    <br />
-    <br />
-    <div class="container">
+    <form action="/api/admin/quiz/<%= quiz._id/questions/<%= question._id %>?_method=PUT" method="POST">
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Enter Question Description</label>
+            <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" value="<%= question.name %>"></textarea>
+        </div>
 
-        <!-- Edit Mushroom -->
-        <h5><strong>Edit Mushroom:<strong></strong></h5>
-        <form method="POST" action="/edit-item">
-            <input type="text" class="form-control" id="id" name="id" value="<%= product.id %>" hidden/>
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name" value="<%= product.item_name %>" />
-            </div>
-            <div class="form-group">
-                <label for="price">Price in &#8377;:</label>
-                <input type="number" class="form-control" id="price" name="price" value="<%= product.price %>" />
-            </div>
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea class="form-control" rows="5" id="description" name="description"><%= product.item_description %></textarea>
-            </div>
-            <div class="form-group">
-                <label for="quantity">Qyantity In KGs:</label>
-                <input type="number" class="form-control" id="quantity" name="quantity" value="<%= product.qty_available %>" />
-            </div>
-            <br><br>
-            <center><button type="submit" class="btn btn-primary my-4">Submit</button></center>
-        </form>
-        <!-- Edit Mushroom Ends -->
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Option 1</span>
 
-    </div>
+            </div>
+            <input type="text" name="option1" class="form-control" value="<%= question.options[0]">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Option 2</span>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+            </div>
+            <input type="text" name="option2" class="form-control" value="<%= question.options[0]">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Option 3</span>
+
+            </div>
+            <input type="text" name="option3" class="form-control" value="<%= question.options[0]">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Option 4</span>
+
+            </div>
+            <input type="text" name="option4" class="form-control" value="<%= question.options[0]">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">What will be the correct option</label>
+            <input type="text" class="form-control" id="exampleFormControlSelect1" name="answer" value="question.answer">
+
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-success">Post</button>
+        </div>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>
