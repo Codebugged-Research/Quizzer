@@ -28,6 +28,7 @@
     "express-validator": "^6.6.1",
     "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
     "mongoose": "^5.10.15",
     "nodemon": "^2.0.6",
     "twilio": "^3.52.0"
