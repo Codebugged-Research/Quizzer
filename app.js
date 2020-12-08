@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const path = require("path");
 const cors = require("cors");
 const http = require("http");
+const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 dotenv.config();
 let app = express();
@@ -19,11 +20,12 @@ mongoose.connect(
 );
 const authRoute = require("./routes/auth");
 const dashboardRoute = require("./routes/dashboard");
-const questionRoute = require("./routes/questionRouter");
+const quizRoute = require("./routes/questionRouter");
 
 //Middlewares
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   bodyParser.urlencoded({
     extended: false,
@@ -40,10 +42,10 @@ app.set("views", path.join(__dirname, "views"));
 // });
 app.use(authRoute);
 app.use("/api/admin/dashboard", dashboardRoute);
-app.use("/api/admin/question", questionRoute);
+app.use("/api/admin/quiz", quizRoute);
 
-// app.listen(3000, () => console.log("Server started"));
-const httpServer = http.createServer(app);
-httpServer.listen(80, () => {
-  console.log("HTTP Server running on port 80");
-});
+app.listen(3000, () => console.log("Server started"));
+// const httpServer = http.createServer(app);
+// httpServer.listen(80, () => {
+//   console.log("HTTP Server running on port 80");
+// });

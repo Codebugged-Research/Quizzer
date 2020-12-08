@@ -1,49 +1,70 @@
 const express = require("express");
 const questionRouter = express.Router();
+const verify = require("./verifyToken");
 let Quiz = require("../models/quiz");
 let Question = require("../models/question");
 
 questionRouter.get("/", async (req, res) => {
   // console.log('get all questions')
-  Quiz.find({}, (err, allquestions) => {
+  await Quiz.find({}, (err, allQuiz) => {
     if (err) {
       console.log(err);
     } else {
-      res.render("allquestions", {
-        questions: allQuestions,
+      res.render("adminUI/allQuiz", {
+        allQuiz: allQuiz,
       });
     }
   });
-  res.status(200).json(questions);
 });
 questionRouter.get("/add", async (req, res) => {
-  res.render("adminUI/questionsCreate");
+  res.render("adminUI/create-quiz");
 });
-questionRouter.post("/add", async (req, res) => {
-  // console.log('add product')
-  let desc = req.body.description;
-  let options = [
-    req.body.option1,
-    req.body.option2,
-    req.body.option3,
-    req.body.option4,
-  ];
-
-  let correct = req.body.answer;
-  let newQuestion = {
-    description: desc,
-    options: options,
-    answer: correct,
+questionRouter.post("/", verify, async (req, res) => {
+  const name = req.body.name;
+  const slot = req.body.slot;
+  const reward = req.body.reward;
+  const newQuiz = {
+    name: name,
+    slot: slot,
+    reward: reward,
   };
 
-  await Question.create(newQuestion, (err, newlyCreated) => {
+  await Quiz.create(newQuiz, (err, newlyCreated) => {
     if (err) {
       console.log(err);
     } else {
-      res.redirect("/admin");
+      res.redirect("quiz");
     }
   });
 });
+// questionRouter.get("/add", async (req, res) => {
+//   res.render("adminUI/questionsCreate");
+// });
+// questionRouter.post("/add", async (req, res) => {
+//   // console.log('add product')
+//   let desc = req.body.description;
+//   let options = [
+//     req.body.option1,
+//     req.body.option2,
+//     req.body.option3,
+//     req.body.option4,
+//   ];
+
+//   let correct = req.body.answer;
+//   let newQuestion = {
+//     description: desc,
+//     options: options,
+//     answer: correct,
+//   };
+
+//   await Question.create(newQuestion, (err, newlyCreated) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.redirect("/admin");
+//     }
+//   });
+// });
 questionRouter.get("/:quiz_id/questions", async (req, res) => {
   res.render("adminUI/allquestions");
 });

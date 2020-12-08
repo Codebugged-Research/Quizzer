@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 //Middleware function for private routes
 module.exports = function (req, res, next) {
-  const token = req.header("auth-token");
+  // const token = req.header("auth-token");
+  const token = req.cookies.token;
   if (!token) return res.status(401).send("Access Denied");
 
   try {

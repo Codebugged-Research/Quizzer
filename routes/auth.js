@@ -52,8 +52,14 @@ router.post("/login", async (req, res) => {
 
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
   const role = user.role;
-  res.render("adminUI/admin", { token: token, role: role, user: user });
-  // res.header("auth-token", token).send(token);
+  user.password = undefined;
+  // res.render("adminUI/admin", {
+  //   token: token,
+  //   role: role,
+  //   user: user,
+  // });
+  res.cookie("token", token);
+  res.redirect("/api/admin/dashboard/");
 });
 
 module.exports = router;
