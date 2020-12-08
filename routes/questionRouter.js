@@ -37,9 +37,9 @@ questionRouter.post("/", verify, async (req, res) => {
     }
   });
 });
-// questionRouter.get("/add", async (req, res) => {
-//   res.render("adminUI/questionsCreate");
-// });
+questionRouter.get("/:quiz_id/questions/add", async (req, res) => {
+  res.render("adminUI/questionsCreate");
+});
 // questionRouter.post("/add", async (req, res) => {
 //   // console.log('add product')
 //   let desc = req.body.description;
