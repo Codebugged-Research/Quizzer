@@ -19,6 +19,18 @@ questionRouter.get("/", async (req, res) => {
 questionRouter.get("/add", async (req, res) => {
   res.render("adminUI/create-quiz");
 });
+questionRouter.get("/:id", async (req, res) => {
+  await Quiz.findById(req.params.id)
+    .populate("questions")
+    .exec(function (err, quiz) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render("adminUI/showQuiz", { quiz: quiz });
+      }
+    });
+});
+
 questionRouter.post("/", verify, async (req, res) => {
   const name = req.body.name;
   const slot = req.body.slot;
@@ -37,18 +49,49 @@ questionRouter.post("/", verify, async (req, res) => {
     }
   });
 });
-questionRouter.get("/:quiz_id/questions/add", async (req, res) => {
-  res.render("adminUI/questionsCreate");
+questionRouter.get("/:id/questions/add", async (req, res) => {
+  await Quiz.findById(req.params.id, async (err, quiz) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("adminUI/questionsCreate", { quiz: quiz });
+    }
+  });
+});
+questionRouter.post("/:id/questions/", verify, async (req, res) => {
+  await Quiz.findById(req.params.id, async (err, quiz) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/campgrounds");
+    } else {
+      await Question.create(req.body.question, function (err, question) {
+        if (err) {
+          console.log(err);
+        } else {
+          question.options = [
+            req.body.option1,
+            req.body.option2,
+            req.body.option3,
+            req.body.option4,
+          ];
+          question.save();
+          quiz.questions.push(question);
+          quiz.save();
+          res.redirect(quiz._id);
+        }
+      });
+    }
+  });
 });
 // questionRouter.post("/add", async (req, res) => {
 //   // console.log('add product')
 //   let desc = req.body.description;
 //   let options = [
-//     req.body.option1,
-//     req.body.option2,
-//     req.body.option3,
-//     req.body.option4,
-//   ];
+//   req.body.option1,
+//   req.body.option2,
+//   req.body.option3,
+//   req.body.option4,
+// ];
 
 //   let correct = req.body.answer;
 //   let newQuestion = {

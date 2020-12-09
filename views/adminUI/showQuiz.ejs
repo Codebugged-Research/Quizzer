@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <p class="lead">
+                    <%= quiz.name %>
+                </p>
+                <div class="list-group">
+                    <li class="list-group-item active">Info 1</li>
+                    <li class="list-group-item">Info 2</li>
+                    <li class="list-group-item">Info 3</li>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h4 class="pull-right">
+                            <%= quiz.reward %>
+                        </h4>
+                        <p>
+                            <%= quiz.slot %>
+                        </p>
+
+                        <a class="btn btn-warning" href="#">Edit</a>
+                        <form class="delete-form" action="#" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="well">
+                    <div class="text-right">
+                        <a class="btn btn-success" href="/api/admin/quiz/<%= quiz._id %>/questions/add">Add new question</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% quiz.questions.forEach(function(question) { %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <ul class="list-group">
+                        <h4>
+                            <%= question.description %>
+                        </h4>
+                        <li class="list-group-item">
+                            <%= question.options[0] %>
+                        </li>
+                        <li class="list-group-item">
+                            <%= question.options[1] %>
+                        </li>
+                        <li class="list-group-item">
+                            <%= question.options[2] %>
+                        </li>
+                        <li class="list-group-item">
+                            <%= question.options[3] %>
+                        </li>
+                        <p>The correct answer :
+                            <%= question.answer %>
+                        </p>
+                    </ul>
+                    <p>
+                        <a href="/api/admin/quiz/:id/edit">Edit</a>
+                    </p>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>
