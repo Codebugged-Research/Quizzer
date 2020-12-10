@@ -14,10 +14,10 @@
         <%= quiz.name %>
     </h1>
     <div class="container">
-        <form action="/api/admin/quiz/<%= quiz._id %>/questions" method="POST">
+        <form action="/quiz/<%= quiz._id %>/questions" method="POST">
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Enter Question Description</label>
-                <textarea class="form-control" name="question[description]" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
 
             <div class="input-group mb-3">
@@ -50,7 +50,7 @@
             </div>
             <div class="form-group">
                 <label for="exampleFormControlSelect1">What will be the correct answer</label>
-                <input type="text" class="form-control" id="exampleFormControlSelect1" name="question[answer]">
+                <input type="text" class="form-control" id="exampleFormControlSelect1" name="answer">
 
             </div>
 

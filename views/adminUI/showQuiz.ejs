@@ -39,7 +39,7 @@
                 </div>
                 <div class="well">
                     <div class="text-right">
-                        <a class="btn btn-success" href="/api/admin/quiz/<%= quiz._id %>/questions/add">Add new question</a>
+                        <a class="btn btn-success" href="/quiz/<%= quiz._id %>/questions/add">Add new question</a>
                     </div>
                 </div>
             </div>
@@ -67,9 +67,10 @@
                             <%= question.answer %>
                         </p>
                     </ul>
-                    <p>
-                        <a href="/api/admin/quiz/:id/edit">Edit</a>
-                    </p>
+                    <form style="display: inline" class="pull-right" action="/quiz/<%=quiz._id%>/questions/<%=question._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-xs btn-danger">DELETE</button>
+                        <a href="/quiz/<%= quiz._id %>/questions/<%= question._id %>/edit" class="btn btn-xs btn-info">EDIT</a>
+                    </form>
                 </div>
             </div>
             <% }) %>

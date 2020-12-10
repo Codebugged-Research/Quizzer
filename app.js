@@ -6,6 +6,10 @@ const cors = require("cors");
 const http = require("http");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const methodOverride = require("method-override");
+var Quiz = require("./models/quiz");
+var Question = require("./models/question");
+var User = require("./models/user");
 dotenv.config();
 let app = express();
 mongoose.connect(
@@ -20,7 +24,8 @@ mongoose.connect(
 );
 const authRoute = require("./routes/auth");
 const dashboardRoute = require("./routes/dashboard");
-const quizRoute = require("./routes/questionRouter");
+const questionRoute = require("./routes/questionRouter");
+const quizRoute = require("./routes/quizRouter");
 
 //Middlewares
 app.use(cors());
@@ -31,8 +36,9 @@ app.use(
     extended: false,
   })
 );
-app.use(bodyParser.json());
 
+app.use(bodyParser.json());
+app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -42,7 +48,8 @@ app.set("views", path.join(__dirname, "views"));
 // });
 app.use(authRoute);
 app.use("/api/admin/dashboard", dashboardRoute);
-app.use("/api/admin/quiz", quizRoute);
+app.use("/quiz", quizRoute);
+app.use("/quiz/:id/questions", questionRoute);
 
 app.listen(3000, () => console.log("Server started"));
 // const httpServer = http.createServer(app);
