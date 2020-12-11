@@ -3,8 +3,8 @@ const quizRouter = express.Router();
 const verify = require("./verifyToken");
 let Quiz = require("../models/quiz");
 let Question = require("../models/question");
+//All Quiz list
 quizRouter.get("/", async (req, res) => {
-  // console.log('get all questions')
   await Quiz.find({}, (err, allQuiz) => {
     if (err) {
       console.log(err);
@@ -15,6 +15,7 @@ quizRouter.get("/", async (req, res) => {
     }
   });
 });
+//Add Quiz
 quizRouter.get("/add", async (req, res) => {
   res.render("adminUI/create-quiz");
 });
@@ -47,6 +48,7 @@ quizRouter.post("/", verify, async (req, res) => {
     }
   });
 });
+//Edit Quiz
 quizRouter.get("/:id/edit", verify, async (req, res) => {
   console.log("IN EDIT!");
   //find the campground with provided ID
@@ -77,6 +79,16 @@ quizRouter.put("/:id", async (req, res) => {
       }
     }
   );
+});
+//Delete Quiz
+quizRouter.delete("/:id", verify, async (req, res) => {
+  await Quiz.findByIdAndRemove(req.params.id, function (err) {
+    if (err) {
+      console.log("PROBLEM!");
+    } else {
+      res.redirect("/quiz/");
+    }
+  });
 });
 
 module.exports = quizRouter;

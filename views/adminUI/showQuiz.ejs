@@ -31,9 +31,9 @@
                             <%= quiz.slot %>
                         </p>
 
-                        <a class="btn btn-warning" href="#">Edit</a>
-                        <form class="delete-form" action="#" method="POST">
-                            <button class="btn btn-danger">Delete</button>
+                        <a class="btn btn-warning" href="/quiz/<%= quiz._id %>/edit">Edit</a>
+                        <form class="delete-form" action="/quiz/<%=quiz._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete Quiz</button>
                         </form>
                     </div>
                 </div>
