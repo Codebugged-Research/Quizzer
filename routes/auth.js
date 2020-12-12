@@ -86,10 +86,10 @@ router.post("/app/login/", async (req, res) => {
     }
     const validPass = bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).send("Invalid Password");
-    const token = jwt.sign(
-      { _id: user._id, name: user.name },
-      process.env.TOKEN_SECRET
-    );
+    // const token = jwt.sign(
+    //   { _id: user._id, name: user.name },
+    //   process.env.TOKEN_SECRET
+    // );
     res.json(user);
   });
 });
