@@ -7,12 +7,21 @@ const User = require("../models/user");
 //getuserbyid
 //updateuserbyid
 userRouter.get("/getAllUser", async (req, res) => {
-  await User.find({ role: { $ne: "0" } }, (err, allUser) => {
+  await User.find({ role: { $ne: "0" }}, (err, allUser) => {
     if(err){
       console.log(err);
       res.status(400).send(err);
     }else{
       res.json(allUser);
+    }
+  });
+});
+userRouter.get("/getUserById/:id", async (req, res) => {
+  await User.findById(req.params.id, (err, user) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      res.json(user);
     }
   });
 });
