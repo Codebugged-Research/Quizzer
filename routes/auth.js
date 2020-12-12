@@ -93,7 +93,7 @@ router.post("/app/login/", async (req, res) => {
        process.env.TOKEN_SECRET
     );
     user.password = undefined;
-    res.json(user:user);
+    res.json(user);
   });
 });
 // if (!user) {
