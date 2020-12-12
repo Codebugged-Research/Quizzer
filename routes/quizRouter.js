@@ -87,7 +87,7 @@ quizRouter.delete("/:id", verify, async (req, res) => {
 });
 
 //App Quiz Route
-quizRouter.get("/appquiz", async (req, res) => {
+quizRouter.get("/app/quiz", async (req, res) => {
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
   var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
