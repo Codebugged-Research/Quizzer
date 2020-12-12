@@ -80,25 +80,18 @@ router.post("/app/login/", async (req, res) => {
       );
       try {
         newUser = user.save();
-        newUser.password = undefined;
         res.json(newUser);
       } catch (error) {
         res.status(400).send(error);
       }
-    } else {
-      const validPass = bcrypt.compare(req.body.password, user.password);
-      if (!validPass) return res.status(400).send("Invalid Password");
-      const token = jwt.sign(
-        { _id: user._id, name: user.name },
-        process.env.TOKEN_SECRET
-      );
-      try {
-        user.password = undefined;
-        res.json(user);
-      } catch (e) {
-        res.status(400).send(err);
-      }
     }
+    const validPass = bcrypt.compare(req.body.password, user.password);
+    if (!validPass) return res.status(400).send("Invalid Password");
+    const token = jwt.sign(
+      { _id: user._id, name: user.name },
+      process.env.TOKEN_SECRET
+    );
+    res.json(user);
   });
 });
 // if (!user) {
