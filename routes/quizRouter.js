@@ -92,8 +92,8 @@ quizRouter.get("/appquiz", async (req, res) => {
   var dd = String(today.getDate()).padStart(2, "0");
   var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
   var yyyy = today.getFullYear();
-
   today = mm + "/" + dd + "/" + yyyy;
+  console.log(today);
   await Quiz.find({ date: today })
   .populate("questions")
   .exec(function (err, allQuiz) {
