@@ -68,7 +68,7 @@ router.post("/app/login/", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   // const user = await
-  User.findOne({ email: req.body.email }).exec((err, user) => {
+  User.findOne({ email: req.body.email }).exec(async(err, user) => {
     if (err || !user) {
       const salt = bcrypt.genSalt(10);
       const hashedPassword = bcrypt.hash(req.body.password, salt);
