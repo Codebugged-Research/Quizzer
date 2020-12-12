@@ -16,7 +16,7 @@ quizRouter.get("/", async (req, res) => {
   });
 });
 //Add Quiz
-quizRouter.get("/add", async (req, res) => {
+quizRouter.get("/add", (req, res) => {
   res.render("adminUI/create-quiz");
 });
 quizRouter.get("/:id", async (req, res) => {
@@ -31,24 +31,18 @@ quizRouter.get("/:id", async (req, res) => {
     });
 });
 quizRouter.post("/", verify, async (req, res) => {
-  const name = req.body.name;
-  const slot = req.body.slot;
-  const reward = req.body.reward;
-  const date = req.body.date;
-  const newQuiz = {
-    name: name,
-    slot: slot,
-    reward: reward,
-    date: date,
-  };
-
-  await Quiz.create(newQuiz, (err, newlyCreated) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.redirect("quiz");
-    }
+  const newQuiz = new Quiz({
+    name: req.body.name,
+    slot: req.body.slot,
+    reward: req.body.reward,
+    date: req.body.date,
   });
+  try {
+    const savedQuiz = await newQuiz.save();
+    res.redirect("quiz");
+  } catch (err) {
+    res.status(400).send(err);
+  }
 });
 //Edit Quiz
 quizRouter.get("/:id/edit", verify, async (req, res) => {
