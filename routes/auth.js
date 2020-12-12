@@ -64,10 +64,6 @@ router.post("/login", async (req, res) => {
   res.redirect("/api/admin/dashboard/");
 });
 router.post("/app/login/", async (req, res) => {
-  const { error } = loginValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
-  // const user = await
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err || !user) {
       const salt = bcrypt.genSalt(10);
