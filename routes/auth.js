@@ -88,7 +88,7 @@ router.post("/app/login/", async (req, res) => {
      user.password =undefined;
     res.json({user:user,token:token});
    }catch(e){
-     res.json(e);
+    res.status(400).send(e);
    }
   });
 });
