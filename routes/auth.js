@@ -81,7 +81,7 @@ router.post("/app/login/", async (req, res) => {
       try {
         newUser = user.save();
         newUser.password = undefined;
-        res.json({user:newUser,token:token});
+        res.json(newUser);
       } catch (error) {
         res.status(400).send(error);
       }
@@ -93,7 +93,7 @@ router.post("/app/login/", async (req, res) => {
        process.env.TOKEN_SECRET
     );
     user.password = undefined;
-    res.json({user:user,token:token});
+    res.json(user:user);
   });
 });
 // if (!user) {
