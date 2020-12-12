@@ -96,7 +96,11 @@ router.post("/login", async (req, res) => {
 //   });
 // });
 router.post("/app/login/", async (req, res) => {
-  User.findOne({ email: req.body.email }).exec((err, user) => {
+  const { error } = loginValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  // const user = await
+  User.findOne({ email: req.body.email }).exec(async(err, user) => {
     if (err || !user) {
       const salt = bcrypt.genSalt(10);
       const hashedPassword = bcrypt.hash(req.body.password, salt);
@@ -111,18 +115,14 @@ router.post("/app/login/", async (req, res) => {
         process.env.TOKEN_SECRET
       );
       try {
-        newUser = user.save();
-        res.json(newUser);
+        user = await user.save();
+        res.json(user);
       } catch (error) {
         res.status(400).send(error);
       }
     }
     const validPass = bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).send("Invalid Password");
-    const token = jwt.sign(
-      { _id: user._id, name: user.name },
-      process.env.TOKEN_SECRET
-    );
     res.json(user);
   });
 });
