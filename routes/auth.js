@@ -54,6 +54,7 @@ router.post("/login", async (req, res) => {
 
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
   const role = user.role;
+  user.password = undefined;
   // res.render("adminUI/admin", {
   //   token: token,
   //   role: role,
@@ -63,6 +64,10 @@ router.post("/login", async (req, res) => {
   res.redirect("/api/admin/dashboard/");
 });
 router.post("/app/login/", async (req, res) => {
+  const { error } = loginValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  // const user = await
   User.findOne({ email: req.body.email }).exec((err, user) => {
     if (err || !user) {
       const salt = bcrypt.genSalt(10);
@@ -78,18 +83,14 @@ router.post("/app/login/", async (req, res) => {
         process.env.TOKEN_SECRET
       );
       try {
-        newUser = user.save();
-        res.json(newUser);
+        user = user.save();
+        res.json(user);
       } catch (error) {
         res.status(400).send(error);
       }
     }
     const validPass = bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).send("Invalid Password");
-    // const token = jwt.sign(
-    //   { _id: user._id, name: user.name },
-    //   process.env.TOKEN_SECRET
-    // );
     res.json(user);
   });
 });
