@@ -76,7 +76,8 @@ router.post("/app/login/", async (req, res) => {
       );
       try {
         user = await user.save();
-        res.json(user);
+        user.password =undefined;
+        res.json({user:user,token:token});
       } catch (error) {
         res.status(400).send(error);
       }
@@ -85,7 +86,7 @@ router.post("/app/login/", async (req, res) => {
     if (!validPass) return res.status(400).send("Invalid Password");
    try{
      user.password =undefined;
-    res.json(user);
+    res.json({user:user,token:token});
    }catch(e){
      res.json(e);
    }
