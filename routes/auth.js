@@ -79,9 +79,9 @@ router.post("/app/login/", async (req, res) => {
         process.env.TOKEN_SECRET
       );
       try {
-        user = user.save();
-        user.password = undefined;
-        res.json({user:user,token:token});
+        newUser = user.save();
+        newUser.password = undefined;
+        res.json({user:newUser,token:token});
       } catch (error) {
         res.status(400).send(error);
       }
