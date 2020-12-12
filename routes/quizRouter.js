@@ -74,6 +74,7 @@ quizRouter.put("/:id", async (req, res) => {
     }
   );
 });
+
 //Delete Quiz
 quizRouter.delete("/:id", verify, async (req, res) => {
   await Quiz.findByIdAndRemove(req.params.id, function (err) {
@@ -84,6 +85,7 @@ quizRouter.delete("/:id", verify, async (req, res) => {
     }
   });
 });
+
 //App Quiz Route
 quizRouter.get("/appquiz", async (req, res) => {
   var today = new Date();
@@ -92,13 +94,13 @@ quizRouter.get("/appquiz", async (req, res) => {
   var yyyy = today.getFullYear();
 
   today = mm + "/" + dd + "/" + yyyy;
-  await Quiz.find({ date: today }, (err, allQuiz) => {
+  await Quiz.find({ date: today })
+  .populate("questions")
+  .exec(function (err, allQuiz) {
     if (err) {
       console.log(err);
     } else {
-      res.render("adminUI/allQuiz", {
-        allQuiz: allQuiz,
-      });
+      res.json(allQuiz);
     }
   });
 });
