@@ -88,6 +88,7 @@ router.post("/app/login/", async (req, res) => {
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).send("Invalid Password");
     try {
+      user.password = undefined;
       res.json({ User: user, token: token });
     } catch (e) {
       res.status(400).send(e);
