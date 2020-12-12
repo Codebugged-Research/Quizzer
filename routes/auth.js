@@ -60,11 +60,10 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/app/login/", async (req, res) => {
-  User.findOne({ email: req.body.email }).exec(async(err, user) => {
+  User.findOne({ email: req.body.email }).exec(async (err, user) => {
     if (err || !user) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
       var user = new User({
         name: req.body.name,
         email: req.body.email,
@@ -76,20 +75,23 @@ router.post("/app/login/", async (req, res) => {
       );
       try {
         user = await user.save();
-        user.password =undefined;
-        res.json({User:user,token:token});
+        user.password = undefined;
+        res.json({ User: user, token: token });
       } catch (error) {
         res.status(400).send(error);
       }
     }
+    const token = jwt.sign(
+      { _id: user._id, name: user.name },
+      process.env.TOKEN_SECRET
+    );
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).send("Invalid Password");
-   try{
-     user.password =undefined;
-    res.json({User:user,token:token});
-   }catch(e){
-    res.status(400).send(e);
-   }
+    try {
+      res.json({ User: user, token: token });
+    } catch (e) {
+      res.status(400).send(e);
+    }
   });
 });
 
