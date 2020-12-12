@@ -3,10 +3,8 @@ const userRouter = express.Router();
 const verify = require("./verifyToken");
 const User = require("../models/user");
 
-//getalluser
-//getuserbyid
-//updateuserbyid
-userRouter.get("/getAllUser", async (req, res) => {
+
+userRouter.get("/allUser", async (req, res) => {
   await User.find({ role: { $ne: "0" }}, (err, allUser) => {
     if(err){
       console.log(err);
@@ -16,7 +14,7 @@ userRouter.get("/getAllUser", async (req, res) => {
     }
   });
 });
-userRouter.get("/getUserById/:id", async (req, res) => {
+userRouter.get("/get/:id", async (req, res) => {
   await User.findById(req.params.id, (err, user) => {
     if (err) {
       res.status(400).send(err);
@@ -25,6 +23,21 @@ userRouter.get("/getUserById/:id", async (req, res) => {
     }
   });
 });
+userRouter.put("/update/:id", async (req, res) => {
+  await User.findByIdAndUpdate(
+    req.params.id,
+    { $set: req.body },
+    function (err, user) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(user);
+      }
+    }
+  );
+});
+
+
 userRouter.get("/", async (req, res) => {
   await User.find({ role: { $ne: "0" } }, (err, allUser) => {
     if (err) {
