@@ -12,7 +12,7 @@ userRouter.get("/getAllUser", async (req, res) => {
       console.log(err);
       res.status(400).send(err);
     }else{
-      res.send(allUser);
+      res.json(allUser);
     }
   });
 });
