@@ -26,15 +26,14 @@ userRouter.get("/get/:id", async (req, res) => {
 userRouter.put("/update/:id", async (req, res) => {
   await User.findByIdAndUpdate(
     req.params.id,
-    { $set: req.body },
-    function (err, user) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json(user);
-      }
+    { $set: req.body }
+  ).exec((err, user)=>{
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(user);
     }
-  );
+  });
 });
 
 
