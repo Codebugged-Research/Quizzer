@@ -54,7 +54,6 @@ router.post("/login", async (req, res) => {
 
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
   const role = user.role;
-  user.password = undefined;
   // res.render("adminUI/admin", {
   //   token: token,
   //   role: role,
