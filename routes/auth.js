@@ -64,14 +64,10 @@ router.post("/login", async (req, res) => {
   res.redirect("/api/admin/dashboard/");
 });
 router.post("/app/login/", async (req, res) => {
-  const { error } = loginValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
-  // const user = await
   User.findOne({ email: req.body.email }).exec(async(err, user) => {
     if (err || !user) {
-      const salt = bcrypt.genSalt(10);
-      const hashedPassword = bcrypt.hash(req.body.password, salt);
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
       var user = new User({
         name: req.body.name,
@@ -89,7 +85,7 @@ router.post("/app/login/", async (req, res) => {
         res.status(400).send(error);
       }
     }
-    const validPass = bcrypt.compare(req.body.password, user.password);
+    const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).send("Invalid Password");
     res.json(user);
   });
