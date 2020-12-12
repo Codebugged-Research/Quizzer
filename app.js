@@ -26,6 +26,7 @@ const authRoute = require("./routes/auth");
 const dashboardRoute = require("./routes/dashboard");
 const questionRoute = require("./routes/questionRouter");
 const quizRoute = require("./routes/quizRouter");
+const userRoute = require("./routes/user");
 
 //Middlewares
 app.use(cors());
@@ -50,6 +51,7 @@ app.use(authRoute);
 app.use("/api/admin/dashboard", dashboardRoute);
 app.use("/quiz", quizRoute);
 app.use("/quiz/:id/questions", questionRoute);
+app.use("/user", userRoute);
 
 app.listen(3000, () => console.log("Server started"));
 // const httpServer = http.createServer(app);

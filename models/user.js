@@ -31,12 +31,13 @@ const userSchema = new mongoose.Schema(
     },
     interests: [{ type: String }],
     role: {
-      type: Number,
-      default: 1,
+      type: String,
+      default: "1",
     },
     sub: {
       type: mongoose.Types.ObjectId,
     },
+    reward: { type: String },
   },
   { timestamps: true }
 );

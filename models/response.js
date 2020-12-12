@@ -1,20 +1,23 @@
 let mongoose = require("mongoose");
-let responseSchema = mongoose.Schema({
-  text: String,
-  author: {
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+let responseSchema = mongoose.Schema(
+  {
+    text: String,
+    author: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      username: String,
     },
-    username: String,
-  },
-  questionRef: {
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Question",
+    questionRef: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Question",
+      },
+      questionDescription: { type: String },
     },
-    questionDescription: { type: String },
+    reward: { type: String },
   },
-  reward: { type: String },
-});
+  { timestamps: true }
+);
 module.exports = mongoose.model("Response", responseSchema);

@@ -34,10 +34,12 @@ quizRouter.post("/", verify, async (req, res) => {
   const name = req.body.name;
   const slot = req.body.slot;
   const reward = req.body.reward;
+  const date = req.body.date;
   const newQuiz = {
     name: name,
     slot: slot,
     reward: reward,
+    date: date,
   };
 
   await Quiz.create(newQuiz, (err, newlyCreated) => {
@@ -51,12 +53,10 @@ quizRouter.post("/", verify, async (req, res) => {
 //Edit Quiz
 quizRouter.get("/:id/edit", verify, async (req, res) => {
   console.log("IN EDIT!");
-  //find the campground with provided ID
   await Quiz.findById(req.params.id, (err, foundQuiz) => {
     if (err) {
       console.log(err);
     } else {
-      //render show template with that campground
       res.render("adminUI/editQuiz", { quiz: foundQuiz });
     }
   });
@@ -87,6 +87,24 @@ quizRouter.delete("/:id", verify, async (req, res) => {
       console.log("PROBLEM!");
     } else {
       res.redirect("/quiz/");
+    }
+  });
+});
+//App Quiz Route
+quizRouter.get("/appquiz", async (req, res) => {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + "/" + dd + "/" + yyyy;
+  await Quiz.find({ date: today }, (err, allQuiz) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("adminUI/allQuiz", {
+        allQuiz: allQuiz,
+      });
     }
   });
 });

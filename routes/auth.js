@@ -23,7 +23,9 @@ router.post("/register", async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
   const user = new User({
+    name: req.body.name,
     email: req.body.email,
+    role: req.body.role,
     password: hashedPassword,
   });
   const token = jwt.sign(
@@ -45,7 +47,7 @@ router.post("/login", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(400).send("Email or password is wrong");
+  if (!user || user.role != "0") return res.status(400).send("Access Denied");
 
   const validPass = await bcrypt.compare(req.body.password, user.password);
   if (!validPass) return res.status(400).send("Invalid Password");
@@ -66,56 +68,52 @@ router.post("/app/login/", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   // const user = await
-   User.findOne({ email: req.body.email }).exec((err,user) => {
-     if(err||!user) {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  User.findOne({ email: req.body.email }).exec((err, user) => {
+    if (err || !user) {
+      const salt = bcrypt.genSalt(10);
+      const hashedPassword = bcrypt.hash(req.body.password, salt);
 
-    var user = new User({
-      name: req.body.name,
-      email: req.body.email,
-      password: hashedPassword,
-    });
-    const token = jwt.sign(
-      { _id: user._id, name: user.name },
-      process.env.TOKEN_SECRET
-    );
-    try {
-       user=user.save();
-    res.json(user);
+      var user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: hashedPassword,
+      });
+      const token = jwt.sign(
+        { _id: user._id, name: user.name },
+        process.env.TOKEN_SECRET
+      );
+      try {
+        user = user.save();
+        res.json(user);
+      } catch (error) {
+        res.status(400).send(error);
+      }
     }
-    catch(error) {
-      res.status(400).send(error)
-    }
-   
-    }
-    const validPass = await bcrypt.compare(req.body.password, user.password);
-  if (!validPass) return res.status(400).send("Invalid Password");
+    const validPass = bcrypt.compare(req.body.password, user.password);
+    if (!validPass) return res.status(400).send("Invalid Password");
     res.json(user);
   });
 });
-  // if (!user) {
-  //   const salt = await bcrypt.genSalt(10);
-  //   const hashedPassword = await bcrypt.hash(req.body.password, salt);
+// if (!user) {
+//   const salt = await bcrypt.genSalt(10);
+//   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-  //   const newUser = new User({
-  //     name: req.body.name,
-  //     email: req.body.email,
-  //     password: hashedPassword,
-  //   });
-  //   const token = jwt.sign(
-  //     { _id: newUser._id, name: newUser.name },
-  //     process.env.TOKEN_SECRET
-  //   );
-  //   try {
-  //     const savedUser = await newUser.save();
-  //     res.send({ _id: newUser._id, token: token, email: newUser.email });
-  //   } catch (err) {
-  //     res.status(400).send(err);
-  //   }
-  // }
-  const validPass = await bcrypt.compare(req.body.password, user.password);
-  if (!validPass) return res.status(400).send("Invalid Password");
+//   const newUser = new User({
+//     name: req.body.name,
+//     email: req.body.email,
+//     password: hashedPassword,
+//   });
+//   const token = jwt.sign(
+//     { _id: newUser._id, name: newUser.name },
+//     process.env.TOKEN_SECRET
+//   );
+//   try {
+//     const savedUser = await newUser.save();
+//     res.send({ _id: newUser._id, token: token, email: newUser.email });
+//   } catch (err) {
+//     res.status(400).send(err);
+//   }
+// }
 
 //   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
 //   res.cookie("token", token);
