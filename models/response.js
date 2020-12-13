@@ -1,7 +1,7 @@
 let mongoose = require("mongoose");
 let responseSchema = mongoose.Schema(
   {
-    responses: Array,
+    responses: [{ type: String }],
     correct: String,
     wrong: String,
     user: {

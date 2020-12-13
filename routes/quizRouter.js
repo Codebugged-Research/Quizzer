@@ -3,6 +3,7 @@ const quizRouter = express.Router();
 const verify = require("./verifyToken");
 let Quiz = require("../models/quiz");
 let Question = require("../models/question");
+
 //All Quiz list
 quizRouter.get("/", async (req, res) => {
   await Quiz.find({}, (err, allQuiz) => {
@@ -46,7 +47,6 @@ quizRouter.post("/", verify, async (req, res) => {
 });
 //Edit Quiz
 quizRouter.get("/:id/edit", verify, async (req, res) => {
-  console.log("IN EDIT!");
   await Quiz.findById(req.params.id, (err, foundQuiz) => {
     if (err) {
       console.log(err);
@@ -92,17 +92,17 @@ quizRouter.get("/app/quiz", async (req, res) => {
   var dd = String(today.getDate()).padStart(2, "0");
   var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
   var yyyy = today.getFullYear();
-  today = mm + "/" + dd + "/" + yyyy;
+  today = dd + "/" + mm + "/" + yyyy;
   console.log(today);
   await Quiz.find({ date: today })
-  .populate("questions")
-  .exec(function (err, allQuiz) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.json(allQuiz);
-    }
-  });
+    .populate("questions")
+    .exec(function (err, allQuiz) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(allQuiz);
+      }
+    });
 });
 
 module.exports = quizRouter;

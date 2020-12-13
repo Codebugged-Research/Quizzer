@@ -32,15 +32,15 @@ questionRouter.post("/", verify, async (req, res) => {
   await Quiz.findById(req.params.id, async (err, quiz) => {
     if (err) {
       console.log(err);
-      res.redirect("/campgrounds");
+      res.redirect("/quiz");
     } else {
-      await Question.create(newQuestion, (err, question) => {
+      await Question.create(newQuestion, async (err, question) => {
         if (err) {
           console.log(err);
         } else {
-          question.save();
+          await question.save();
           quiz.questions.push(question);
-          quiz.save();
+          await quiz.save();
           res.redirect("/quiz/" + quiz._id);
         }
       });
