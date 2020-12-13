@@ -32,8 +32,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "1",
     },
-    sub: {
-      type: mongoose.Types.ObjectId,
+    subscription: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subscription",
     },
     reward: { type: String },
   },
