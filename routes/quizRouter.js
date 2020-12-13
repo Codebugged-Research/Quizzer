@@ -32,11 +32,19 @@ quizRouter.get("/:id", async (req, res) => {
     });
 });
 quizRouter.post("/", verify, async (req, res) => {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = dd + "/" + mm + "/" + yyyy;
   const newQuiz = new Quiz({
     name: req.body.name,
     slot: req.body.slot,
     reward: req.body.reward,
-    date: req.body.date,
+    correct_score: req.body.correct_score,
+    incorrect_score: req.body.incorrect_score,
+    date: today,
   });
   try {
     const savedQuiz = await newQuiz.save();

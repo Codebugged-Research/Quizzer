@@ -1,5 +1,15 @@
 <%- include("./partials/header") %>
+    <form action="" class="form-inline">
+        <input id="datepicker" name="date" width="276" />
+        <button type="button" class="btn btn-success d-inline">Search</button>
+    </form>
 
+
+    <script>
+        $('#datepicker').datepicker({
+            uiLibrary: 'bootstrap4'
+        });
+    </script>
     <% allQuiz.forEach(function(quiz) { %>
         <div class="list-group">
             <a href="/quiz/<%= quiz._id %>" class="list-group-item list-group-item-action flex-column align-items-start ">

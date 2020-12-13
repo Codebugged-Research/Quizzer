@@ -1,24 +1,16 @@
 let mongoose = require("mongoose");
 let responseSchema = mongoose.Schema(
   {
-    responses: [{ type: String }],
-    correct: String,
-    wrong: String,
-    user: {
+    correct: { type: String },
+    wrong: { type: String },
+    author: {
       id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
       username: String,
     },
-    quiz: {
-      id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Quiz",
-      },
-      questionDescription: { type: String },
-    },
-    reward: String,
+    reward: { type: String },
   },
   { timestamps: true }
 );

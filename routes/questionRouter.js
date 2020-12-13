@@ -23,11 +23,11 @@ questionRouter.post("/", verify, async (req, res) => {
     req.body.option4,
   ];
 
-  let correct = req.body.answer;
+  let answer = req.body.answer;
   let newQuestion = {
     description: desc,
     options: options,
-    answer: correct,
+    answer: answer,
   };
   await Quiz.findById(req.params.id, async (err, quiz) => {
     if (err) {
