@@ -53,7 +53,7 @@ app.use("/api/admin/dashboard", dashboardRoute);
 app.use("/quiz", quizRoute);
 app.use("/quiz/:id/questions", questionRoute);
 app.use("/user", userRoute);
-app.use("/response", responseRoute);
+app.use("/quiz/:id/responses", responseRoute);
 
 app.listen(3000, () => console.log("Server started"));
 // const httpServer = http.createServer(app);

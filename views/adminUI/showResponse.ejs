@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="/stylesheets/user.css" />
+</head>
+<%- include("./partials/header") %>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="main-box clearfix">
+                        <div class="table-responsive">
+                            <table class="table user-list">
+                                <thead>
+                                    <tr>
+                                        <th><span>User</span></th>
+                                        <th><span>Correct</span></th>
+                                        <th class="text-center"><span>Wrong</span></th>
+                                        <th><span>Reward</span></th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% quiz.responses.forEach(function(response) { %>
+                                        <tr>
+                                            <td>
+                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
+                                                <a href="#" class="user-link">
+                                                    <%= response.author.username %>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <%= response.correct %>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="label label-default">Inactive</span>
+                                            </td>
+                                            <td>
+                                                <a href="#">
+                                                    <%= response.wrong
+                                            </td>
+                                            <td style="width: 20%">
+                                                <%= response.reward %>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ul class="pagination pull-right">
+                            <li>
+                                <a href="#"><i class="fa fa-chevron-left"></i></a>
+                            </li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#"><i class="fa fa-chevron-right"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include("./partials/footer") %>
