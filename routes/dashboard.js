@@ -11,16 +11,18 @@ router.get("/", verify, async (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      await User.find({}, async (err, allUsers) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.render("adminUI/index", {
-            allQuiz: allQuiz,
-            allUsers: allUsers,
-          });
-        }
-      });
+      await User.find({})
+        .sort({ reward: -1 })
+        .exec((err, allUsers) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.render("adminUI/index", {
+              allQuiz: allQuiz,
+              allUsers: allUsers,
+            });
+          }
+        });
     }
   });
 });

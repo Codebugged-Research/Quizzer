@@ -399,6 +399,16 @@ body {
     background-color: #fff
 }
 
+.my-card {
+    padding: 16px;
+    text-align: center;
+}
+
+.my-cards {
+    display: flex;
+    flex-direction: row;
+}
+
 [tabindex="-1"]:focus {
     outline: 0 !important
 }
