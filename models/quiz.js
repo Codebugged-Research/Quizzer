@@ -10,6 +10,8 @@ const quizSchema = new mongoose.Schema(
     incorrect_score: { type: String, default: -1 },
     reward: { type: String },
     responses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Response" }],
+    minutes: { type: String },
+    seconds: { type: String },
   },
   { timestamps: true }
 );
