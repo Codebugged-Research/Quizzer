@@ -28,6 +28,7 @@ const questionRoute = require("./routes/questionRouter");
 const quizRoute = require("./routes/quizRouter");
 const userRoute = require("./routes/user");
 const responseRoute = require("./routes/response");
+const subscriptionRoute = require("./routes/subscription");
 
 //Middlewares
 app.use(cors());
@@ -55,9 +56,10 @@ app.use("/quiz/:id/questions", questionRoute);
 app.use("/user", userRoute);
 //POST response
 app.use("/response", responseRoute);
+app.use("/subscription", subscriptionRoute);
 
-// app.listen(3000, () => console.log("Server started"));
-const httpServer = http.createServer(app);
-httpServer.listen(80, () => {
-  console.log("HTTP Server running on port 80");
-});
+app.listen(3000, () => console.log("Server started"));
+// const httpServer = http.createServer(app);
+// httpServer.listen(80, () => {
+//   console.log("HTTP Server running on port 80");
+// });

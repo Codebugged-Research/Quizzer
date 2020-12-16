@@ -5,10 +5,12 @@ const subscriptionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    validity : {
-      type: String,
-      default: "0",
-    }
+    validTill: {
+      type: Date,
+    },
+    validFrom: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
