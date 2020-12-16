@@ -3,6 +3,7 @@ const quizRouter = express.Router();
 const verify = require("./verifyToken");
 let Quiz = require("../models/quiz");
 let Question = require("../models/question");
+let Response = require("../models/response");
 
 //All Quiz list
 quizRouter.get("/", async (req, res) => {
@@ -92,6 +93,22 @@ quizRouter.delete("/:id", verify, async (req, res) => {
       res.redirect("/quiz/");
     }
   });
+});
+//Quiz Leaderboard
+quizRouter.get("/:id/leaderboard", async (req, res) => {
+  await Response.find({ quiz: req.params.id })
+    .populate("user")
+    .populate("quiz")
+    .sort({ reward: -1 })
+    .collation({ locale: "en_US", numericOrdering: true })
+    .exec((err, allResponses) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        res.render("adminUI/leaderboard", { allResponses: allResponses });
+      }
+    });
 });
 
 //App Quiz Route

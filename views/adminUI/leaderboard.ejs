@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="/stylesheets/user.css" />
+</head>
+<%- include("./partials/header") %>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="main-box clearfix">
+                        <div class="table-responsive">
+                            <table class="table user-list">
+                                <thead>
+                                    <tr>
+                                        <th><span>User</span></th>
+                                        <th><span>Score</span></th>
+                                        <th class="text-center"><span>Correct</span></th>
+                                        <th><span>Wrong</span></th>
+                                        <th>Reward</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% allResponses.forEach(function(response) { %>
+                                        <% var i=0; %>
+                                            <tr>
+                                                <td>
+                                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
+                                                    <a href="/user/<%= user._id %>" class="user-link">
+                                                        <%= response.user.name %>
+                                                    </a>
+                                                    <% if(response.user.role==="2") { %>
+                                                        <span class="user-subhead">Premium User</span>
+                                                        <% } %>
+                                                            <% if(response.user.role!="2") { %>
+                                                                <span class="user-subhead">User</span>
+                                                                <% } %>
+                                                </td>
+                                                <td>
+                                                    <%= response.score %>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-default"><%= response.correct %></span>
+                                                </td>
+                                                <td>
+
+                                                    <%= response.wrong %>
+
+                                                </td>
+                                                <td style="width: 20%">
+                                                    <% if(user.role==="2") { %>
+                                                        <a href="#" class="table-link">
+                                                            <span class="material-icons"> verified </span>
+                                                        </a>
+                                                        <% } %>
+                                                            <% if(response.user.role==="3") { %>
+                                                                <a href="#" class="table-link">
+                                                                    <span class="material-icons"> face </span>
+                                                                </a>
+                                                                <% } %>
+                                                                    <% if(response.user.role==="3") { %>
+                                                                        <a href="/user/<%= user._id %>/edit" class="table-link">
+                                                                            <span class="fa-stack">
+                          <i class="fa fa-square fa-stack-2x"></i>
+                          <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                        </span>
+                                                                        </a>
+                                                                        <% } %>
+                                                                            <a href="#" class="table-link danger">
+                                                                                <span class="fa-stack">
+                          <i class="fa fa-square fa-stack-2x"></i>
+                          <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                        </span>
+                                                                            </a>
+                                                </td>
+                                                <td>
+                                                    <% if(i==0) { %>
+                                                        <a class="btn btn-info" href="/payments">Pay Reward</a>
+                                                        <% } %>
+                                                </td>
+                                            </tr>
+                                            <% i++; %>
+                                                <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ul class="pagination pull-right">
+                            <li>
+                                <a href="#"><i class="fa fa-chevron-left"></i></a>
+                            </li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#"><i class="fa fa-chevron-right"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include("./partials/footer") %>

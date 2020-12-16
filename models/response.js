@@ -7,11 +7,12 @@ let responseSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    quiz:  {
+    quiz: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Quiz",
     },
     reward: { type: String },
+    score: { type: String },
   },
   { timestamps: true }
 );

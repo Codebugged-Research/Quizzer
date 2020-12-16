@@ -7,6 +7,7 @@ const http = require("http");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
+const Razorpay = require("razorpay");
 var Quiz = require("./models/quiz");
 var Question = require("./models/question");
 var User = require("./models/user");
@@ -29,6 +30,11 @@ const quizRoute = require("./routes/quizRouter");
 const userRoute = require("./routes/user");
 const responseRoute = require("./routes/response");
 const subscriptionRoute = require("./routes/subscription");
+// const paymentRoute = require("./routes/payment");
+const instance = new Razorpay({
+  key_id: process.env.KEY_ID,
+  key_secret: process.env.KEY_SECRET,
+});
 
 //Middlewares
 app.use(cors());
@@ -57,6 +63,36 @@ app.use("/user", userRoute);
 //POST response
 app.use("/response", responseRoute);
 app.use("/subscription", subscriptionRoute);
+
+app.get("/payments", (req, res) => {
+  res.render("adminUI/payment", { key: process.env.KEY_ID });
+});
+app.post("/api/payment/order", (req, res) => {
+  params = req.body;
+  instance.orders
+    .create(params)
+    .then((data) => {
+      res.send({ sub: data, status: "success" });
+    })
+    .catch((error) => {
+      res.send({ sub: error, status: "failed" });
+    });
+});
+
+app.post("/api/payment/verify", (req, res) => {
+  body = req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
+  var crypto = require("crypto");
+  var expectedSignature = crypto
+    .createHmac("sha256", process.env.KEY_SECRET)
+    .update(body.toString())
+    .digest("hex");
+  // console.log("sig" + req.body.razorpay_signature);
+  // console.log("sig" + expectedSignature);
+  var response = { status: "failure" };
+  if (expectedSignature === req.body.razorpay_signature)
+    response = { status: "success" };
+  res.send(response);
+});
 
 app.listen(3000, () => console.log("Server started"));
 // const httpServer = http.createServer(app);
