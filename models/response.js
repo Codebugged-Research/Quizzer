@@ -10,6 +10,13 @@ let responseSchema = mongoose.Schema(
       },
       username: String,
     },
+    quiz: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Quiz",
+      },
+      name: String,
+    },
     reward: { type: String },
   },
   { timestamps: true }
