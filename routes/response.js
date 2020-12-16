@@ -7,7 +7,7 @@ responseRouter.post("/submit", async (req, res) => {
   var response = new Response(req.body);
   try {
     await response.save();
-    res.json({ message: "Succesfully Submitted" });
+    res.json(response);
   } catch (error) {
     res.status(400).send(error);
   }
