@@ -11,18 +11,7 @@ subscriptionRouter.post("/create", async (req, res) => {
         error: "Not able to create Subscription in DB",
       });
     } else {
-      User.findOneAndUpdate(
-        req.body.user.id,
-        { subscription: subscription.id },
-        { new: true, useFindAndModify: false },
-        (err, user) => {
-          if (err) {
-            console.log(err);
-          }
-          console.log(user.subscription);
-          return res.json(subscription.id);
-        }
-      );
+      return res.json(subscription.id);
     }
   });
 });
