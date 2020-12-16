@@ -1,7 +1,7 @@
 const express = require("express");
 const subscriptionRouter = express.Router();
 const Subscription = require("../models/subscription");
-
+const User = require("../models/user");
 //Create Subscription
 subscriptionRouter.post("/create", async (req, res) => {
   const subscription = new Subscription(req.body);
@@ -10,7 +10,13 @@ subscriptionRouter.post("/create", async (req, res) => {
       res.status(400).json({
         error: "Not able to create Subscription in DB",
       });
-    }
+    }    
+    User.findOneAndUpdate(req.body.user.id, { "subscription": subscription.id },
+      { new: true, useFindAndModify: false },(err,user)=>{
+        if(err){
+          console.log(err);
+        }
+      });
     return res.json(subscription.id);
   });
 });
