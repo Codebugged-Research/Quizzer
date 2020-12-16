@@ -28,7 +28,6 @@ const questionRoute = require("./routes/questionRouter");
 const quizRoute = require("./routes/quizRouter");
 const userRoute = require("./routes/user");
 const responseRoute = require("./routes/response");
-const quizResponse = require("./routes/quizResponse");
 
 //Middlewares
 app.use(cors());

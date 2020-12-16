@@ -3,7 +3,6 @@
 const express = require("express");
 const responseRouter = express.Router({ mergeParams: true });
 const Response = require("../models/response");
-const verify = require("./verifyToken");
 
 responseRouter.post("/submit", async (req, res) => {
   var response = new Response(req.body);
@@ -14,7 +13,7 @@ responseRouter.post("/submit", async (req, res) => {
     res.status(400).send(error);
   }
 });
-userResponse.get("/getByUser/:id", async (req, res) => {
+responseRouter.get("/getByUser/:id", async (req, res) => {
   await Response.find({ user: req.params.id }, (err, allResponses) => {
     if (err) {
       console.log(err);
@@ -24,7 +23,7 @@ userResponse.get("/getByUser/:id", async (req, res) => {
     }
   });
 });
-userResponse.get("/getByQuiz/:id", async (req, res) => {
+responseRouter.get("/getByQuiz/:id", async (req, res) => {
   await Response.find({ quiz: req.params.id }, (err, allResponses) => {
     if (err) {
       console.log(err);
