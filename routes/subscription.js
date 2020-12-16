@@ -11,7 +11,7 @@ subscriptionRouter.post("/create", async (req, res) => {
         error: "Not able to create Subscription in DB",
       });
     } else {
-      return res.json(subscription.id);
+      return res.json(subscription);
     }
   });
 });
