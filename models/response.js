@@ -3,19 +3,13 @@ let responseSchema = mongoose.Schema(
   {
     correct: { type: String },
     wrong: { type: String },
-    author: {
-      id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-      username: String,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
-    quiz: {
-      id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Quiz",
-      },
-      name: String,
+    quiz:  {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Quiz",
     },
     reward: { type: String },
   },

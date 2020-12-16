@@ -25,24 +25,4 @@ router.get("/", verify, async (req, res) => {
     }
   });
 });
-// router.get("/", verify, async (req, res) => {
-//   await Quiz.find({}, async (err, allQuiz) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       await User.find({})
-//         .sort({ reward: -1 })
-//         .exec((err, allUsers) => {
-//           if (err) {
-//             console.log(err);
-//           } else {
-//             res.render("adminUI/index", {
-//               allQuiz: allQuiz,
-//               allUsers: allUsers,
-//             });
-//           }
-//         });
-//     }
-//   });
-// });
 module.exports = router;
