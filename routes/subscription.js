@@ -10,15 +10,20 @@ subscriptionRouter.post("/create", async (req, res) => {
       res.status(400).json({
         error: "Not able to create Subscription in DB",
       });
-    }    
-    User.findOneAndUpdate(req.body.user.id, { "subscription": subscription.id },
-      { new: true, useFindAndModify: false },(err,user)=>{
-        if(err){
-          console.log(err);
+    } else {
+      User.findOneAndUpdate(
+        req.body.user.id,
+        { subscription: subscription.id },
+        { new: true, useFindAndModify: false },
+        (err, user) => {
+          if (err) {
+            console.log(err);
+          }
+          console.log(user.subscription);
+          return res.json(subscription.id);
         }
-        console.log(user.subscription);
-      });
-    return res.json(subscription.id);
+      );
+    }
   });
 });
 
