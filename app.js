@@ -28,7 +28,6 @@ const questionRoute = require("./routes/questionRouter");
 const quizRoute = require("./routes/quizRouter");
 const userRoute = require("./routes/user");
 const responseRoute = require("./routes/response");
-const userResponse = require("./routes/userResponse");
 const quizResponse = require("./routes/quizResponse");
 
 //Middlewares
@@ -56,11 +55,7 @@ app.use("/quiz", quizRoute);
 app.use("/quiz/:id/questions", questionRoute);
 app.use("/user", userRoute);
 //POST response
-app.use("/quiz/:id/responses", responseRoute);
-//Get response using user id
-app.use("/:id/userResponse", userResponse);
-//Get response using quiz id
-app.use("/:id/quizResponse", quizResponse);
+app.use("/response", responseRoute);
 
 app.listen(3000, () => console.log("Server started"));
 // const httpServer = http.createServer(app);

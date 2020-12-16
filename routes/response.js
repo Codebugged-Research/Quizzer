@@ -14,95 +14,24 @@ responseRouter.post("/submit", async (req, res) => {
     res.status(400).send(error);
   }
 });
-responseRouter.get("/", async (req, res) => {
-  await Quiz.findById(req.params.id)
-    .populate("responses")
-    .exec(function (err, quiz) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.render("adminUI/showResponse", { quiz: quiz });
-      }
-    });
+userResponse.get("/getByUser/:id", async (req, res) => {
+  await Response.find({ user: req.params.id }, (err, allResponses) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send(err);
+    } else {
+      res.json(allResponses);
+    }
+  });
 });
-
-// responseRouter.post("/", verify, async (req, res) => {
-//   await Quiz.findById(req.params.id, async (err, quiz) => {
-//     if (err) {
-//       console.log(err);
-//       res.redirect("/quiz");
-//     } else {
-//       var correct = req.body.correct;
-//       var reward = "";
-//       var wrong = req.body.wrong;
-//       if (wrong === "0") {
-//         reward = quiz.reward;
-//       }
-//       let newResponse = {
-//         correct: correct,
-//         wrong: wrong,
-//         reward: reward,
-//       };
-//       await Response.create(newResponse, async (err, response) => {
-//         if (err) {
-//           console.log(err);
-//         } else {
-//           await response.save();
-//           quiz.responses.push(response);
-//           await quiz.save();
-//           res.redirect("/quiz/" + quiz._id);
-//         }
-//       });
-//     }
-//   });
-// });
-
-// responseRouter.post("/", async(req,res) => {
-//   await Quiz.findById(req.params.id, async(err,quiz) => {
-//     if(err) {
-//       console.log(err)
-//       res.redirect("/quiz");
-//     } else {
-//       await User.findById(req.body.id, async(err,user) => {
-//         if(err) {
-//           console.log(err)
-//         } else {
-//           var correct = req.body.correct;
-//           var reward = "";
-//           var wrong = req.body.wrong;
-//           if (wrong === "0") {
-//             reward = quiz.reward;
-//           }
-//           var quizRes = {
-//             id: quiz._id,
-//             name: quiz.name
-//           },
-//           var userRes = {
-//             id: user._id,
-//             username: user.name
-//           }
-//           let newResponse = {
-//             correct: correct,
-//             wrong: wrong,
-//             reward: reward,
-//             quiz: quizRes,
-//             author: userRes
-//           };
-//           await Response.create(newResponse, async (err,response) => {
-//             if(err) {
-//               console.log(err)
-//             } else {
-//               try {
-//                 const savedResponse = await response.save();
-//                 res.redirect("/quiz");
-//               } catch (err) {
-//                 res.status(400).send(err)
-//               }
-//             }
-//           })
-//         }
-//       })
-//     }
-//   })
-// })
+userResponse.get("/getByQuiz/:id", async (req, res) => {
+  await Response.find({ quiz: req.params.id }, (err, allResponses) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send(err);
+    } else {
+      res.json(allResponses);
+    }
+  });
+});
 module.exports = responseRouter;

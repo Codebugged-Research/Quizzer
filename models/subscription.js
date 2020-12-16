@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 const subscriptionSchema = new mongoose.Schema(
   {
-    buyer: {
-      id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-      username: { type: String },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
+    validity : {
+      type: String,
+      default: "0",
+    }
   },
   { timestamps: true }
 );
