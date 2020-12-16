@@ -16,6 +16,7 @@ subscriptionRouter.post("/create", async (req, res) => {
         if(err){
           console.log(err);
         }
+        console.log(user.subscription);
       });
     return res.json(subscription.id);
   });
