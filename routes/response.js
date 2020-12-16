@@ -1,5 +1,4 @@
 //send response from app
-
 const express = require("express");
 const responseRouter = express.Router({ mergeParams: true });
 const Response = require("../models/response");
