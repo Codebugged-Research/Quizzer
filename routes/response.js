@@ -14,7 +14,10 @@ responseRouter.post("/submit", async (req, res) => {
   }
 });
 responseRouter.get("/getByUser/:id", async (req, res) => {
-  await Response.find({ user: req.params.id }, (err, allResponses) => {
+  Response.find({ user: req.params.id })
+  .populate("user")
+  .populate("quiz")
+  .exec((err, allResponses) => {
     if (err) {
       console.log(err);
       res.status(400).send(err);
@@ -24,7 +27,10 @@ responseRouter.get("/getByUser/:id", async (req, res) => {
   });
 });
 responseRouter.get("/getByQuiz/:id", async (req, res) => {
-  await Response.find({ quiz: req.params.id }, (err, allResponses) => {
+  Response.find({ quiz: req.params.id })
+  .populate("user")
+  .populate("quiz")
+  .exec((err, allResponses) => {
     if (err) {
       console.log(err);
       res.status(400).send(err);
@@ -32,5 +38,6 @@ responseRouter.get("/getByQuiz/:id", async (req, res) => {
       res.json(allResponses);
     }
   });
+ 
 });
 module.exports = responseRouter;
