@@ -16,12 +16,33 @@ responseRouter.get("/getByUser/:id", async (req, res) => {
   Response.find({ user: req.params.id })
     .populate("user")
     .populate("quiz")
+    .sort({ createdAt: -1 })
     .exec((err, allResponses) => {
       if (err) {
         console.log(err);
         res.status(400).send(err);
       } else {
         res.json(allResponses);
+      }
+    });
+});
+//Get responses by user id and date
+responseRouter.get("/UserDate/:id", async (req, res) => {
+  Response.find({
+    user: req.params.id,
+    createdAt: {
+      $gte: new Date(new Date(startDate).setHours(00, 00, 00)),
+      $lt: new Date(new Date(endDate).setHours(23, 59, 59)),
+    },
+  })
+    .populate("user")
+    .populate("quiz")
+    .exec((err, responses) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        res.json(responses);
       }
     });
 });
