@@ -23,6 +23,7 @@ mongoose.connect(
   },
   () => console.log("Connected to db")
 );
+const razorPayRoute = require("./routes/payment");
 const authRoute = require("./routes/auth");
 const dashboardRoute = require("./routes/dashboard");
 const questionRoute = require("./routes/questionRouter");
@@ -63,7 +64,7 @@ app.use("/user", userRoute);
 //POST response
 app.use("/response", responseRoute);
 app.use("/subscription", subscriptionRoute);
-
+app.use("/razorPay", razorPayRoute);
 app.get("/payments", (req, res) => {
   res.render("adminUI/payment", { key: process.env.KEY_ID });
 });
