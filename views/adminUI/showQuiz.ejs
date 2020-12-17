@@ -1,15 +1,10 @@
 <%- include("./partials/header") %>
     <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <p class="lead">
+        <div class="heading" style="margin-bottom: 15px;">
+            <div class="jumbotron d-flex justify-content-center">
+                <h1>
                     <%= quiz.name %>
-                </p>
-                <div class="list-group">
-                    <li class="list-group-item active">Info 1</li>
-                    <li class="list-group-item">Info 2</li>
-                    <li class="list-group-item">Info 3</li>
-                </div>
+                </h1>
             </div>
             <div class="col-md-9">
                 <div class="thumbnail">
@@ -19,9 +14,13 @@
                             <%= quiz.reward %>
                         </h4>
                         <p>
-                            Quiz Slot :
-                            <%= quiz.slot %>
+                            Created On :
+                            <%= quiz.date %>
                         </p>
+                        <h4 class="pull-right">
+                            Slot :
+                            <%= quiz.slot %>
+                        </h4>
 
                         <a class="btn btn-warning" href="/quiz/<%= quiz._id %>/edit">Edit</a>
                         <form class="delete-form" action="/quiz/<%=quiz._id%>?_method=DELETE" method="POST">
@@ -29,44 +28,69 @@
                         </form>
                     </div>
                 </div>
-                <div class="well">
-                    <div class="text-right">
-                        <a class="btn btn-success" href="/quiz/<%= quiz._id %>/questions/add">Add new question</a>
-                    </div>
-                </div>
+
             </div>
         </div>
-        <% quiz.questions.forEach(function(question) { %>
-            <div class="col-md-3 col-sm-6">
-                <div class="thumbnail">
-                    <ul class="list-group">
-                        <h4>
-                            <%= question.description %>
-                        </h4>
-                        <li class="list-group-item">
-                            <%= question.options[0] %>
-                        </li>
-                        <li class="list-group-item">
-                            <%= question.options[1] %>
-                        </li>
-                        <li class="list-group-item">
-                            <%= question.options[2] %>
-                        </li>
-                        <li class="list-group-item">
-                            <%= question.options[3] %>
-                        </li>
-                        <p>The correct answer :
-                            <%= question.answer %>
-                        </p>
-                    </ul>
-                    <form style="display: inline" class="pull-right" action="/quiz/<%=quiz._id%>/questions/<%=question._id%>?_method=DELETE" method="POST">
-                        <button class="btn btn-xs btn-danger">DELETE</button>
-                        <a href="/quiz/<%= quiz._id %>/questions/<%= question._id %>/edit" class="btn btn-xs btn-info">EDIT</a>
-                    </form>
-                </div>
-            </div>
-            <% }) %>
-                <a href="/quiz/<%= quiz._id %>/leaderboard">View Leaderboard</a>
-    </div>
 
+        <% var i=1; %>
+
+            <% quiz.questions.forEach(function(question) { %>
+
+                <div class="card">
+                    <div class="card-header">
+                        Question
+                        <%= i %>
+                    </div>
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <p>
+                                <%= question.description %>
+                            </p>
+                        </blockquote>
+                        <% var j=0; %>
+                            <ul class="list-group">
+                                <% for(j=0;j<4;j++) { %>
+                                    <% if(j+1==question.answer) { %>
+                                        <li class="list-group-item active">
+                                            <%= question.options[j] %>
+                                        </li>
+                                        <% } %>
+                                            <% if(j+1!=question.answer) { %>
+                                                <li class="list-group-item">
+                                                    <%= question.options[j] %>
+                                                </li>
+                                                <% } %>
+                                                    <% } %>
+                            </ul>
+
+
+
+
+                    </div>
+                    <form class="pull-right" action="/quiz/<%=quiz._id%>/questions/<%=question._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-sm btn-danger">DELETE</button>
+                        <a href="/quiz/<%=quiz._id%>/questions/<%=question._id%>/edit" class="btn btn-sm btn-warning">EDIT</a>
+                    </form>
+
+                </div>
+                <br>
+                <% i++; %>
+                    <% }) %>
+
+
+                        <div class="card-deck">
+                            <div class="row">
+                                <div class="card-body">
+                                    <a class="btn btn-success" href="/quiz/<%= quiz._id %>/questions/add">Add new question</a>
+                                </div>
+                                <div class="card-body">
+                                    <a href="/quiz/<%= quiz._id %>/leaderboard" class="btn btn-info">View Leaderboard</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+    </div>
+    </div>
     <%- include("./partials/footer") %>

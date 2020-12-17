@@ -1,27 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Quiz</title>
+    <link href="/stylesheets/main.css" type="text/css" rel="stylesheet">
+</head>
 <%- include("./partials/header") %>
-    <form action="" class="form-inline">
-        <input id="datepicker" name="date" width="276" />
-        <button type="button" class="btn btn-success d-inline">Search</button>
-    </form>
-    <script>
-        $('#datepicker').datepicker({
-            uiLibrary: 'bootstrap4'
-        });
-    </script>
-    <% allQuiz.forEach(function(quiz) { %>
-        <div class="list-group">
-            <a href="/quiz/<%= quiz._id %>" class="list-group-item list-group-item-action flex-column align-items-start ">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">
-                        <%= quiz.name %>
-                    </h5>
-                    <small><%= quiz.date %></small>
-                </div>
-                <p class="mb-1">
-                    Quiz Slot:
-                    <%= quiz.slot %>
-                </p>
-            </a>
+    <div class="container">
+        <div class="page-title-heading">
+            <h1>All Quizzes</h1>
         </div>
-        <% }) %>
-            <%- include("./partials/footer") %>
+        <form action="" class="form-inline">
+            <input id="datepicker" name="date" width="276" />
+            <button type="button" class="btn btn-success d-inline">Search</button>
+        </form>
+        <script>
+            $('#datepicker').datepicker({
+                uiLibrary: 'bootstrap4'
+            });
+        </script>
+
+
+        <div class="row">
+            <% allQuiz.forEach(function(quiz) { %>
+
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= quiz.name %>
+                            </h5>
+                            <p class="card-text">Quiz Slot:
+                                <%= quiz.slot %>
+                            </p>
+                            <p class="card-text">Quiz Reward:
+                                <%= quiz.reward %>
+                            </p>
+                            <p class="card-text">
+                                <%= quiz.date %>
+                            </p>
+                            <a href="/quiz/<%= quiz._id %>" class="btn btn-primary">More Info</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <% }) %>
+        </div>
+    </div>
+    <%- include("./partials/footer") %>

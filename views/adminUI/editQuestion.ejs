@@ -34,12 +34,12 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlSelect1">What will be the correct option</label>
-            <input type="text" class="form-control" id="exampleFormControlSelect1" name="answer" value="<%= question.answer %>">
+            <input type="number" class="form-control" id="exampleFormControlSelect1" name="answer" value="<%= question.answer %>" min="1" max="4">
 
         </div>
 
         <div class="form-group">
-            <button class="btn btn-success">Post</button>
+            <button class="btn btn-success">Update</button>
         </div>
     </form>
     <%- include("./partials/footer") %>
