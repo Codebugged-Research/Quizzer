@@ -32,6 +32,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "1",
     },
+    photoUrl:{
+      type:String,
+    },
     subscription: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subscription",
