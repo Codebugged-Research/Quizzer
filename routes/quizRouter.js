@@ -39,6 +39,9 @@ quizRouter.post("/", verify, async (req, res) => {
   var yyyy = today.getFullYear();
 
   today = dd + "/" + mm + "/" + yyyy;
+  var startTime = new Date(req.body.start);
+  var endTime = new Date(req.body.end);
+
   const newQuiz = new Quiz({
     name: req.body.name,
     slot: req.body.slot,
@@ -46,7 +49,12 @@ quizRouter.post("/", verify, async (req, res) => {
     correct_score: req.body.correct_score,
     incorrect_score: req.body.incorrect_score,
     date: today,
+    startTime: startTime,
+    endTime: endTime,
+    minutes: req.body.minutes,
+    seconds: req.body.seconds,
   });
+
   try {
     const savedQuiz = await newQuiz.save();
     res.redirect("quiz");

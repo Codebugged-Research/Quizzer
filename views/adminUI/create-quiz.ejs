@@ -40,8 +40,23 @@
                 today = dd + '/' + mm + '/' + yyyy; %>
                     <input type="text" id="date" class="form-control" name="date" value="<%= today %>">
             </div> -->
+            <div class="form-group">
+                <label for="start">Start Time for Quiz:</label>
+                <input type="datetime-local" id="start" name="start">
+                <label for="end">End Time for Quiz:</label>
+                <input type="datetime-local" id="end" name="end">
+
+            </div>
+            <div class="form-group">
+                <label for="minutes">Enter minutes to be alloted to the user</label>
+                <input type="number" name="minutes" id="minutes">
+                <label for="minutes">Enter seconds to be alloted to the user</label>
+                <input type="number" name="seconds" id="seconds">
+            </div>
             <div class="form-group"><button class="btn btn-primary">Create</button>
             </div>
+
+
 
         </form>
     </div>

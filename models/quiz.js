@@ -11,6 +11,8 @@ const quizSchema = new mongoose.Schema(
     reward: { type: String },
     minutes: { type: String },
     seconds: { type: String },
+    startTime: { type: Date },
+    endTime: { type: Date },
   },
   { timestamps: true }
 );
