@@ -72,4 +72,21 @@ responseRouter.get("/getByQuiz/:id", async (req, res) => {
       }
     });
 });
+//After payment update response
+responseRouter.put("/:id", async (req, res) => {
+  var newData = {
+    paid: false,
+  };
+  await Response.findByIdAndUpdate(
+    req.params.id,
+    { $set: newData },
+    function (err, response) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect("/quiz/" + response.quiz + "/leaderboard");
+      }
+    }
+  );
+});
 module.exports = responseRouter;

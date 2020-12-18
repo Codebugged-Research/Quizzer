@@ -2,11 +2,8 @@ const Razorpay = require("razorpay");
 const express = require("express");
 const paymentrouter = express.Router();
 var crypto = require("crypto");
-var request = require("request");
-var headers = {
-  "Content-Type": "application/json",
-};
-
+const axios = require("axios");
+const qs = require("qs");
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
   key_secret: process.env.KEY_SECRET,
@@ -39,13 +36,22 @@ paymentrouter.post("/check", (req, res) => {
   res.send(response);
 });
 
-paymentrouter.post("/payout", (req, res) => {
-  var headers = {
-    "Content-Type": "application/json",
+//for payouts
+paymentrouter.post("/payout", async (req, res) => {
+  const token = Buffer.from(
+    `${process.env.KEY_ID}:${process.env.KEY_SECRET}`,
+    "utf8"
+  ).toString("base64");
+  var config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${token}`,
+    },
   };
   console.log(req.body);
 
   var dataString = {
+    // account_number: "2323230084370605",
     account_number: process.env.ACCOUNT_NUMBER,
     fund_account_id: req.body.fundAccountId,
     amount: req.body.amount,
@@ -53,27 +59,79 @@ paymentrouter.post("/payout", (req, res) => {
     mode: "UPI",
     purpose: "payout",
     queue_if_low_balance: true,
-    reference_id: `Winner for ${req.body.quizName}`,
+    reference_id: `Winner for quiz ${req.body.quizName}`,
     narration: "Quiz Adda winner payout",
   };
-  var options = {
-    url: "https://api.razorpay.com/v1/payouts",
-    method: "POST",
-    headers: headers,
-    body: dataString,
-    auth: {
-      user: process.env.KEY_ID,
-      pass: process.env.KEY_SECRET,
+  axios
+    .post("https://api.razorpay.com/v1/payouts", dataString, config)
+    .then(function (response) {
+      // res.json(response.data);
+      res.send({ data: response.data });
+    })
+    .catch(function (error) {
+      res.status(400).send(error);
+      console.log(error);
+    });
+});
+
+//create razorpay contact
+paymentrouter.post("/createContact", async (req, res) => {
+  const token = Buffer.from(
+    `${process.env.KEY_ID}:${process.env.KEY_SECRET}`,
+    "utf8"
+  ).toString("base64");
+  var config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${token}`,
     },
   };
 
-  function callback(error, response, body) {
-    if (!error && response.statusCode === 200) {
-      console.log(body);
-      res.json(body);
-    }
-  }
+  var dataString = {
+    name: req.body.name,
+    email: req.body.email,
+    contact: req.body.phone,
+    type: "customer",
+  };
+  axios
+    .post("https://api.razorpay.com/v1/contacts", dataString, config)
+    .then(function (response) {
+      res.json(response.data);
+    })
+    .catch(function (error) {
+      res.status(400).send(error);
+      console.log(error);
+    });
+});
 
-  request(options, callback);
+//for creating fund account
+paymentrouter.post("/createFundAcct", async (req, res) => {
+  const token = Buffer.from(
+    `${process.env.KEY_ID}:${process.env.KEY_SECRET}`,
+    "utf8"
+  ).toString("base64");
+  var config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${token}`,
+    },
+  };
+
+  var dataString = {
+    account_type: "vpa",
+    contact_id: req.body.contactId,
+    vpa: {
+      address: req.body.UpiId,
+    },
+  };
+  axios
+    .post("https://api.razorpay.com/v1/fund_accounts", dataString, config)
+    .then(function (response) {
+      res.json(response.data);
+    })
+    .catch(function (error) {
+      res.status(400).send(error);
+      console.log(error);
+    });
 });
 module.exports = paymentrouter;
