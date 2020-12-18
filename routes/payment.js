@@ -7,7 +7,6 @@ var headers = {
   "Content-Type": "application/json",
 };
 
-
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
   key_secret: process.env.KEY_SECRET,
@@ -40,18 +39,21 @@ paymentrouter.post("/check", (req, res) => {
   res.send(response);
 });
 
-
 paymentrouter.post("/payout", (req, res) => {
+  var headers = {
+    "Content-Type": "application/json",
+  };
+
   var dataString = {
-    account_number: "2223330013044301", //get from dashbaord
-    fund_account_id: req.body.upiId,
-    amount: req.body.amount,
+    account_number: process.env.ACCOUNT_NUMBER,
+    fund_account_id: req.fundAccountId,
+    amount: req.amount,
     currency: "INR",
-    mode: "IMPS",
-    purpose: "refund",
+    mode: "UPI",
+    purpose: "payout",
     queue_if_low_balance: true,
-    reference_id: `Quiz ADDA ${req.body.quizName} payout`,
-    narration: "Quiz adda payout",
+    reference_id: `Winner for ${req.body.quizName}`,
+    narration: "Quiz Adda winner payout",    
   };
 
   var options = {
@@ -61,15 +63,14 @@ paymentrouter.post("/payout", (req, res) => {
     body: dataString,
     auth: {
       user: process.env.KEY_ID,
-      pass: process.env.key_secret,
+      pass: process.env.KEY_SECRET,
     },
   };
 
   function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
+      console.log(body);
       res.json(body);
-    } else {
-      res.status(400).send(error);
     }
   }
 
