@@ -5,12 +5,12 @@
     <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <div class="container">
         <div class="card">
-            <form action="/file/uploadfile" method="POST">
+            <form action="/file/uploadfile" method="POST" enctype='multipart/form-data'>
                 <div class="card-img-top">
                     <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
 
                     <div class="image-upload-wrap">
-                        <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+                        <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" name="upload" />
                         <div class="drag-text">
                             <h3>Drag and drop a file or select add Image</h3>
                         </div>
