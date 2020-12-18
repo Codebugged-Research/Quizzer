@@ -53,7 +53,7 @@ router.post("/login", async (req, res) => {
   if (!validPass) return res.status(400).send("Invalid Password");
 
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  console.log(token);
+
   res.cookie("token", token, { expires: new Date(Date.now() + 9999999) });
   res.redirect("/api/admin/dashboard/");
 });
