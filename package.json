@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Codebugged-Research/Quizzer#readme",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "aws-sdk": "^2.813.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -31,6 +32,8 @@
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.10.15",
+    "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
     "nodemon": "^2.0.6",
     "razorpay": "^2.0.6",
     "twilio": "^3.52.0"

@@ -1,5 +1,7 @@
 const fileRouter = require("express").Router();
 const verify = require("./verifyToken");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
 
 const aws = require("aws-sdk");
 aws.config.update({
@@ -22,18 +24,19 @@ fileRouter.post("/uploadfile", (req, res) => {
       s3: uploads3,
       bucket: "quizaddabox",
       acl: "public-read",
-      key: function (request, file, cb) {
+      key: function (req, file, cb) {
         cb(null, file.originalname);
       },
     }),
   }).array("upload", 1);
   upload(req, res, function (error) {
     if (error) {
-      return response.json({
+      console.log(error);
+      return res.json({
         error: error,
       });
     }
-    response.redirect("/admin/category.html");
+    res.redirect("/file/upload");
   });
 });
 module.exports = fileRouter;
