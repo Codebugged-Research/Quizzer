@@ -35,6 +35,9 @@ const userSchema = new mongoose.Schema(
     photoUrl:{
       type:String,
     },
+    upiId:{
+      type: String
+    },
     contactId:{
       type:String,
     },
