@@ -48,9 +48,11 @@ paymentrouter.post("/payout", async (req, res) => {
       Authorization: `Basic ${token}`,
     },
   };
+  console.log(req.body);
 
   var dataString = {
-    account_number: "2323230084370605",
+    // account_number: "2323230084370605",
+    account_number: process.env.ACCOUNT_NUMBER,
     fund_account_id: req.body.fundAccountId,
     amount: req.body.amount,
     currency: "INR",
@@ -63,7 +65,8 @@ paymentrouter.post("/payout", async (req, res) => {
   axios
     .post("https://api.razorpay.com/v1/payouts", dataString, config)
     .then(function (response) {
-      res.json(response.data);
+      // res.json(response.data);
+      res.send({ data: response.data });
     })
     .catch(function (error) {
       res.status(400).send(error);
@@ -85,13 +88,13 @@ paymentrouter.post("/createContact", async (req, res) => {
   };
 
   var dataString = {
-    "name":req.body.name,
-    "email":req.body.email,
-    "contact":req.body.phone,
-    "type":"customer",
+    name: req.body.name,
+    email: req.body.email,
+    contact: req.body.phone,
+    type: "customer",
   };
   axios
-    .post('https://api.razorpay.com/v1/contacts', dataString, config)
+    .post("https://api.razorpay.com/v1/contacts", dataString, config)
     .then(function (response) {
       res.json(response.data);
     })
@@ -115,14 +118,14 @@ paymentrouter.post("/createFundAcct", async (req, res) => {
   };
 
   var dataString = {
-    "account_type":"vpa",
-    "contact_id":req.body.contactId,
-    "vpa":{
-      "address":req.body.UpiId
-    }
+    account_type: "vpa",
+    contact_id: req.body.contactId,
+    vpa: {
+      address: req.body.UpiId,
+    },
   };
   axios
-    .post('https://api.razorpay.com/v1/fund_accounts', dataString, config)
+    .post("https://api.razorpay.com/v1/fund_accounts", dataString, config)
     .then(function (response) {
       res.json(response.data);
     })

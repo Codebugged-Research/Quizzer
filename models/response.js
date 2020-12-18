@@ -13,6 +13,7 @@ let responseSchema = mongoose.Schema(
     },
     reward: { type: String },
     score: { type: String },
+    paid: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

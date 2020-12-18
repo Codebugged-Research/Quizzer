@@ -9,6 +9,7 @@ responseRouter.post("/submit", async (req, res) => {
     await response.save();
     res.json(response);
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 });
@@ -71,5 +72,22 @@ responseRouter.get("/getByQuiz/:id", async (req, res) => {
         res.json(allResponses);
       }
     });
+});
+//After payment update response
+responseRouter.put("/:id", async (req, res) => {
+  var newData = {
+    paid: false,
+  };
+  await Response.findByIdAndUpdate(
+    req.params.id,
+    { $set: newData },
+    function (err, response) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect("/quiz/" + response.quiz + "/leaderboard");
+      }
+    }
+  );
 });
 module.exports = responseRouter;
