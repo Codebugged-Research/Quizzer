@@ -43,19 +43,19 @@ paymentrouter.post("/payout", (req, res) => {
   var headers = {
     "Content-Type": "application/json",
   };
+  console.log(req.body);
 
   var dataString = {
     account_number: process.env.ACCOUNT_NUMBER,
-    fund_account_id: req.fundAccountId,
-    amount: req.amount,
+    fund_account_id: req.body.fundAccountId,
+    amount: req.body.amount,
     currency: "INR",
     mode: "UPI",
     purpose: "payout",
     queue_if_low_balance: true,
     reference_id: `Winner for ${req.body.quizName}`,
-    narration: "Quiz Adda winner payout",    
+    narration: "Quiz Adda winner payout",
   };
-
   var options = {
     url: "https://api.razorpay.com/v1/payouts",
     method: "POST",
@@ -68,7 +68,7 @@ paymentrouter.post("/payout", (req, res) => {
   };
 
   function callback(error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if (!error && response.statusCode === 200) {
       console.log(body);
       res.json(body);
     }
