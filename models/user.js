@@ -35,6 +35,12 @@ const userSchema = new mongoose.Schema(
     photoUrl:{
       type:String,
     },
+    contactId:{
+      type:String,
+    },
+    fundAccount:{
+      type:String,
+    },
     subscription: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subscription",
