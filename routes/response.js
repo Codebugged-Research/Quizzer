@@ -28,11 +28,24 @@ responseRouter.get("/getByUser/:id", async (req, res) => {
 });
 //Get responses by user id and date
 responseRouter.get("/UserDate/:id", async (req, res) => {
+  var today = new Date().now();
   Response.find({
     user: req.params.id,
     createdAt: {
-      $gte: new Date(new Date(startDate).setHours(00, 00, 00)),
-      $lt: new Date(new Date(endDate).setHours(23, 59, 59)),
+      $gte: new Date(
+        new Date(
+          new Date().getFullYear(),
+          new Date().getMonth() + 1,
+          new Date().getDate()
+        ).setHours(00, 00, 00)
+      ),
+      $lt: new Date(
+        new Date(
+          new Date().getFullYear(),
+          new Date().getMonth() + 1,
+          new Date().getDate()
+        ).setHours(23, 59, 59)
+      ),
     },
   })
     .populate("user")
