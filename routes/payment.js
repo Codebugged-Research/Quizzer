@@ -43,7 +43,7 @@ paymentrouter.post("/check", (req, res) => {
 
 paymentrouter.post("/payout", (req, res) => {
   var dataString = {
-    account_number: "7878780080316316", //get from dashbaord
+    account_number: "2223330013044301", //get from dashbaord
     fund_account_id: req.body.upiId,
     amount: req.body.amount,
     currency: "INR",
