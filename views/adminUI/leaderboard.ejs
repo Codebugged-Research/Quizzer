@@ -52,8 +52,8 @@
                                             <tr>
                                                 <td>
                                                     <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
-                                                    <a href="/user/<%= user._id %>" class="user-link">
-                                                        <%= response.user.name %>
+                                                    <a href="/user/<%= response.user._id %>" class="user-link">
+                                                        <%= user.name %>
                                                     </a>
                                                     <% if(response.user.role==="2") { %>
                                                         <span class="user-subhead">Premium User</span>
