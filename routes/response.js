@@ -76,7 +76,8 @@ responseRouter.get("/getByQuiz/:id", async (req, res) => {
 //After payment update response
 responseRouter.put("/:id", async (req, res) => {
   var newData = {
-    paid: false,
+    reward: req.body.reward,
+    paid: true,
   };
   await Response.findByIdAndUpdate(
     req.params.id,

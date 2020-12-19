@@ -1,75 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Leaderboard</title>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link rel="stylesheet" href="/stylesheets/user.css" />
-</head>
 <%- include("./partials/header") %>
+    <div class="container">
+        <h1 class="jumbotron">Edit
+            <%= quiz.name %>
+        </h1>
+        <div style="width: 30%; margin: 25px auto;">
+            <form action="/quiz/<%=quiz._id%>?_method=PUT" method="POST">
+                <div class="form-group">
+                    <label for="name">Quiz Name</label>
+                    <input class="form-control" id="name" type="text" name="name" value="<%= quiz.name %>">
+                </div>
+                <div class="form-group">
+                    <label for="slot">Quiz Slot</label>
+                    <input class="form-control" id="slot" type="text" name="slot" value="<%= quiz.slot %>">
+                </div>
+                <div class="form-group">
+                    <label for="reward">Quiz Reward</label>
+                    <input class="form-control" id="reward" type="text" name="reward" value="<%= quiz.reward %>">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block">Update!</button>
+                </div>
+            </form>
+            <a href="/quiz">Go Back</a>
+        </div>
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
 
-    <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="main-box clearfix">
-                        <div class="table-responsive">
-                            <table class="table user-list">
-                                <thead>
-                                    <tr>
-                                        <th><span>User</span></th>
-                                        <th><span>Correct</span></th>
-                                        <th class="text-center"><span>Wrong</span></th>
-                                        <th><span>Reward</span></th>
-                                        <th>&nbsp;</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% quiz.responses.forEach(function(response) { %>
-                                        <tr>
-                                            <td>
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
-                                                <a href="#" class="user-link">
-                                                    <%= response.author.username %>
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <%= response.correct %>
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-default">Inactive</span>
-                                            </td>
-                                            <td>
-                                                <a href="#">
-                                                    <%= response.wrong
-                                            </td>
-                                            <td style="width: 20%">
-                                                <%= response.reward %>
-                                            </td>
-                                        </tr>
-                                        <% }) %>
-                                </tbody>
-                            </table>
-                        </div>
-                        <ul class="pagination pull-right">
-                            <li>
-                                <a href="#"><i class="fa fa-chevron-left"></i></a>
-                            </li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#"><i class="fa fa-chevron-right"></i></a>
-                            </li>
-                        </ul>
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Payment Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to pay the user?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="order-button1" class="btn btn-default" data-dismiss="modal">Yes</button>
                     </div>
                 </div>
+
             </div>
         </div>
-        <%- include("./partials/footer") %>
+        <script>
+            document.getElementById('order-button1').onclick = function(e) {
+                alert
+                var url = '/razorpay/payout';
+                var url2 = '/response/<%= response._id %>';
+                var params = {
+                    amount: response.quiz.reward * 100,
+                    fundAccountId: response.user.fundAccount,
+                    quizName: response.quiz.name,
+                };
+
+                var xmlHttp = new XMLHttpRequest();
+                //On successful transaction
+                xmlHttp.onreadystatechange = function(res) {
+                    if (xmlHttp.readyState === 4) {
+                        res = JSON.parse(xmlHttp.responseText);
+                        if (res.data != "rejected" || res.data != "cancelled") {
+                            var newxmlHttp = new XMLHttpRequest();
+                            newxmlHttp.open("PUT", url2, true); // false for synchronous request
+                            newxmlHttp.setRequestHeader("Content-type", "application/json");
+                        }
+                    }
+                }
+                xmlHttp.open("POST", url, true); // false for synchronous request
+                xmlHttp.setRequestHeader("Content-type", "application/json");
+                xmlHttp.send(JSON.stringify(params));
+            }
+        </script>
+    </div>
+    <%- include("./partials/footer") %>

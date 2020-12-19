@@ -34,21 +34,6 @@
                                 <tbody>
                                     <% allResponses.forEach(function(response) { %>
                                         <% var i=0; %>
-                                            <!-- <script>
-                                                document.getElementById('order-button1').onclick = function(e) {
-                                                    var url = '/razorpay/payout';
-                                                    var params = {
-                                                        amount: response.quiz.reward,
-                                                        fundAccountId: response.user.fundAccount,
-                                                        quizName: response.quiz.name,
-                                                    };
-
-                                                    var xmlHttp = new XMLHttpRequest();
-                                                    xmlHttp.open("POST", url, true); // false for synchronous request
-                                                    xmlHttp.setRequestHeader("Content-type", "application/json");
-                                                    xmlHttp.send(JSON.stringify(params));
-                                                }
-                                            </script> -->
                                             <tr>
                                                 <td>
                                                     <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
@@ -100,58 +85,41 @@
                                                                             </a>
                                                 </td>
                                                 <td>
-                                                    <% if(i==0 && !response.paid) { %>
+                                                    <% if(i<5 && !response.paid) { %>
                                                         <button class="btn btn-warning" data-toggle="modal" data-target="#myModal">Pay Reward</button>
+                                                        <div id="myModal" class="modal fade" role="dialog">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                        <h4 class="modal-title">
+                                                                            <%= response.user.name %> : Rank
+                                                                                <%= i+1 %>
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form action="/quiz/<%= response.quiz._id %>/response/<%= response._id %>?_method=PUT" method="POST">
+                                                                            <label for="reward">Enter the reward to be paid</label>
+                                                                            <input type="number" name="reward" id="reward">
+                                                                            <button type="submit">Pay</button>
+                                                                        </form>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" id="order-button1" class="btn btn-default" data-dismiss="modal">Yes</button>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
                                                         <% } %>
+                                                            <% if(response.paid) { %>
+                                                                <span class="material-icons">
+                                                                check_circle
+                                                                </span>
+                                                                <% } %>
                                                 </td>
                                             </tr>
-                                            <div id="myModal" class="modal fade" role="dialog">
-                                                <div class="modal-dialog">
 
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                            <h4 class="modal-title">Payment Confirmation</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Do you wanna pay the user?</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" id="order-button1" class="btn btn-default" data-dismiss="modal">Yes</button>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <script>
-                                                document.getElementById('order-button1').onclick = function(e) {
-                                                    alert
-                                                    var url = '/razorpay/payout';
-                                                    var url2 = '/response/<%= response._id %>';
-                                                    var params = {
-                                                        amount: response.quiz.reward * 100,
-                                                        fundAccountId: response.user.fundAccount,
-                                                        quizName: response.quiz.name,
-                                                    };
-
-                                                    var xmlHttp = new XMLHttpRequest();
-                                                    //On succesfull transaction
-                                                    xmlHttp.onreadystatechange = function(res) {
-                                                        if (xmlHttp.readyState === 4) {
-                                                            res = JSON.parse(xmlHttp.responseText);
-                                                            if (res.data != "rejected" || res.data != "cancelled") {
-                                                                var newxmlHttp = new XMLHttpRequest();
-                                                                newxmlHttp.open("PUT", url2, true); // false for synchronous request
-                                                                newxmlHttp.setRequestHeader("Content-type", "application/json");
-                                                            }
-                                                        }
-                                                    }
-                                                    xmlHttp.open("POST", url, true); // false for synchronous request
-                                                    xmlHttp.setRequestHeader("Content-type", "application/json");
-                                                    xmlHttp.send(JSON.stringify(params));
-                                                }
-                                            </script>
                                             <% i++; %>
                                                 <% }) %>
                                 </tbody>

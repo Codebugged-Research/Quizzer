@@ -102,22 +102,6 @@ quizRouter.delete("/:id", verify, async (req, res) => {
     }
   });
 });
-//Quiz Leaderboard
-quizRouter.get("/:id/leaderboard", async (req, res) => {
-  await Response.find({ quiz: req.params.id })
-    .populate("user")
-    .populate("quiz")
-    .sort({ reward: -1 })
-    .collation({ locale: "en_US", numericOrdering: true })
-    .exec((err, allResponses) => {
-      if (err) {
-        console.log(err);
-        res.status(400).send(err);
-      } else {
-        res.render("adminUI/leaderboard", { allResponses: allResponses });
-      }
-    });
-});
 
 //App Quiz Route
 quizRouter.get("/app/quiz", async (req, res) => {
