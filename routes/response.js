@@ -74,6 +74,23 @@ responseRouter.get("/getByQuiz/:id", async (req, res) => {
     });
 });
 //After payment update response
+// responseRouter.put("/:id", async (req, res) => {
+//   var newData = {
+//     reward: req.body.reward,
+//     paid: true,
+//   };
+//   await Response.findByIdAndUpdate(
+//     req.params.id,
+//     { $set: newData },
+//     function (err, response) {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         res.redirect("/quiz/" + response.quiz + "/leaderboard");
+//       }
+//     }
+//   );
+// });
 responseRouter.put("/:id", async (req, res) => {
   var newData = {
     reward: req.body.reward,
@@ -86,9 +103,23 @@ responseRouter.put("/:id", async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        res.redirect("/quiz/" + response.quiz + "/leaderboard");
+        var rewards = parseInt(req.body.reward, 10);
+        var userReward = parseInt(response.user.reward, 10);
+        var total = rewards + userReward;
+        total = "" + total;
+        var newuserData = {
+          reward: total
+        }
+        await User.findByIdAndUpdate(response.user._id, {$set: newuserData}, (err,user) => {
+          if(err) {
+            console.log(err);
+          } else {
+            res.redirect("/quiz/" + response.quiz + "/leaderboard");
+          }
+        })
       }
     }
   );
 });
+
 module.exports = responseRouter;

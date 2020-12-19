@@ -53,4 +53,13 @@ fileRouter.post("/uploadfile", (req, res) => {
     res.redirect("/file/upload");
   });
 });
+quizRouter.delete("/:id", verify, async (req, res) => {
+  await Card.findByIdAndRemove(req.params.id, function (err) {
+    if (err) {
+      console.log("PROBLEM!");
+    } else {
+      res.redirect("/file/upload");
+    }
+  });
+});
 module.exports = fileRouter;
