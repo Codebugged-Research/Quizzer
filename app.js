@@ -32,6 +32,7 @@ const userRoute = require("./routes/user");
 const responseRoute = require("./routes/response");
 const subscriptionRoute = require("./routes/subscription");
 const fileRoute = require("./routes/fileUpload");
+const leaderboardRoute = require("./routes/leaderboard");
 // const paymentRoute = require("./routes/payment");
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
@@ -61,6 +62,7 @@ app.use(authRoute);
 app.use("/api/admin/dashboard", dashboardRoute);
 app.use("/quiz", quizRoute);
 app.use("/quiz/:id/questions", questionRoute);
+app.use("/quiz/:id/leaderboard", leaderboardRoute);
 app.use("/user", userRoute);
 //POST response
 app.use("/response", responseRoute);
