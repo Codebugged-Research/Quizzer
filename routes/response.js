@@ -9,6 +9,7 @@ responseRouter.post("/submit", async (req, res) => {
     await response.save();
     res.json(response);
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 });
