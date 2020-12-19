@@ -99,7 +99,7 @@ responseRouter.put("/:id", async (req, res) => {
   await Response.findByIdAndUpdate(
     req.params.id,
     { $set: newData },
-    function (err, response) {
+    async (err, response) => {
       if (err) {
         console.log(err);
       } else {
@@ -108,15 +108,19 @@ responseRouter.put("/:id", async (req, res) => {
         var total = rewards + userReward;
         total = "" + total;
         var newuserData = {
-          reward: total
-        }
-        await User.findByIdAndUpdate(response.user._id, {$set: newuserData}, (err,user) => {
-          if(err) {
-            console.log(err);
-          } else {
-            res.redirect("/quiz/" + response.quiz + "/leaderboard");
+          reward: total,
+        };
+        await User.findByIdAndUpdate(
+          response.user._id,
+          { $set: newuserData },
+          (err, user) => {
+            if (err) {
+              console.log(err);
+            } else {
+              res.redirect("/quiz/" + response.quiz + "/leaderboard");
+            }
           }
-        })
+        );
       }
     }
   );

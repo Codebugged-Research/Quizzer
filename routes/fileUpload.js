@@ -15,7 +15,13 @@ const uploads3 = new aws.S3({
 });
 
 fileRouter.get("/upload", async (req, res) => {
-  res.render("adminUI/fileUpload");
+  Card.find().exec((err, cards) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      res.render("adminUI/fileUpload", { cards: cards });
+    }
+  });
 });
 fileRouter.get("/allCards", (req, res) => {
   Card.find().exec((err, cards) => {
@@ -53,7 +59,7 @@ fileRouter.post("/uploadfile", (req, res) => {
     res.redirect("/file/upload");
   });
 });
-quizRouter.delete("/:id", verify, async (req, res) => {
+fileRouter.delete("/:id", verify, async (req, res) => {
   await Card.findByIdAndRemove(req.params.id, function (err) {
     if (err) {
       console.log("PROBLEM!");

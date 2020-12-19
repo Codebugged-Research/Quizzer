@@ -33,6 +33,7 @@ const responseRoute = require("./routes/response");
 const subscriptionRoute = require("./routes/subscription");
 const fileRoute = require("./routes/fileUpload");
 const leaderboardRoute = require("./routes/leaderboard");
+const feedRoute = require("./routes/feedRouter");
 // const paymentRoute = require("./routes/payment");
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
@@ -69,6 +70,7 @@ app.use("/response", responseRoute);
 app.use("/subscription", subscriptionRoute);
 app.use("/razorPay", razorPayRoute);
 app.use("/file", fileRoute);
+app.use("/feed", feedRoute);
 // Payment Routes
 app.get("/payments", (req, res) => {
   res.render("adminUI/payment", { key: process.env.KEY_ID });
@@ -100,8 +102,8 @@ app.post("/api/payment/verify", (req, res) => {
   res.send(response);
 });
 
-// app.listen(3000, () => console.log("Server started"));
-const httpServer = http.createServer(app);
-httpServer.listen(80, () => {
-  console.log("HTTP Server running on port 80");
-});
+app.listen(3000, () => console.log("Server started"));
+// const httpServer = http.createServer(app);
+// httpServer.listen(80, () => {
+//   console.log("HTTP Server running on port 80");
+// });
