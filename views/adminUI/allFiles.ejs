@@ -6,7 +6,10 @@
                 <h5 class="mb-1">
                     <%= file.name %>
                 </h5>
-                <small>3 days ago</small>
+                <form action="/file/<%=file._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+
             </div>
     </div>
     <%- include("./partials/footer") %>
