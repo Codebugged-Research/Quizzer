@@ -12,15 +12,11 @@
         <div class="page-title-heading">
             <h1>All Quizzes</h1>
         </div>
-        <form action="" class="form-inline">
-            <input id="datepicker" name="date" width="276" />
-            <button type="button" class="btn btn-success d-inline">Search</button>
+        <form action="/quiz/date" method="POST">
+            <label for="date">Date:</label>
+            <input type="date" name="date">
+            <button type="submit" class="btn btn-success d-inline">Search</button>
         </form>
-        <script>
-            $('#datepicker').datepicker({
-                uiLibrary: 'bootstrap4'
-            });
-        </script>
 
 
         <div class="row">

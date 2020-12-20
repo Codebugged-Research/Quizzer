@@ -21,6 +21,7 @@ quizRouter.get("/", async (req, res) => {
 quizRouter.get("/add", (req, res) => {
   res.render("adminUI/create-quiz");
 });
+
 quizRouter.get("/:id", async (req, res) => {
   await Quiz.findById(req.params.id)
     .populate("questions")
@@ -61,6 +62,18 @@ quizRouter.post("/", verify, async (req, res) => {
   } catch (err) {
     res.status(400).send(err);
   }
+});
+//Get all quiz by date
+quizRouter.post("/date", async (req, res) => {
+  var bodyDate = req.body.date.split("-");
+  var date = bodyDate[2] + "/" + bodyDate[1] + "/" + bodyDate[0];
+  await Quiz.find({ date: date }).exec(function (err, allQuiz) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("adminUI/allQuiz", { allQuiz: allQuiz });
+    }
+  });
 });
 //Edit Quiz
 quizRouter.get("/:id/edit", verify, async (req, res) => {
