@@ -23,6 +23,12 @@ responseRouter.get("/getByUser/:id", async (req, res) => {
       },
     })
     .populate("quiz")
+   .populate({
+      path: "quiz",
+      populate: {
+        path: "questions",
+      },
+    })
     .sort({ createdAt: -1 })
     .exec((err, allResponses) => {
       if (err) {
