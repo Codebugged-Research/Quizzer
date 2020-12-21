@@ -16,6 +16,12 @@ responseRouter.post("/submit", async (req, res) => {
 responseRouter.get("/getByUser/:id", async (req, res) => {
   Response.find({ user: req.params.id })
     .populate("user")
+   .populate({
+      path: "user",
+      populate: {
+        path: "subscription",
+      },
+    })
     .populate("quiz")
     .sort({ createdAt: -1 })
     .exec((err, allResponses) => {
