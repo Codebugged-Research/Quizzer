@@ -90,11 +90,11 @@
                         <div class="card widget-content bg-midnight-bloom">
                             <div class="widget-content-wrapper text-white">
                                 <div class="widget-content-left">
-                                    <div class="widget-heading">Total Users</div>
-                                    <div class="widget-subheading">Site Activity</div>
+                                    <div class="widget-heading">Total Quiz</div>
+                                    <div class="widget-subheading">Quizzes Published</div>
                                 </div>
                                 <div class="widget-content-right">
-                                    <div class="widget-numbers text-white"><span style="margin-left: 10px;">1900</span></div>
+                                    <div class="widget-numbers text-white"><span style="margin-left: 10px;"><%= quizCount %></span></div>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                                     <div class="widget-subheading">Total Subscriptions</div>
                                 </div>
                                 <div class="widget-content-right">
-                                    <div class="widget-numbers text-white"><span style="margin-left: 10px;">₹ 568</span></div>
+                                    <div class="widget-numbers text-white"><span style="margin-left: 10px;"><%= subCount %></span></div>
                                 </div>
                             </div>
                         </div>
@@ -116,11 +116,11 @@
                         <div class="card widget-content bg-grow-early my-card">
                             <div class="widget-content-wrapper text-white">
                                 <div class="widget-content-left">
-                                    <div class="widget-heading">Total Quizzes</div>
+                                    <div class="widget-heading">Total Users</div>
                                     <div class="widget-subheading">People Interested</div>
                                 </div>
                                 <div class="widget-content-right">
-                                    <div class="widget-numbers text-white"><span style="margin-left: 10px;">46%</span></div>
+                                    <div class="widget-numbers text-white"><span style="margin-left: 10px;"><%= userCount %></span></div>
                                 </div>
                             </div>
                         </div>
@@ -128,8 +128,8 @@
                         <div class="card  widget-content bg-night-fade my-card">
                             <div class="widget-content-wrapper text-white">
                                 <div class="widget-content-left">
-                                    <div class="widget-heading">Total Rewards</div>
-                                    <div class="widget-subheading">Rewards Earned</div>
+                                    <div class="widget-heading">Total Activity</div>
+                                    <div class="widget-subheading">Responses Received</div>
                                 </div>
                                 <div class="widget-content-right">
                                     <div class="widget-numbers text-white">
@@ -396,80 +396,7 @@
                                                 </tr>
                                                 <% i++; %>
                                                     <% }) %>
-                                                        <tr>
-                                                            <td class="text-center text-muted">#347</td>
-                                                            <td>
-                                                                <div class="widget-content p-0">
-                                                                    <div class="widget-content-wrapper">
-                                                                        <div class="widget-content-left mr-3">
-                                                                            <div class="widget-content-left">
-                                                                                <img width="40" class="rounded-circle" src="/assets/images/avatars/5.jpg" alt="">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="widget-content-left flex2">
-                                                                            <div class="widget-heading">Ruben Tillman</div>
-                                                                            <div class="widget-subheading opacity-7">Etiam sit amet orci eget</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">Berlin</td>
-                                                            <td class="text-center">
-                                                                <div class="badge badge-success">Completed</div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <button type="button" id="PopoverCustomT-2" class="btn btn-primary btn-sm">Details</button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="text-center text-muted">#321</td>
-                                                            <td>
-                                                                <div class="widget-content p-0">
-                                                                    <div class="widget-content-wrapper">
-                                                                        <div class="widget-content-left mr-3">
-                                                                            <div class="widget-content-left">
-                                                                                <img width="40" class="rounded-circle" src="/assets/images/avatars/1.jpg" alt="">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="widget-content-left flex2">
-                                                                            <div class="widget-heading">Elliot Huber</div>
-                                                                            <div class="widget-subheading opacity-7">Lorem ipsum dolor sic</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">London</td>
-                                                            <td class="text-center">
-                                                                <div class="badge badge-danger">In Progress</div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <button type="button" id="PopoverCustomT-3" class="btn btn-primary btn-sm">Details</button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="text-center text-muted">#55</td>
-                                                            <td>
-                                                                <div class="widget-content p-0">
-                                                                    <div class="widget-content-wrapper">
-                                                                        <div class="widget-content-left mr-3">
-                                                                            <div class="widget-content-left">
-                                                                                <img width="40" class="rounded-circle" src="/assets/images/avatars/8.jpg" alt=""></div>
-                                                                        </div>
-                                                                        <div class="widget-content-left flex2">
-                                                                            <div class="widget-heading">Vinnie Wagstaff</div>
-                                                                            <div class="widget-subheading opacity-7">UI Designer</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">Amsterdam</td>
-                                                            <td class="text-center">
-                                                                <div class="badge badge-info">On Hold</div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <button type="button" id="PopoverCustomT-4" class="btn btn-primary btn-sm">Details</button>
-                                                            </td>
-                                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
