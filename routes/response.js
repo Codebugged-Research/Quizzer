@@ -61,8 +61,20 @@ responseRouter.get("/UserDate/:id", async (req, res) => {
       ),
     },
   })
-    .populate("user")
+   .populate("user")
+   .populate({
+      path: "user",
+      populate: {
+        path: "subscription",
+      },
+    })
     .populate("quiz")
+   .populate({
+      path: "quiz",
+      populate: {
+        path: "questions",
+      },
+    })
     .exec((err, responses) => {
       if (err) {
         console.log(err);
@@ -75,7 +87,19 @@ responseRouter.get("/UserDate/:id", async (req, res) => {
 responseRouter.get("/getByQuiz/:id", async (req, res) => {
   Response.find({ quiz: req.params.id })
     .populate("user")
+   .populate({
+      path: "user",
+      populate: {
+        path: "subscription",
+      },
+    })
     .populate("quiz")
+   .populate({
+      path: "quiz",
+      populate: {
+        path: "questions",
+      },
+    })
     .exec((err, allResponses) => {
       if (err) {
         console.log(err);
