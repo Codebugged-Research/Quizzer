@@ -15,7 +15,7 @@ const feedEndpoint = new aws.Endpoint("ams3.digitaloceanspaces.com/feed")
 const uploadBannerS3 = new aws.S3({
   endpoint: uploadBannerEndpoint,
 });
-const uploadBannerS3 = new aws.S3({
+const uploadFeedS3 = new aws.S3({
   endpoint: feedEndpoint,
 });
 
@@ -41,7 +41,7 @@ fileRouter.post("/uploadFeed", (req, res) => {
   console.log(req.body);
   const upload = multer({
     storage: multerS3({
-      s3: uploadBannerS3,
+      s3: uploadFeedrS3,
       bucket: "quizaddabox",
       acl: "public-read",
       key: function (reqq, file, cb) {
