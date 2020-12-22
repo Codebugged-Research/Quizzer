@@ -40,8 +40,8 @@ feedRouter.post("/uploadFeed", (req, res) => {
         var url =
           "https://quizaddabox.ams3.digitaloceanspaces.com/feed/" +
           file.originalname;
-        feed = new feed({ fileURL: url, name: req.body.name });
-        feed.save();
+        var ffeed = new feed({ fileURL: url, name: req.body.name });
+        ffeed.save();
       },
     }),
   }).array("upload", 1);
