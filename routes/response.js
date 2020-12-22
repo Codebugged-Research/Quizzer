@@ -40,7 +40,7 @@ responseRouter.get("/getByUser/:id", async (req, res) => {
     });
 });
 //Get responses by user id and date
-responseRouter.post("/UserDate/:id", async (req, res) => {
+responseRouter.get("/UserDate/:id", async (req, res) => {
   var today = new Date();
   Response.find({
     user: req.params.id,
