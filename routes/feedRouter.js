@@ -1,6 +1,5 @@
 const feedRouter = require("express").Router();
 const verify = require("./verifyToken");
-const File = require("../models/file");
 const feed = require("../models/file");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
@@ -13,9 +12,10 @@ aws.config.update({
 });
 const uploadFeedS3 = new aws.S3({
   endpoint: feedEndpoint,
-});
+})
+
 feedRouter.get("/", (req, res) => {
-  File.find().exec((err, files) => {
+  feed.find().exec((err, files) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -23,9 +23,11 @@ feedRouter.get("/", (req, res) => {
     }
   });
 });
+
 feedRouter.get("/upload", (req, res) => {
   res.render("adminUI/feedUpload");
 });
+
 feedRouter.post("/uploadFeed", (req, res) => {
   console.log(req.body);
   const upload = multer({
@@ -33,7 +35,7 @@ feedRouter.post("/uploadFeed", (req, res) => {
       s3: uploadFeedS3,
       bucket: "quizaddabox",
       acl: "public-read",
-      key: function (reqq, file, cb) {
+      key: function (req, file, cb) {
         cb(null, file.originalname);
         var url =
           "https://quizaddabox.ams3.digitaloceanspaces.com/feed/" +
@@ -54,7 +56,7 @@ feedRouter.post("/uploadFeed", (req, res) => {
   });
 });
 feedRouter.get("/get", (req, res) => {
-  File.find().exec((err, files) => {
+  feed.find().exec((err, files) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -64,7 +66,7 @@ feedRouter.get("/get", (req, res) => {
 });
 
 feedRouter.delete("/:id", verify, async (req, res) => {
-  await File.findByIdAndRemove(req.params.id, function (err) {
+  await feed.findByIdAndRemove(req.params.id, function (err) {
     if (err) {
       console.log("PROBLEM!");
     } else {
