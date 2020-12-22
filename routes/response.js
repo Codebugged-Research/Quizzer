@@ -76,6 +76,7 @@ responseRouter.get("/UserDate/:id", async (req, res) => {
       },
     })
     .exec((err, responses) => {
+      console.log(err);
       if (err) {
         console.log(err);
         res.status(400).send(err);
