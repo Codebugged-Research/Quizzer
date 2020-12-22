@@ -12,16 +12,19 @@ aws.config.update({
 });
 const uploadFeedS3 = new aws.S3({
   endpoint: feedEndpoint,
-})
+});
 
 feedRouter.get("/", (req, res) => {
-  feed.find().exec((err, files) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.render("adminUI/allFiles", { files: files });
-    }
-  });
+  feed
+    .find()
+    .sort({ createdAt: -1 })
+    .exec((err, files) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.render("adminUI/allFiles", { files: files });
+      }
+    });
 });
 
 feedRouter.get("/upload", (req, res) => {

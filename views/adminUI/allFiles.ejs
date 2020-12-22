@@ -1,16 +1,27 @@
 <%- include("./partials/header") %>
+    <div class="container">
 
-    <div class="list-group list-group-item-action flex-column align-items-start">
-        <% files.forEach(function(file){ %>
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">
+
+        <h2 class="jumbotron">All Files Uploaded</h2>
+        <div class="list-group d-flex justify-content-between ">
+            <% files.forEach(function(file){ %>
+                <li class="list-group-item list-group-item-info">
                     <%= file.name %>
-                </h5>
-                <form action="/file/<%=file._id%>?_method=DELETE" method="POST">
-                    <button class="btn btn-danger">Delete</button>
-                </form>
+                        <span class="badge" style="margin-left: 80%;">
+                    <form action="/feed/<%=file._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                    <!-- <span class="material-icons">
+                    picture_as_pdf
+                    </span> -->
+                        </span>
+                </li>
 
-            </div>
-            <% }) %>
+
+
+
+        </div>
+        <% }) %>
+    </div>
     </div>
     <%- include("./partials/footer") %>

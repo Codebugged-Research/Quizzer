@@ -1,52 +1,37 @@
 <%- include("./partials/header") %>
     <div class="container">
-        <form class="form-horizontal" action="/user/" method="POST">
-            <fieldset>
-                <div id="legend">
-                    <legend class="">Create Dummy User</legend>
-                </div>
-                <div class="control-group">
-                    <!-- Username -->
-                    <label class="control-label" for="username">Name</label>
-                    <div class="controls">
-                        <input type="text" id="username" name="name" placeholder="" class="input-xlarge">
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <!-- E-mail -->
-                    <label class="control-label" for="email">E-mail</label>
-                    <div class="controls">
-                        <input type="text" id="email" name="email" placeholder="" class="input-xlarge">
-                        <p class="help-block">Please provide user's E-mail</p>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <!-- Password-->
-                    <label class="control-label" for="password">Image</label>
-                    <div class="controls">
-                        <input type="text" id="password" name="image" placeholder="" class="input-xlarge">
-                        <p class="help-block">Add Image URL</p>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <!-- Password -->
-                    <label class="control-label" for="password_confirm">Reward</label>
-                    <div class="controls">
-                        <input type="text" id="password_confirm" name="reward" placeholder="" class="input-xlarge">
-                        <p class="help-block">Add amount of reward earned</p>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <!-- Button -->
-                    <div class="controls">
-                        <button class="btn btn-success">Create</button>
-                    </div>
-                </div>
-            </fieldset>
+        <h2 class="jumbotron">Create Dummy User</h2>
+        <form action="/user" method="POST">
+            <div class="form-group">
+                <label for="name">Enter Full Name</label>
+                <input type="text" class="form-control" name="name">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="image">Enter Image URL</label>
+                <input type="text" class="form-control" name="image" id="">
+            </div>
+            <div class="form-group">
+                <label for="reward">Enter Reward</label>
+                <input type="text" class="form-control" name="reward">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Enter Response for Quiz:</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="quiz">
+                    <% allQuiz.forEach(function(quiz) { %>
+                        <option value="<%= quiz._id %>"><%= quiz.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="score">Enter Score for response of selected quiz: </label>
+                <input type="number" name="score">
+            </div>
+            <div class="form-group"><button class="btn btn-primary">Create</button>
         </form>
-    </div>
-    <%- include("./partials/footer") %>
+
+        </div>
+        <%- include("./partials/footer") %>
