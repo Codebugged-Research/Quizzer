@@ -30,7 +30,7 @@
             <% cards.forEach(function(card){ %>
                 <div class="col-md-3 col-sm-6">
                     <div class="thumbnail">
-                        <img src="<%= card.image %>">
+                        <img src="<%= card.imageURL %>">
                         <form action="/file/<%=card._id%>?_method=DELETE" method="POST">
                             <button class="btn btn-danger">Delete</button>
                         </form>
