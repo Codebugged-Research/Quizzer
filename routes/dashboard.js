@@ -4,6 +4,7 @@ const Quiz = require("../models/quiz");
 const Question = require("../models/question");
 const User = require("../models/user");
 const Subscription = require("../models/subscription");
+const Response = require("../models/response");
 
 router.get("/", verify, async (req, res) => {
   await Quiz.find({}, async (err, allQuiz) => {
@@ -25,7 +26,7 @@ router.get("/", verify, async (req, res) => {
             allUsers.forEach(function (user) {
               userCount++;
             });
-            await Subscription.find().exec((err, allSubs) => {
+            await Subscription.find().exec(async (err, allSubs) => {
               if (err) {
                 console.log(err);
               } else {
@@ -33,13 +34,23 @@ router.get("/", verify, async (req, res) => {
                 allSubs.forEach(function (sub) {
                   subCount++;
                 });
-
-                res.render("adminUI/index", {
-                  allQuiz: allQuiz,
-                  allUsers: allUsers,
-                  quizCount: quizCount,
-                  userCount: userCount,
-                  subCount: subCount,
+                await Response.find().exec((err, allResponses) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    var responseCount = 0;
+                    allResponses.forEach(function (res) {
+                      responseCount++;
+                    });
+                    res.render("adminUI/index", {
+                      allQuiz: allQuiz,
+                      allUsers: allUsers,
+                      quizCount: quizCount,
+                      userCount: userCount,
+                      subCount: subCount,
+                      responseCount: responseCount,
+                    });
+                  }
                 });
               }
             });

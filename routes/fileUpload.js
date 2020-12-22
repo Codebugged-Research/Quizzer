@@ -10,23 +10,26 @@ aws.config.update({
   secretAccessKey: "dc5BXjf/zC1ryGMC4TzxUnQLYsJWPIjQS73kHJx+yf0",
   region: "ams3",
 });
-const uploadBannerEndpoint = new aws.Endpoint("ams3.digitaloceanspaces.com/banner");
-const feedEndpoint = new aws.Endpoint("ams3.digitaloceanspaces.com/feed")
+const uploadBannerEndpoint = new aws.Endpoint(
+  "ams3.digitaloceanspaces.com/banner"
+);
+const feedEndpoint = new aws.Endpoint("ams3.digitaloceanspaces.com/feed");
 const uploadBannerS3 = new aws.S3({
   endpoint: uploadBannerEndpoint,
 });
-const uploadBannerS3 = new aws.S3({
-  endpoint: feedEndpoint,
-});
 
-fileRouter.get("/upload", async (req, res) => {
+fileRouter.get("/", async (req, res) => {
   Card.find().exec((err, cards) => {
     if (err) {
       res.status(400).send(err);
     } else {
-      res.render("adminUI/fileUpload", { cards: cards });
+      res.render("adminUI/allCards", { cards: cards });
     }
   });
+});
+
+fileRouter.get("/upload", async (req, res) => {
+  res.render("adminUI/fileUpload");
 });
 fileRouter.get("/allCards", (req, res) => {
   Card.find().exec((err, cards) => {
@@ -49,7 +52,7 @@ fileRouter.post("/uploadFeed", (req, res) => {
         var url =
           "https://quizaddabox.ams3.digitaloceanspaces.com/feed/" +
           file.originalname;
-        feed = new feed({ fileURL: url ,name: req.body.name});
+        feed = new feed({ fileURL: url, name: req.body.name });
         feed.save();
       },
     }),
