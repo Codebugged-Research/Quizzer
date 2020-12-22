@@ -16,7 +16,7 @@ feedRouter.get("/", (req, res) => {
 feedRouter.get("/upload", (req, res) => {
   res.render("adminUI/feedUpload");
 });
-feed.get("/get",(req, res) => {
+feedRouter.get("/get",(req, res) => {
   File.find().exec((err, files) => {
     if (err) {
       res.status(400).send(err);
