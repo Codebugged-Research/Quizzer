@@ -44,9 +44,9 @@ responseRouter.get("/UserDate/:id", async (req, res) => {
   var today = new Date();
   console.log(today);
   console.log(today.toLocaleString("en-US", {timeZone: "Asia/Kolkata"})); 
-  // // console.log(today.getFullYear());
-  // // console.log(today.getMonth());
-  // // console.log(today.getDate());
+  console.log(today.getHours());
+  console.log(today.getMinutes());
+  console.log(today.getSeconds());
   // res.end();
   // req.json({s:"S"});
   // var today = Date.now();
