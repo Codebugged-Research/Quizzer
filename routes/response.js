@@ -16,14 +16,14 @@ responseRouter.post("/submit", async (req, res) => {
 responseRouter.get("/getByUser/:id", async (req, res) => {
   Response.find({ user: req.params.id })
     .populate("user")
-   .populate({
+    .populate({
       path: "user",
       populate: {
         path: "subscription",
       },
     })
     .populate("quiz")
-   .populate({
+    .populate({
       path: "quiz",
       populate: {
         path: "questions",
@@ -41,42 +41,55 @@ responseRouter.get("/getByUser/:id", async (req, res) => {
 });
 //Get responses by user id and date
 responseRouter.get("/UserDate/:id", async (req, res) => {
-  var today = Date.now();
+  var today = new Date();
+  console.log(today);
+  console.log(today.toLocaleString("en-US", {timeZone: "Asia/Kolkata"})); 
+  // // console.log(today.getFullYear());
+  // // console.log(today.getMonth());
+  // // console.log(today.getDate());
+  // res.end();
+  // req.json({s:"S"});
+  // var today = Date.now();
   Response.find({
     user: req.params.id,
     createdAt: {
       $gte: new Date(
-        new Date(
-          new Date().getFullYear(),
-          new Date().getMonth() + 1,
-          new Date().getDate()
-        ).setHours(00, 00, 00)
+        Date(
+          today.getFullYear(),
+          today.getMonth() + 1,
+          today.getDate(),
+          00,
+          00,
+          00
+        )
       ),
       $lt: new Date(
-        new Date(
-          new Date().getFullYear(),
-          new Date().getMonth() + 1,
-          new Date().getDate()
-        ).setHours(23, 59, 59)
+        Date(
+          today.getFullYear(),
+          today.getMonth() + 1,
+          today.getDate(),
+          23,
+          59,
+          59
+        )
       ),
     },
   })
-   .populate("user")
-   .populate({
+    .populate("user")
+    .populate({
       path: "user",
       populate: {
         path: "subscription",
       },
     })
     .populate("quiz")
-   .populate({
+    .populate({
       path: "quiz",
       populate: {
         path: "questions",
       },
     })
     .exec((err, responses) => {
-      console.log(err);
       if (err) {
         console.log(err);
         res.status(400).send(err);
@@ -88,14 +101,14 @@ responseRouter.get("/UserDate/:id", async (req, res) => {
 responseRouter.get("/getByQuiz/:id", async (req, res) => {
   Response.find({ quiz: req.params.id })
     .populate("user")
-   .populate({
+    .populate({
       path: "user",
       populate: {
         path: "subscription",
       },
     })
     .populate("quiz")
-   .populate({
+    .populate({
       path: "quiz",
       populate: {
         path: "questions",
