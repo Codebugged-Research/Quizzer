@@ -35,7 +35,7 @@ feedRouter.post("/uploadFeed", (req, res) => {
       s3: uploadFeedS3,
       bucket: "quizaddabox",
       acl: "public-read",
-      key: function (req, file, cb) {
+      key: function (reqq, file, cb) {
         cb(null, file.originalname);
         var url =
           "https://quizaddabox.ams3.digitaloceanspaces.com/feed/" +

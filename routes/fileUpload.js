@@ -33,33 +33,6 @@ fileRouter.get("/allCards", (req, res) => {
     }
   });
 });
-// fileRouter.post("/uploadFeed", (req, res) => {
-//   console.log(req.body);
-//   const upload = multer({
-//     storage: multerS3({
-//       s3: uploadFeedrS3,
-//       bucket: "quizaddabox",
-//       acl: "public-read",
-//       key: function (reqq, file, cb) {
-//         cb(null, file.originalname);
-//         var url =
-//           "https://quizaddabox.ams3.digitaloceanspaces.com/feed/" +
-//           file.originalname;
-//         feed = new feed({ fileURL: url ,name: req.body.name});
-//         feed.save();
-//       },
-//     }),
-//   }).array("upload", 1);
-//   upload(req, res, function (error) {
-//     if (error) {
-//       console.log(error);
-//       return res.json({
-//         error: error,
-//       });
-//     }
-//     res.redirect("/feed/upload");
-//   });
-// });
 fileRouter.post("/uploadfile", (req, res) => {
   console.log(req.body);
   const upload = multer({
