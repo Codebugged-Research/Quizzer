@@ -3,6 +3,7 @@ let responseSchema = mongoose.Schema(
   {
     correct: { type: String },
     wrong: { type: String },
+    userRole: String,
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

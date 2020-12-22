@@ -48,7 +48,7 @@ responseRouter.get("/UserDate/:id", async (req, res) => {
       $gte: new Date(
         today.getFullYear(),
         today.getMonth() ,
-        today.getDate()-1,
+        today.getDate(),
         5,
         30,
         0
