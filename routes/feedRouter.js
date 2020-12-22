@@ -16,6 +16,15 @@ feedRouter.get("/", (req, res) => {
 feedRouter.get("/upload", (req, res) => {
   res.render("adminUI/feedUpload");
 });
+feed.get("/get",(req, res) => {
+  File.find().exec((err, files) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      res.json(files);
+    }
+  });
+});
 
 feedRouter.delete("/:id", verify, async (req, res) => {
   await File.findByIdAndRemove(req.params.id, function (err) {
