@@ -3,7 +3,6 @@ const verify = require("./verifyToken");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const Card = require("../models/card");
-const feed = require("../models/file");
 const aws = require("aws-sdk");
 aws.config.update({
   accessKeyId: "AKHJVLMXHVD6T5YWQ4PF",
@@ -11,12 +10,9 @@ aws.config.update({
   region: "ams3",
 });
 const uploadBannerEndpoint = new aws.Endpoint("ams3.digitaloceanspaces.com/banner");
-const feedEndpoint = new aws.Endpoint("ams3.digitaloceanspaces.com/feed")
+
 const uploadBannerS3 = new aws.S3({
   endpoint: uploadBannerEndpoint,
-});
-const uploadFeedS3 = new aws.S3({
-  endpoint: feedEndpoint,
 });
 
 fileRouter.get("/upload", async (req, res) => {
@@ -37,33 +33,33 @@ fileRouter.get("/allCards", (req, res) => {
     }
   });
 });
-fileRouter.post("/uploadFeed", (req, res) => {
-  console.log(req.body);
-  const upload = multer({
-    storage: multerS3({
-      s3: uploadFeedrS3,
-      bucket: "quizaddabox",
-      acl: "public-read",
-      key: function (reqq, file, cb) {
-        cb(null, file.originalname);
-        var url =
-          "https://quizaddabox.ams3.digitaloceanspaces.com/feed/" +
-          file.originalname;
-        feed = new feed({ fileURL: url ,name: req.body.name});
-        feed.save();
-      },
-    }),
-  }).array("upload", 1);
-  upload(req, res, function (error) {
-    if (error) {
-      console.log(error);
-      return res.json({
-        error: error,
-      });
-    }
-    res.redirect("/feed/upload");
-  });
-});
+// fileRouter.post("/uploadFeed", (req, res) => {
+//   console.log(req.body);
+//   const upload = multer({
+//     storage: multerS3({
+//       s3: uploadFeedrS3,
+//       bucket: "quizaddabox",
+//       acl: "public-read",
+//       key: function (reqq, file, cb) {
+//         cb(null, file.originalname);
+//         var url =
+//           "https://quizaddabox.ams3.digitaloceanspaces.com/feed/" +
+//           file.originalname;
+//         feed = new feed({ fileURL: url ,name: req.body.name});
+//         feed.save();
+//       },
+//     }),
+//   }).array("upload", 1);
+//   upload(req, res, function (error) {
+//     if (error) {
+//       console.log(error);
+//       return res.json({
+//         error: error,
+//       });
+//     }
+//     res.redirect("/feed/upload");
+//   });
+// });
 fileRouter.post("/uploadfile", (req, res) => {
   console.log(req.body);
   const upload = multer({
