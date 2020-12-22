@@ -26,7 +26,7 @@ feedRouter.get("/", (req, res) => {
 feedRouter.get("/upload", (req, res) => {
   res.render("adminUI/feedUpload");
 });
-fileRouter.post("/uploadFeed", (req, res) => {
+feedRouter.post("/uploadFeed", (req, res) => {
   console.log(req.body);
   const upload = multer({
     storage: multerS3({
