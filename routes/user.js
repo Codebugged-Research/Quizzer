@@ -52,11 +52,14 @@ userRouter.get("/", async (req, res) => {
   });
 });
 userRouter.post("/", verify, async (req, res) => {
+  var bodyName = req.body.email.split("@");
+  var username = bodyName[0];
   let newUser = {
     name: req.body.name,
     email: req.body.email,
     reward: req.body.reward,
     image: req.body.image,
+    username: username,
     role: "3",
   };
 
@@ -72,6 +75,7 @@ userRouter.post("/", verify, async (req, res) => {
           const newResponse = {
             correct: "10",
             wrong: "0",
+            userRole: "3",
             user: user._id,
             quiz: quiz._id,
             score: req.body.score,
