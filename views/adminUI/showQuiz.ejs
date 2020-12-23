@@ -9,23 +9,28 @@
             <div class="col-md-9">
                 <div class="thumbnail">
                     <div class="caption">
-                        <h4 class="pull-right">
+                        <h5 class="pull-right">
                             Reward :
                             <%= quiz.reward %>
-                        </h4>
+                                <span style="margin-left: 10px;"></span> Slot :
+                                <%= quiz.slot %>
+                        </h5>
                         <p>
                             Created On :
                             <%= quiz.date %>
                         </p>
-                        <h4 class="pull-right">
-                            Slot :
-                            <%= quiz.slot %>
-                        </h4>
+
+                        <h5 class="pull-right">
+                            Duration :
+                            <%= quiz.startTime %> to
+                                <%= quiz.endTime %>
+                        </h5>
 
                         <a class="btn btn-warning" href="/quiz/<%= quiz._id %>/edit">Edit</a>
                         <form class="delete-form" action="/quiz/<%=quiz._id%>?_method=DELETE" method="POST">
                             <button class="btn btn-danger">Delete Quiz</button>
                         </form>
+
                     </div>
                 </div>
 

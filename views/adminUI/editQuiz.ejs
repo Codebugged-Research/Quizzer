@@ -18,6 +18,31 @@
                     <input class="form-control" id="reward" type="text" name="reward" value="<%= quiz.reward %>">
                 </div>
                 <div class="form-group">
+                    <label for="rewardColumn"> Marks to be awarded for each correct answer</label>
+                    <input type="text" id="rewardColumn" class="form-control" name="correct_score" value="<%= quiz.correct_score %>">
+                </div>
+                <div class="form-group">
+                    <label for="rewardColumn">Marks to be deducted for each wrong answer</label>
+                    <input type="text" id="rewardColumn" class="form-control" name="incorrect_score" value="<%= quiz.incorrect_score %>">
+                </div>
+                <div class="form-group">
+                    <label for="start">Start Time for Quiz:</label>
+                    <input class="form-control" type="time" id="start" name="start" value="<%= quiz.startTime %>">
+                </div>
+                <div class="form-group">
+                    <label for="end">End Time for Quiz:</label>
+                    <input class="form-control" type="time" id="end" name="end" value="<%= quiz.endTime %>">
+
+                </div>
+                <div class="form-group">
+                    <label for="minutes">Minutes to be alloted to the user: </label>
+                    <input class="form-control" type="number" name="minutes" value="<%= quiz.minutes %>" id="minutes">
+                </div>
+                <div class="form-group">
+                    <label for="minutes">Seconds to be alloted to the user</label>
+                    <input class="form-control" type="number" name="seconds" value="<%= quiz.seconds %>" id="seconds">
+                </div>
+                <div class="form-group">
                     <button class="btn btn-lg btn-primary btn-block">Update!</button>
                 </div>
             </form>

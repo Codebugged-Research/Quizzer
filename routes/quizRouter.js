@@ -91,6 +91,12 @@ quizRouter.put("/:id", async (req, res) => {
     name: req.body.name,
     slot: req.body.slot,
     reward: req.body.reward,
+    correct_score: req.body.correct_score,
+    incorrect_score: req.body.incorrect_score,
+    startTime: req.body.start,
+    endTime: req.body.end,
+    minutes: req.body.minutes,
+    seconds: req.body.seconds,
   };
   await Quiz.findByIdAndUpdate(
     req.params.id,
