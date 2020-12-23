@@ -47,7 +47,7 @@ responseRouter.get("/UserDate/:id", async (req, res) => {
     createdAt: {
       $gte: new Date(
         today.getFullYear(),
-        today.getMonth() ,
+        today.getMonth(),
         today.getDate(),
         5,
         30,
@@ -55,7 +55,7 @@ responseRouter.get("/UserDate/:id", async (req, res) => {
       ),
       $lte: new Date(
         today.getFullYear(),
-        today.getMonth() ,
+        today.getMonth(),
         today.getDate(),
         today.getHours(),
         today.getMinutes(),
@@ -129,39 +129,5 @@ responseRouter.get("/getByQuiz/:id", async (req, res) => {
 //     }
 //   );
 // });
-responseRouter.put("/:id", async (req, res) => {
-  var newData = {
-    reward: req.body.reward,
-    paid: true,
-  };
-  await Response.findByIdAndUpdate(
-    req.params.id,
-    { $set: newData },
-    async (err, response) => {
-      if (err) {
-        console.log(err);
-      } else {
-        var rewards = parseInt(req.body.reward, 10);
-        var userReward = parseInt(response.user.reward, 10);
-        var total = rewards + userReward;
-        total = "" + total;
-        var newuserData = {
-          reward: total,
-        };
-        await User.findByIdAndUpdate(
-          response.user._id,
-          { $set: newuserData },
-          (err, user) => {
-            if (err) {
-              console.log(err);
-            } else {
-              res.redirect("/quiz/" + response.quiz + "/leaderboard");
-            }
-          }
-        );
-      }
-    }
-  );
-});
 
 module.exports = responseRouter;

@@ -7,12 +7,18 @@ const Subscription = require("../models/subscription");
 const Response = require("../models/response");
 
 router.get("/", verify, async (req, res) => {
-  await Quiz.find({}, async (err, allQuiz) => {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = dd + "/" + mm + "/" + yyyy;
+  await Quiz.find({}, async (err, quizzes) => {
     if (err) {
       console.log(err);
     } else {
       var quizCount = 0;
-      allQuiz.forEach(function (quiz) {
+      quizzes.forEach(function (quiz) {
         quizCount++;
       });
       await User.find({})
@@ -34,7 +40,7 @@ router.get("/", verify, async (req, res) => {
                 allSubs.forEach(function (sub) {
                   subCount++;
                 });
-                await Response.find().exec((err, allResponses) => {
+                await Response.find().exec(async (err, allResponses) => {
                   if (err) {
                     console.log(err);
                   } else {
@@ -42,13 +48,19 @@ router.get("/", verify, async (req, res) => {
                     allResponses.forEach(function (res) {
                       responseCount++;
                     });
-                    res.render("adminUI/index", {
-                      allQuiz: allQuiz,
-                      allUsers: allUsers,
-                      quizCount: quizCount,
-                      userCount: userCount,
-                      subCount: subCount,
-                      responseCount: responseCount,
+                    await Quiz.find({ date: today }).exec((err, allQuiz) => {
+                      if (err) {
+                        console.log(err);
+                      } else {
+                        res.render("adminUI/index", {
+                          allQuiz: allQuiz,
+                          allUsers: allUsers,
+                          quizCount: quizCount,
+                          userCount: userCount,
+                          subCount: subCount,
+                          responseCount: responseCount,
+                        });
+                      }
                     });
                   }
                 });
