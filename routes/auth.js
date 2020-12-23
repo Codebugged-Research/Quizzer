@@ -67,6 +67,7 @@ router.post("/app/login/", async (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword,
+        photoUrl: req.photoUrl,
       });
       const token = jwt.sign(
         { _id: user._id, name: user.name },
