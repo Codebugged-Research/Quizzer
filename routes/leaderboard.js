@@ -9,7 +9,7 @@ leadRouter.get("/", async (req, res) => {
   await Response.find({ quiz: req.params.id })
     .populate("user")
     .populate("quiz")
-    .sort({ role: -1, score: -1, createdAt: 1 })
+    .sort({ userRole: -1, score: -1, createdAt: 1 })
     .collation({ locale: "en_US", numericOrdering: true })
     .exec((err, allResponses) => {
       if (err) {
