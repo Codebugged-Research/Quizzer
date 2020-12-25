@@ -34,6 +34,7 @@ const subscriptionRoute = require("./routes/subscription");
 const fileRoute = require("./routes/fileUpload");
 const leaderboardRoute = require("./routes/leaderboard");
 const feedRoute = require("./routes/feedRouter");
+const offerRoute = require("./routes/offerRouter");
 // const paymentRoute = require("./routes/payment");
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
@@ -71,6 +72,7 @@ app.use("/subscription", subscriptionRoute);
 app.use("/razorPay", razorPayRoute);
 app.use("/file", fileRoute);
 app.use("/feed", feedRoute);
+app.use("/offer", offerRoute);
 // Payment Routes
 app.get("/payments", (req, res) => {
   res.render("adminUI/payment", { key: process.env.KEY_ID });

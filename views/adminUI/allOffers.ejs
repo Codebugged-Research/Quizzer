@@ -1,0 +1,75 @@
+<%- include("./partials/header") %>
+    <link rel="stylesheet" type="text/css" href="./assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./assets/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="./assets/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="./assets/vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="./stylesheets/css/util.css">
+    <link rel="stylesheet" type="text/css" href="./stylesheets/css/main.css">
+    <!--===============================================================================================-->
+    </head>
+
+    <body>
+
+        <div class="limiter">
+
+            <div class="container-table100">
+                <div class="wrap-table100">
+                    <div class="table100">
+                        <div style="padding-bottom: 10px;">
+                            <a class="btn btn-success" href="/offer/add">Create Offer</a>
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr class="table100-head">
+                                    <th class="column1">Name</th>
+                                    <th class="column2">Type</th>
+                                    <th class="column3">Amount</th>
+                                    <th class="column4">Starts On</th>
+                                    <th class="column5">Ends On</th>
+                                    <th class="column6">Redeems</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% allOffers.forEach(function(offer) { %>
+                                    <tr>
+                                        <td class="column1">
+                                            <%= offer.name %>
+                                        </td>
+                                        <td class="column2">
+                                            <%= offer.type %>
+                                        </td>
+                                        <td class="column3">
+                                            ₹
+                                            <%= offer.amount %>
+                                        </td>
+                                        <td class="column4">
+                                            <%= offer.start %>
+                                        </td>
+                                        <td class="column5">
+                                            <%= offer.end %>
+                                        </td>
+                                        <td class="column6">
+                                            <%= offer.redeems %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!--===============================================================================================-->
+        <script src="./assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <script src="./assets/vendor/select2/select2.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="./assets/scripts/offer.js"></script>
+
+        <%- include("./partials/footer") %>

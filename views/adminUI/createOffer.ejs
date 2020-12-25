@@ -1,0 +1,47 @@
+<%- include("./partials/header") %>
+    <h1 style="text-align: center;">
+        Create Offer
+    </h1>
+    <div class="container">
+        <form action="/offer" method="POST">
+
+            <div class="form-group">
+                <label for="name">Enter Offer Name</label>
+                <input type="text" name="name" id="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Enter Offer Description</label>
+                <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Enter discount type</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="type">
+                <option>Flat</option>
+                <option>Percentage</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="percentage">Enter Discount Percentage(* if discount type percentage) :</label>
+                <input type="text" name="percentage" id="percentage" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="amount">Discount Amount</label>
+                <input type="number" name="amount" id="amount" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="start">Offer Valid from: </label>
+                <input type="date" name="start" id="end" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="end">Offer Valid till: </label>
+                <input type="date" name="end" id="end" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-success">Post</button>
+            </div>
+        </form>
+    </div>
+
+    <%- include("./partials/footer") %>
