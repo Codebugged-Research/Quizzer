@@ -15,14 +15,18 @@ offerRouter.get("/add", async (req, res) => {
   res.render("adminUI/createOffer");
 });
 offerRouter.post("/", async (req, res) => {
+  var bdate1 = req.body.start.split("-");
+  var date1 = bdate1[2] + "/" + bdate1[1] + "/" + bdate1[0];
+  var bdate2 = req.body.end.split("-");
+  var date2 = bdate2[2] + "/" + bdate2[1] + "/" + bdate2[0];
   const newOffer = {
     name: req.body.name,
     type: req.body.type,
     description: req.body.description,
     amount: req.body.amount,
     percentage: req.body.percentage,
-    start: req.body.start,
-    end: req.body.end,
+    start: date1,
+    end: date2,
   };
   await Offer.create(newOffer, async (err, offer) => {
     if (err) {
