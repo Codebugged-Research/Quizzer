@@ -51,6 +51,34 @@ userRouter.get("/", async (req, res) => {
     }
   });
 });
+//Get all users with paginatiion
+userRouter.get("/page/:index", async(req,res => {
+  var i,j;
+  await User.find({ role: { $ne: "0" } }, (err, allUsers) => {
+    if (err) {
+      console.log(err);
+    } else {
+      var userCount = 0;
+      var users = [User];
+            allUsers.forEach(function (user) {
+              users.push(user);
+              userCount++;
+    });
+    var userArray = [User];
+    index=req.params.index;
+    for(i=(index*10)-10;i<(index*10);i++) {
+      userArray.push(user[i]);
+    }
+    res.render("adminUI/allUser", {
+        allUser: userArray,
+        index: index,
+        userCount: userCount
+      });
+  }
+    
+  })
+  
+}));
 userRouter.post("/", verify, async (req, res) => {
   var bodyName = req.body.email.split("@");
   var username = bodyName[0];
