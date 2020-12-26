@@ -6,16 +6,47 @@ let Question = require("../models/question");
 let Response = require("../models/response");
 
 //All Quiz list
-quizRouter.get("/", async (req, res) => {
-  await Quiz.find({}, (err, allQuiz) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("adminUI/allQuiz", {
-        allQuiz: allQuiz,
-      });
-    }
-  });
+// quizRouter.get("/", async (req, res) => {
+//   await Quiz.find({}, (err, allQuiz) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.render("adminUI/allQuiz", {
+//         allQuiz: allQuiz,
+//       });
+//     }
+//   });
+// });
+//Pagination Quiz List
+quizRouter.get("/page/:index", async (req, res) => {
+  var i, j;
+  await Quiz.find()
+    .sort({ createdAt: -1 })
+    .exec((err, allQuizzes) => {
+      if (err) {
+        console.log(err);
+      } else {
+        var quizCount = 0;
+        var quizzes = [];
+        allQuizzes.forEach(function (quiz) {
+          quizzes.push(quiz);
+          quizCount++;
+        });
+
+        var quizArray = [];
+        index = parseInt(req.params.index);
+        for (i = index * 10 - 10; i < index * 10; i++) {
+          quizArray.push(quizzes[i]);
+        }
+
+        res.render("adminUI/allQuiz", {
+          allQuiz: quizArray,
+          next: index + 1,
+          prev: index - 1,
+          quizCount: quizCount,
+        });
+      }
+    });
 });
 //Add Quiz
 quizRouter.get("/add", (req, res) => {

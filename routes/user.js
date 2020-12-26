@@ -40,17 +40,17 @@ userRouter.put("/update/:id", async (req, res) => {
   );
 });
 
-userRouter.get("/", async (req, res) => {
-  await User.find({ role: { $ne: "0" } }, (err, allUser) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("adminUI/allUser", {
-        allUser: allUser,
-      });
-    }
-  });
-});
+// userRouter.get("/", async (req, res) => {
+//   await User.find({ role: { $ne: "0" } }, (err, allUser) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.render("adminUI/allUser", {
+//         allUser: allUser,
+//       });
+//     }
+//   });
+// });
 //Get all users with paginatiion
 userRouter.get("/page/:index", async (req, res) => {
   var i, j;
@@ -67,7 +67,7 @@ userRouter.get("/page/:index", async (req, res) => {
 
       var userArray = [];
       index = parseInt(req.params.index);
-      for (i = index * 5 - 5; i < index * 5; i++) {
+      for (i = index * 10 - 10; i < index * 10; i++) {
         userArray.push(users[i]);
       }
 
