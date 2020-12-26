@@ -41,7 +41,7 @@ questionRouter.post("/", verify, async (req, res) => {
           await question.save();
           quiz.questions.push(question);
           await quiz.save();
-          res.redirect("/quiz/" + quiz._id);
+          res.redirect("/quiz/" + quiz._id + "/questions/add");
         }
       });
     }

@@ -59,19 +59,22 @@ userRouter.get("/page/:index", async (req, res) => {
       console.log(err);
     } else {
       var userCount = 0;
-      var users = [User];
+      var users = [];
       allUsers.forEach(function (user) {
         users.push(user);
         userCount++;
       });
-      var userArray = [User];
-      index = req.params.index;
-      for (i = index * 10 - 10; i < index * 10; i++) {
-        userArray.push(user[i]);
+
+      var userArray = [];
+      index = parseInt(req.params.index);
+      for (i = index * 5 - 5; i < index * 5; i++) {
+        userArray.push(users[i]);
       }
+
       res.render("adminUI/allUser", {
         allUser: userArray,
-        index: index,
+        next: index + 1,
+        prev: index - 1,
         userCount: userCount,
       });
     }
