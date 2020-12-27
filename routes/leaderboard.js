@@ -39,14 +39,14 @@ leadRouter.put("/:id", async (req, res) => {
     reward: req.body.reward,
     paid: true,
   };
-  await Response.findByIdAndUpdate(
-    req.params.id,
-    { $set: newData },
-    async (err, response) => {
+  await Response.findByIdAndUpdate(req.params.id, { $set: newData })
+    .populate("user")
+    .exec(async (err, response) => {
       if (err) {
         console.log(err);
       } else {
         var rewards = parseInt(req.body.reward, 10);
+
         var userReward = parseInt(response.user.reward, 10);
         var total = rewards + userReward;
         total = "" + total;
@@ -65,7 +65,6 @@ leadRouter.put("/:id", async (req, res) => {
           }
         );
       }
-    }
-  );
+    });
 });
 module.exports = leadRouter;

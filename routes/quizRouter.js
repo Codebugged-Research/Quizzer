@@ -36,7 +36,11 @@ quizRouter.get("/page/:index", async (req, res) => {
         var quizArray = [];
         index = parseInt(req.params.index);
         for (i = index * 10 - 10; i < index * 10; i++) {
-          quizArray.push(quizzes[i]);
+          if (quizzes[i]) {
+            quizArray.push(quizzes[i]);
+          } else {
+            break;
+          }
         }
 
         res.render("adminUI/allQuiz", {
@@ -89,7 +93,7 @@ quizRouter.post("/", verify, async (req, res) => {
 
   try {
     const savedQuiz = await newQuiz.save();
-    res.redirect("quiz");
+    res.redirect("/quiz/page/1");
   } catch (err) {
     res.status(400).send(err);
   }
@@ -102,7 +106,7 @@ quizRouter.post("/date", async (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.render("adminUI/allQuiz", { allQuiz: allQuiz });
+      res.render("adminUI/quizbyDate", { allQuiz: allQuiz });
     }
   });
 });
@@ -148,7 +152,7 @@ quizRouter.delete("/:id", verify, async (req, res) => {
     if (err) {
       console.log("PROBLEM!");
     } else {
-      res.redirect("/quiz/");
+      res.redirect("/quiz/page/1");
     }
   });
 });

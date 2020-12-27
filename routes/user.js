@@ -68,7 +68,11 @@ userRouter.get("/page/:index", async (req, res) => {
       var userArray = [];
       index = parseInt(req.params.index);
       for (i = index * 10 - 10; i < index * 10; i++) {
-        userArray.push(users[i]);
+        if (users[i]) {
+          userArray.push(users[i]);
+        } else {
+          break;
+        }
       }
 
       res.render("adminUI/allUser", {
@@ -114,7 +118,7 @@ userRouter.post("/", verify, async (req, res) => {
             if (err) {
               console.log(err);
             } else {
-              res.redirect("/user");
+              res.redirect("/user/page/1");
             }
           });
         }

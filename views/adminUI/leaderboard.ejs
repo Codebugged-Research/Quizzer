@@ -27,13 +27,14 @@
                                         <th><span>Score</span></th>
                                         <th class="text-center"><span>Correct</span></th>
                                         <th><span>Wrong</span></th>
-                                        <th>Reward</th>
-                                        <th>&nbsp;</th>
+                                        <th><span>Rank</span></th>
+                                        <th><span>Status</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% allResponses.forEach(function(response) { %>
-                                        <% var i=0; %>
+                                    <% var i=1; %>
+                                        <% allResponses.forEach(function(response) { %>
+
                                             <tr>
                                                 <td>
                                                     <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
@@ -59,60 +60,14 @@
 
                                                 </td>
                                                 <td style="width: 20%">
-                                                    <% if(response.user.role==="2") { %>
-                                                        <a href="#" class="table-link">
-                                                            <span class="material-icons"> verified </span>
-                                                        </a>
-                                                        <% } %>
-                                                            <% if(response.user.role==="3") { %>
-                                                                <a href="#" class="table-link">
-                                                                    <span class="material-icons"> face </span>
-                                                                </a>
-                                                                <% } %>
-                                                                    <% if(response.user.role==="3") { %>
-                                                                        <a href="/user/<%= response.user._id %>/edit" class="table-link">
-                                                                            <span class="fa-stack">
-                          <i class="fa fa-square fa-stack-2x"></i>
-                          <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                        </span>
-                                                                        </a>
-                                                                        <% } %>
-                                                                            <a href="#" class="table-link danger">
-                                                                                <span class="fa-stack">
-                          <i class="fa fa-square fa-stack-2x"></i>
-                          <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                        </span>
-                                                                            </a>
+                                                    <%= i %>
                                                 </td>
+
                                                 <td>
                                                     <% if(i<5 && !response.paid) { %>
-                                                        <button class="btn btn-warning" data-toggle="modal" data-target="#myModal">Pay Reward</button>
-                                                        <div id="myModal" class="modal fade" role="dialog">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-                                                                        <h4 class="modal-title">
-                                                                            <%= response.user.name %> : Rank
-                                                                                <%= i+1 %>
-                                                                        </h4>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <form action="/quiz/<%= response.quiz._id %>/leaderboard/<%= response._id %>?_method=PUT" method="POST">
-                                                                            <label for="reward">Enter the reward to be paid</label>
-                                                                            <input type="number" name="reward" id="reward">
-                                                                            <button type="submit">Pay</button>
-                                                                        </form>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" id="order-button1" class="btn btn-default" data-dismiss="modal">Yes</button>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
+                                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#<%= response.user.name %>">
+                                                        Pay Reward
+                                                        </button>
                                                         <% } %>
                                                             <% if(response.paid) { %>
                                                                 <span class="material-icons">
@@ -121,6 +76,35 @@
                                                                 <% } %>
                                                 </td>
                                             </tr>
+                                            <div class="modal fade" id="<%= response.user.name %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLongTitle">Pay
+                                                                <%= response.user.name %>
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h6>UPI ID:
+                                                                <%= response.user.fundAccount %>
+                                                            </h6>
+                                                            <form action="/quiz/<%= response.quiz._id %>/leaderboard/<%= response._id %>?_method=PUT" method="POST">
+                                                                <div class="form-group">
+                                                                    <label for="reward">Enter reward amount :</label>
+                                                                    <input type="text" name="reward" id="reward">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <button type="submit" class="btn btn-primary">Pay</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                             <% i++; %>
                                                 <% }) %>
