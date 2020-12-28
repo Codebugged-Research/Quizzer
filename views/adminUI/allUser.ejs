@@ -32,7 +32,8 @@
                                     <% allUser.forEach(function(user) { %>
                                         <tr>
                                             <td>
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
+                                                <img src="<%= user.image %>" alt="" />
+                                                <!-- <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /> -->
                                                 <a href="/user/<%= user._id %>" class="user-link">
                                                     <%= user.name %>
                                                 </a>
