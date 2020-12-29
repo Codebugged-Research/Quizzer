@@ -27,7 +27,8 @@ const userSchema = new mongoose.Schema(
     dob: {
       type: Date,
     },
-    interests: [{ type: String }],
+    interests: { type: Array },    
+    exams: { type: Array },
     role: {
       type: String,
       default: "1",
