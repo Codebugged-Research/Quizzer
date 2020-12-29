@@ -89,7 +89,7 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <h6>UPI ID:
-                                                                <%= response.user.fundAccount %>
+                                                                <%= response.user.upiId %>
                                                             </h6>
                                                             <form action="/quiz/<%= response.quiz._id %>/leaderboard/<%= response._id %>?_method=PUT" method="POST">
                                                                 <div class="form-group">

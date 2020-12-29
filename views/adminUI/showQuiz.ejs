@@ -8,23 +8,28 @@
             </div>
             <div class="col-md-9">
                 <div class="thumbnail">
-                    <div class="caption">
-                        <h5 class="pull-right">
-                            Reward :
-                            <%= quiz.reward %>
-                                <span style="margin-left: 10px;"></span> Slot :
-                                <%= quiz.slot %>
-                        </h5>
+                    <div class="caption" style="width: 100%;">
+
                         <p>
                             Created On :
                             <%= quiz.date %>
                         </p>
+                        <div class="pull-right">
+                            <h5>
+                                Reward :
+                                <%= quiz.reward %>
+                                    <span style="margin-left: 10px;"></span> Slot :
+                                    <%= quiz.slot %>
+                            </h5>
+                            <br>
+                            <h5>
+                                Duration :
+                                <%= quiz.startTime %> to
+                                    <%= quiz.endTime %>
+                            </h5>
+                        </div>
 
-                        <h5 class="pull-right">
-                            Duration :
-                            <%= quiz.startTime %> to
-                                <%= quiz.endTime %>
-                        </h5>
+
 
                         <a class="btn btn-warning" href="/quiz/<%= quiz._id %>/edit">Edit</a>
                         <form class="delete-form" action="/quiz/<%=quiz._id%>?_method=DELETE" method="POST">
@@ -36,7 +41,16 @@
 
             </div>
         </div>
-
+        <div class="card-deck" style="padding-left: 20px;">
+            <div class="row">
+                <div class="card-body">
+                    <a class="btn btn-success" href="/quiz/<%= quiz._id %>/questions/add">Add new question</a>
+                </div>
+                <div class="card-body">
+                    <a href="/quiz/<%= quiz._id %>/leaderboard" class="btn btn-info">View Leaderboard</a>
+                </div>
+            </div>
+        </div>
         <% var i=1; %>
 
             <% quiz.questions.forEach(function(question) { %>
@@ -83,16 +97,7 @@
                     <% }) %>
 
 
-                        <div class="card-deck">
-                            <div class="row">
-                                <div class="card-body">
-                                    <a class="btn btn-success" href="/quiz/<%= quiz._id %>/questions/add">Add new question</a>
-                                </div>
-                                <div class="card-body">
-                                    <a href="/quiz/<%= quiz._id %>/leaderboard" class="btn btn-info">View Leaderboard</a>
-                                </div>
-                            </div>
-                        </div>
+
 
 
 

@@ -32,6 +32,11 @@ quizRouter.get("/page/:index", async (req, res) => {
           quizzes.push(quiz);
           quizCount++;
         });
+        var pages = parseInt(quizCount / 10);
+        var add = quizCount % 10;
+        if (add > 0) {
+          pages++;
+        }
 
         var quizArray = [];
         index = parseInt(req.params.index);
@@ -48,6 +53,7 @@ quizRouter.get("/page/:index", async (req, res) => {
           next: index + 1,
           prev: index - 1,
           quizCount: quizCount,
+          pages: pages,
         });
       }
     });

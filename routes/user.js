@@ -64,6 +64,11 @@ userRouter.get("/page/:index", async (req, res) => {
         users.push(user);
         userCount++;
       });
+      var pages = parseInt(userCount / 10);
+      var add = userCount % 10;
+      if (add > 0) {
+        pages++;
+      }
 
       var userArray = [];
       index = parseInt(req.params.index);
@@ -80,19 +85,19 @@ userRouter.get("/page/:index", async (req, res) => {
         next: index + 1,
         prev: index - 1,
         userCount: userCount,
+        pages: pages,
       });
     }
   });
 });
 userRouter.post("/", verify, async (req, res) => {
-  var bodyName = req.body.email.split("@");
-  var username = bodyName[0];
+  var email = req.body.username + "@gmail.com";
   let newUser = {
     name: req.body.name,
-    email: req.body.email,
+    email: email,
     reward: req.body.reward,
-    image: req.body.image,
-    username: username,
+    photoUrl: req.body.image,
+    username: req.body.username,
     role: "3",
   };
 

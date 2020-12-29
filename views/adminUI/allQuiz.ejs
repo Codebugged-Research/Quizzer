@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Quiz</title>
     <link href="/stylesheets/main.css" type="text/css" rel="stylesheet">
+    <style>
+        a.disable {
+            pointer-events: none;
+        }
+    </style>
 </head>
 <%- include("./partials/header") %>
     <div class="container">
@@ -48,21 +53,51 @@
         </div>
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="/quiz/page/<%= prev %>" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="/quiz/page/<%= next %>" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
+                <% if(prev >= 1) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="/quiz/page/<%= prev %>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <% } %>
+                        <% if(prev < 1) { %>
+                            <li class="page-item">
+                                <a class="page-link disable" href="/quiz/page/<%= prev %>" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <% } %>
+                                <li class="page-item"><a class="page-link" href="/quiz/page/1">1</a></li>
+                                <% if(pages >= 2) { %>
+                                    <li class="page-item"><a class="page-link" href="/quiz/page/2">2</a></li>
+                                    <% } %>
+                                        <% if(pages < 2) { %>
+                                            <li class="page-item "><a class="page-link disable" href="#">2</a></li>
+                                            <% } %>
+                                                <% if(pages >= 3) { %>
+                                                    <li class="page-item"><a class="page-link" href="/quiz/page/3">3</a></li>
+                                                    <% } %>
+                                                        <% if(pages < 3) { %>
+                                                            <li class="page-item"><a class="page-link disable" href="/quiz/page/3">3</a></li>
+                                                            <% } %>
+                                                                <% if(next<=pages) { %>
+                                                                    <li class="page-item">
+                                                                        <a class="page-link" href="/quiz/page/<%= next %>" aria-label="Next">
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span class="sr-only">Next</span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <% } %>
+                                                                        <% if(next>pages) { %>
+                                                                            <li class="page-item">
+                                                                                <a class="page-link disable" href="#" aria-label="Next">
+                                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                                    <span class="sr-only">Next</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <% } %>
             </ul>
         </nav>
     </div>

@@ -21,18 +21,14 @@
                         <div class="page-title-wrapper">
                             <div class="page-title-heading">
                                 <div class="page-title-icon">
-                                    <span>
-                                        <img src="/assets/images/web_hi_res_512.png" alt="" height="50" width="50">
-                                    </span>
-
-
+                                    <img src="/assets/images/web_hi_res_512.png" alt="" height="50" width="50">
                                 </div>
                                 <div>Quiz Adda Analytics Dashboard
                                     <div class="page-title-subheading">This is a dashboard which shows the analytics of your application
                                     </div>
                                 </div>
                             </div>
-                            <div class="page-title-actions">
+                            <!-- <div class="page-title-actions">
                                 <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom" class="btn-shadow mr-3 btn btn-dark">
                                         <i class="fa fa-star"></i>
                                     </button>
@@ -82,7 +78,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="card-deck mb-3">
@@ -171,7 +167,12 @@
                                                             <div class="widget-content p-0">
                                                                 <div class="widget-content-wrapper">
                                                                     <div class="widget-content-left mr-3">
-                                                                        <img width="42" class="rounded-circle" src="/assets/images/avatars/9.jpg" alt="">
+                                                                        <% if(user.photoUrl) { %>
+                                                                            <img src="<%= user.photoUrl %>" alt="Admin" class="rounded-circle" height="45" width="45">
+                                                                            <% } %>
+                                                                                <% if(!user.photoUrl) { %>
+                                                                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" alt="" height="45" width="45" />
+                                                                                    <% } %>
                                                                     </div>
                                                                     <div class="widget-content-left">
                                                                         <div class="widget-heading">
