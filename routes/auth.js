@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const { registerValidation, loginValidation } = require("../validation");
 
 router.get("/login", (req, res) => {
-  res.render("login");
+  res.render("adminUI/login");
 });
 
 router.post("/register", async (req, res) => {

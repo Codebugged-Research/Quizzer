@@ -5,28 +5,35 @@
                 <h1>
                     <%= quiz.name %>
                 </h1>
+
             </div>
             <div class="col-md-9">
                 <div class="thumbnail">
                     <div class="caption" style="width: 100%;">
 
                         <p>
+                            <strong>
                             Created On :
                             <%= quiz.date %>
+                            </strong>
                         </p>
                         <div class="pull-right">
                             <h5>
                                 Reward :
+
                                 <%= quiz.reward %>
                                     <span style="margin-left: 10px;"></span> Slot :
                                     <%= quiz.slot %>
-                            </h5>
-                            <br>
-                            <h5>
-                                Duration :
-                                <%= quiz.startTime %> to
-                                    <%= quiz.endTime %>
-                            </h5>
+
+                                        <h5>
+
+                                            <h5>
+
+                                                Duration :
+                                                <%= quiz.startTime %> to
+                                                    <%= quiz.endTime %>
+
+                                            </h5>
                         </div>
 
 
