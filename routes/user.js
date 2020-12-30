@@ -80,7 +80,7 @@ userRouter.get("/page/:index", async (req, res) => {
         }
       }
 
-      res.render("adminUI/allUser", {
+      res.render("adminUI/newUserTable", {
         allUser: userArray,
         next: index + 1,
         prev: index - 1,

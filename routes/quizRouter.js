@@ -75,17 +75,18 @@ quizRouter.get("/:id", async (req, res) => {
     });
 });
 quizRouter.post("/", verify, async (req, res) => {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, "0");
-  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var yyyy = today.getFullYear();
+  // var today = new Date();
+  // var dd = String(today.getDate()).padStart(2, "0");
+  // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  // var yyyy = today.getFullYear();
 
-  today = dd + "/" + mm + "/" + yyyy;
-  // var startTime = new Date(req.body.start);
-  // var endTime = new Date(req.body.end);
+  // today = dd + "/" + mm + "/" + yyyy;
+  var bodyDate = req.body.date.split("-");
+  var today = bodyDate[2] + "/" + bodyDate[1] + "/" + bodyDate[0];
 
   const newQuiz = new Quiz({
     name: req.body.name,
+    description: req.body.description,
     slot: req.body.slot,
     reward: req.body.reward,
     correct_score: req.body.correct_score,
@@ -130,6 +131,7 @@ quizRouter.get("/:id/edit", verify, async (req, res) => {
 quizRouter.put("/:id", async (req, res) => {
   var newData = {
     name: req.body.name,
+    description: req.body.description,
     slot: req.body.slot,
     reward: req.body.reward,
     correct_score: req.body.correct_score,
