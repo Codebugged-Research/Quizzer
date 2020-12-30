@@ -109,7 +109,6 @@ userRouter.post("/", verify, async (req, res) => {
         if (err) {
           console.log(err);
         } else {
-          console.log(quiz.name);
           const newResponse = {
             correct: "10",
             wrong: "0",

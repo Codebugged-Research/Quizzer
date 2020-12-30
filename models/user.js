@@ -27,23 +27,24 @@ const userSchema = new mongoose.Schema(
     dob: {
       type: Date,
     },
-    interests: { type: Array },    
+    interests: { type: Array },
     exams: { type: Array },
     role: {
       type: String,
       default: "1",
     },
-    photoUrl:{
-      type:String,
+    photoUrl: {
+      type: String,
+      default: "https://quizaddabox.ams3.digitaloceanspaces.com/dummy.png",
     },
-    upiId:{
-      type: String
+    upiId: {
+      type: String,
     },
-    contactId:{
-      type:String,
+    contactId: {
+      type: String,
     },
-    fundAccount:{
-      type:String,
+    fundAccount: {
+      type: String,
     },
     subscription: {
       type: mongoose.Schema.Types.ObjectId,
