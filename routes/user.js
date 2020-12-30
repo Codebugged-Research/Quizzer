@@ -116,6 +116,7 @@ userRouter.post("/", verify, async (req, res) => {
             userRole: "3",
             user: user._id,
             quiz: quiz._id,
+            reward: quiz.reward,
             score: req.body.score,
             paid: true,
           };

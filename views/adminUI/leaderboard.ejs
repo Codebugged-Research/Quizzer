@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="/stylesheets/user.css" />
-
+    <style>
+        a.disable {
+            pointer-events: none;
+        }
+    </style>
 </head>
 <%- include("./partials/header") %>
 
@@ -149,21 +153,51 @@
                         </script> -->
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
+                                <% if(prev >= 1) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/quiz/<%= quizId %>/leaderboard/page/<%= prev %>" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                        <% if(prev < 1) { %>
+                                            <li class="page-item">
+                                                <a class="page-link disable" href="/quiz/<%= quizId %>/leaderboard/page/<%= prev %>" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
+                                            <% } %>
+                                                <li class="page-item"><a class="page-link" href="/quiz/<%= quizId %>/leaderboard/page/1">1</a></li>
+                                                <% if(pages >= 2) { %>
+                                                    <li class="page-item"><a class="page-link" href="/quiz/<%= quizId %>/leaderboard/page/2">2</a></li>
+                                                    <% } %>
+                                                        <% if(pages < 2) { %>
+                                                            <li class="page-item "><a class="page-link disable" href="#">2</a></li>
+                                                            <% } %>
+                                                                <% if(pages >= 3) { %>
+                                                                    <li class="page-item"><a class="page-link" href="/quiz/<%= quizId %>/leaderboard/page/3">3</a></li>
+                                                                    <% } %>
+                                                                        <% if(pages < 3) { %>
+                                                                            <li class="page-item "><a class="page-link disable" href="/quiz/<%= quizId %>/leaderboard/page/3">3</a></li>
+                                                                            <% } %>
+                                                                                <% if(next<=pages) { %>
+                                                                                    <li class="page-item">
+                                                                                        <a class="page-link" href="/quiz/<%= quizId %>/leaderboard/page/<%= next %>" aria-label="Next">
+                                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                                            <span class="sr-only">Next</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <% } %>
+                                                                                        <% if(next>pages) { %>
+                                                                                            <li class="page-item">
+                                                                                                <a class="page-link disable" href="#" aria-label="Next">
+                                                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                                                    <span class="sr-only">Next</span>
+                                                                                                </a>
+                                                                                            </li>
+                                                                                            <% } %>
                             </ul>
                         </nav>
                     </div>

@@ -7,6 +7,7 @@ const http = require("http");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
+
 const Razorpay = require("razorpay");
 var Quiz = require("./models/quiz");
 var Question = require("./models/question");
@@ -23,6 +24,7 @@ mongoose.connect(
   },
   () => console.log("Connected to db")
 );
+
 const razorPayRoute = require("./routes/payment");
 const authRoute = require("./routes/auth");
 const dashboardRoute = require("./routes/dashboard");
@@ -104,8 +106,8 @@ app.use("/offer", offerRoute);
 //   res.send(response);
 // });
 
-// app.listen(3000, () => console.log("Server started"));
-const httpServer = http.createServer(app);
-httpServer.listen(80, () => {
-  console.log("HTTP Server running on port 80");
-});
+app.listen(3000, () => console.log("Server started"));
+// const httpServer = http.createServer(app);
+// httpServer.listen(80, () => {
+//   console.log("HTTP Server running on port 80");
+// });

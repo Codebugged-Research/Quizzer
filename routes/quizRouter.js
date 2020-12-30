@@ -19,7 +19,7 @@ let Response = require("../models/response");
 // });
 //Pagination Quiz List
 quizRouter.get("/page/:index", async (req, res) => {
-  var i, j;
+  var i;
   await Quiz.find()
     .sort({ createdAt: -1 })
     .exec((err, allQuizzes) => {

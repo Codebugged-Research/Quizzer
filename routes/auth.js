@@ -45,9 +45,15 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { error } = loginValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
+  // if (error) {
+  //   req.flash("error", error.details[0].message);
+  //   return res.render("adminUI/login");
+  // }
 
   const user = await User.findOne({ email: req.body.email });
-  if (!user || user.role != "0") return res.status(400).send("Access Denied");
+  if (!user || user.role != "0") {
+    return res.status(400).send("Access Denied");
+  }
 
   const validPass = await bcrypt.compare(req.body.password, user.password);
   if (!validPass) return res.status(400).send("Invalid Password");

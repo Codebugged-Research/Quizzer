@@ -5,7 +5,7 @@ const Quiz = require("../models/quiz");
 const Response = require("../models/response");
 const User = require("../models/user");
 //Quiz Leaderboard
-leadRouter.get("/", async (req, res) => {
+leadRouter.get("/page/:index", async (req, res) => {
   await Response.find({ quiz: req.params.id })
     .populate("user")
     .populate("quiz")
@@ -16,7 +16,36 @@ leadRouter.get("/", async (req, res) => {
         console.log(err);
         res.status(400).send(err);
       } else {
-        res.render("adminUI/leaderboard", { allResponses: allResponses });
+        var responseCount = 0;
+        var responses = [];
+        allResponses.forEach(function (response) {
+          responses.push(response);
+          responseCount++;
+        });
+        var pages = parseInt(responseCount / 10);
+        var add = responseCount % 10;
+        if (add > 0) {
+          pages++;
+        }
+
+        var responseArray = [];
+        index = parseInt(req.params.index);
+        for (i = index * 10 - 10; i < index * 10; i++) {
+          if (responses[i]) {
+            responseArray.push(responses[i]);
+          } else {
+            break;
+          }
+        }
+
+        res.render("adminUI/leaderboard", {
+          allResponses: responseArray,
+          next: index + 1,
+          prev: index - 1,
+          responseCount: responseCount,
+          pages: pages,
+          quizId: req.params.id,
+        });
       }
     });
 });

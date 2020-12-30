@@ -21,10 +21,9 @@ offerRouter.post("/", async (req, res) => {
   var date2 = bdate2[2] + "/" + bdate2[1] + "/" + bdate2[0];
   const newOffer = {
     name: req.body.name,
-    type: req.body.type,
+    type: "flat",
     description: req.body.description,
     amount: req.body.amount,
-    percentage: req.body.percentage,
     start: date1,
     end: date2,
   };
