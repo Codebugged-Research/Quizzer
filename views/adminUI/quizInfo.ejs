@@ -6,13 +6,13 @@
         <div class="card ">
 
             <div class="card-body">
-                <h5 class="card-title">Description
-                    <h5>
-                        <p class="card-text">
+                <h5 class="card-title">Description :
+                </h5>
+                <p class="card-text">
 
-                            <%= quiz.description %>
+                    <%= quiz.description %>
 
-                        </p>
+                </p>
             </div>
         </div>
         <div class="row">
@@ -25,8 +25,10 @@
                             <%= quiz.date %>
                             </strong>
                         </p>
-                        <a href="" class="btn btn-warning">Edit</a>
-                        <a href="" class="btn btn-danger">Delete</a>
+                        <a href="/quiz/<%= quiz._id %>/edit" class="btn btn-warning">Edit</a>
+                        <form class="delete-form" action="/quiz/<%=quiz._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete Quiz</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -34,8 +36,11 @@
                 <div class="card ">
                     <div class="card-body">
                         <h5 class="card-title">Reward:
-                            <%= quiz.reward %> <span>&nbsp;</span> Slot:
-                                <%= quiz.slot %>
+                            <%= quiz.reward %>
+                        </h5>
+                        <h5 class="card-title">
+                            Slot:
+                            <%= quiz.slot %>
                         </h5>
                         <span>&nbsp;</span>
                         <h5 class="card-text">Duration:

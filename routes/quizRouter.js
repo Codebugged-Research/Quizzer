@@ -129,6 +129,8 @@ quizRouter.get("/:id/edit", verify, async (req, res) => {
 });
 
 quizRouter.put("/:id", async (req, res) => {
+  var bodyDate = req.body.date.split("-");
+  var today = bodyDate[2] + "/" + bodyDate[1] + "/" + bodyDate[0];
   var newData = {
     name: req.body.name,
     description: req.body.description,
@@ -136,6 +138,7 @@ quizRouter.put("/:id", async (req, res) => {
     reward: req.body.reward,
     correct_score: req.body.correct_score,
     incorrect_score: req.body.incorrect_score,
+    date: today,
     startTime: req.body.start,
     endTime: req.body.end,
     minutes: req.body.minutes,

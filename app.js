@@ -14,6 +14,7 @@ var Question = require("./models/question");
 var User = require("./models/user");
 dotenv.config();
 let app = express();
+
 mongoose.connect(
   process.env.DATABASE,
   {
@@ -59,9 +60,10 @@ app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// app.get("/", function (req, res) {
-//   res.send("server is live");
-// });
+app.get("/", function (req, res) {
+  res.redirect("/login");
+});
+
 app.use(authRoute);
 app.use("/api/admin/dashboard", dashboardRoute);
 app.use("/quiz", quizRoute);
@@ -106,8 +108,8 @@ app.use("/offer", offerRoute);
 //   res.send(response);
 // });
 
-// app.listen(3000, () => console.log("Server started"));
-const httpServer = http.createServer(app);
-httpServer.listen(80, () => {
-  console.log("HTTP Server running on port 80");
-});
+app.listen(3000, () => console.log("Server started"));
+// const httpServer = http.createServer(app);
+// httpServer.listen(80, () => {
+//   console.log("HTTP Server running on port 80");
+// });
