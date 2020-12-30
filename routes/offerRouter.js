@@ -37,4 +37,14 @@ offerRouter.post("/", async (req, res) => {
     }
   });
 });
+//App routes
+offerRouter.get("/app", async (req, res) => {
+  await Offer.find().exec((err, allOffers) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(allOffers);
+    }
+  });
+});
 module.exports = offerRouter;
