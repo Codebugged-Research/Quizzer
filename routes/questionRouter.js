@@ -5,14 +5,20 @@ var Quiz = require("../models/quiz");
 var Question = require("../models/question");
 
 questionRouter.get("/add", verify, async (req, res) => {
-  console.log(req.params.id);
-  await Quiz.findById(req.params.id, function (err, quiz) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("adminUI/questionsCreate", { quiz: quiz });
-    }
-  });
+  await Quiz.findById(req.params.id)
+    .populate("questions")
+    .exec((err, quiz) => {
+      if (err) {
+        console.log(err);
+      } else {
+        var qCount = 0;
+        quiz.questions.forEach(function (question) {
+          qCount++;
+        });
+
+        res.render("adminUI/questionsCreate", { quiz: quiz, qCount: qCount });
+      }
+    });
 });
 questionRouter.post("/", verify, async (req, res) => {
   let desc = req.body.description;
@@ -47,8 +53,7 @@ questionRouter.post("/", verify, async (req, res) => {
     }
   });
 });
-questionRouter.get("/:questionId/edit", verify, async (req, res) => {
-  // find campground by id
+questionRouter.get("/qz/:questionId/edit", verify, async (req, res) => {
   await Question.findById(req.params.questionId, (err, question) => {
     if (err) {
       console.log(err);
@@ -60,8 +65,20 @@ questionRouter.get("/:questionId/edit", verify, async (req, res) => {
     }
   });
 });
+questionRouter.get("/qn/:questionId/edit", verify, async (req, res) => {
+  await Question.findById(req.params.questionId, (err, question) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("adminUI/questionEdit", {
+        quiz_id: req.params.id,
+        question: question,
+      });
+    }
+  });
+});
 
-questionRouter.put("/:questionId", async (req, res) => {
+questionRouter.put("/qz/:questionId", async (req, res) => {
   var newData = {
     description: req.body.description,
     options: [
@@ -85,13 +102,41 @@ questionRouter.put("/:questionId", async (req, res) => {
     }
   );
 });
+questionRouter.put("/qn/:questionId", async (req, res) => {
+  var newData = {
+    description: req.body.description,
+    options: [
+      req.body.option1,
+      req.body.option2,
+      req.body.option3,
+      req.body.option4,
+    ],
+    answer: req.body.answer,
+  };
+  await Question.findByIdAndUpdate(
+    req.params.questionId,
+    //To be modified
+    { $set: newData },
+    (err, question) => {
+      if (err) {
+        res.render("edit");
+      } else {
+        res.redirect("/quiz/" + req.params.id + "/questions/add");
+      }
+    }
+  );
+});
 
-questionRouter.delete("/:questionId", verify, async (req, res) => {
+questionRouter.delete("/:from/:questionId", verify, async (req, res) => {
   await Question.findByIdAndRemove(req.params.questionId, function (err) {
     if (err) {
       console.log("PROBLEM!");
     } else {
-      res.redirect("/quiz/" + req.params.id);
+      if (req.params.from === "qn") {
+        res.redirect("/quiz/" + req.params.id + "/questions/add");
+      } else {
+        res.redirect("/quiz/" + req.params.id);
+      }
     }
   });
 });
