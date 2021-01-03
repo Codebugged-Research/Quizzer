@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const path = require("path");
 const cors = require("cors");
 const http = require("http");
+var admin = require("firebase-admin");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
@@ -13,6 +14,14 @@ var Question = require("./models/question");
 var User = require("./models/user");
 dotenv.config();
 let app = express();
+
+
+var serviceAccount = require("./fb/serviceAccountKey.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
+
 mongoose.connect(
   process.env.DATABASE,
   {
@@ -34,6 +43,7 @@ const subscriptionRoute = require("./routes/subscription");
 const fileRoute = require("./routes/fileUpload");
 const leaderboardRoute = require("./routes/leaderboard");
 const feedRoute = require("./routes/feedRouter");
+const fcmRoute = require("./routes/notification");
 // const paymentRoute = require("./routes/payment");
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
@@ -67,6 +77,7 @@ app.use("/quiz/:id/leaderboard", leaderboardRoute);
 app.use("/user", userRoute);
 //POST response
 app.use("/response", responseRoute);
+app.use("/fcm", fcmRoute);
 app.use("/subscription", subscriptionRoute);
 app.use("/razorPay", razorPayRoute);
 app.use("/file", fileRoute);
@@ -102,8 +113,8 @@ app.post("/api/payment/verify", (req, res) => {
   res.send(response);
 });
 
-app.listen(3000, () => console.log("Server started"));
-// const httpServer = http.createServer(app);
-// httpServer.listen(80, () => {
-//   console.log("HTTP Server running on port 80");
-// });
+// app.listen(3000, () => console.log("Server started"));
+const httpServer = http.createServer(app);
+httpServer.listen(80, () => {
+  console.log("HTTP Server running on port 80");
+});
