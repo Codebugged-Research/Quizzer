@@ -4,20 +4,8 @@ const verify = require("./verifyToken");
 let Quiz = require("../models/quiz");
 let Question = require("../models/question");
 let Response = require("../models/response");
+var admin = require("firebase-admin");
 
-//All Quiz list
-// quizRouter.get("/", async (req, res) => {
-//   await Quiz.find({}, (err, allQuiz) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       res.render("adminUI/allQuiz", {
-//         allQuiz: allQuiz,
-//       });
-//     }
-//   });
-// });
-//Pagination Quiz List
 quizRouter.get("/page/:index", async (req, res) => {
   var i;
   await Quiz.find()
@@ -100,6 +88,28 @@ quizRouter.post("/", verify, async (req, res) => {
 
   try {
     const savedQuiz = await newQuiz.save();
+    var payload = {
+      notification: {
+        title: "New Quiz Update !",
+        body: `New quiz "${req.body.name}" has been added.`,
+      },
+    };
+    var topic = "quiz";
+    admin
+      .messaging()
+      .sendToTopic(topic, payload)
+      .then(function (response) {
+        console.log("true");
+        // return res.json({
+        //   message: "Successfully Send",
+        // });
+      })
+      .catch(function (error) {
+        console.log("false");
+        // return res.json({
+        //   message: "Not Send",
+        // });
+      });
     res.redirect("/quiz/page/1");
   } catch (err) {
     res.status(400).send(err);

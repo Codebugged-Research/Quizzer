@@ -33,12 +33,12 @@ notificationrouter.post('/single', (req, res) => {
   notificationrouter.post('/all', (req, res) => {
     var payload = {
       notification: {
-        title: req.body.title,
-        body: req.body.message,
+        title: "New Quiz Update !",
+        body: `New quiz "${req.body.quizname}" has been added.` ,
       },
     };
   
-    var topic = req.body.topic;
+    var topic = "quiz";
   
     admin
       .messaging()
