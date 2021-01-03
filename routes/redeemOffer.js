@@ -7,9 +7,8 @@ module.exports = async (req, res, next) => {
       if (offer.name === "No Offer") {
         next();
       } else {
-        updateOffer = offer + 1;
         var newData = {
-          offer: updateOffer,
+          redeems: offer.redeems + 1,
         };
         await Offer.findByIdAndUpdate(
           offer._id,
