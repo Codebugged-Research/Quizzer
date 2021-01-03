@@ -42,6 +42,9 @@ const userSchema = new mongoose.Schema(
     },
     contactId: {
       type: String,
+    },    
+    deviceToken: {
+      type: String,
     },
     fundAccount: {
       type: String,
