@@ -4,11 +4,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Leaderboard</title>
+    <title>All Users</title>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="/stylesheets/user.css" />
+    <style>
+        a.disable {
+            pointer-events: none;
+        }
+    </style>
 </head>
 <%- include("./partials/header") %>
 
@@ -23,7 +28,7 @@
                                     <tr>
                                         <th><span>User</span></th>
                                         <th><span>Created</span></th>
-                                        <th class="text-center"><span>Status</span></th>
+                                        <th class="text-center"><span>Reward</span></th>
                                         <th><span>Email</span></th>
                                         <th>&nbsp;</th>
                                     </tr>
@@ -32,20 +37,30 @@
                                     <% allUser.forEach(function(user) { %>
                                         <tr>
                                             <td>
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
-                                                <a href="/user/<%= user._id %>" class="user-link">
-                                                    <%= user.name %>
-                                                </a>
-                                                <% if(user.subscription) { %>
-                                                    <span class="user-subhead">Premium User</span>
+                                                <% if(user.photoUrl) { %>
+                                                    <img src="<%= user.photoUrl %>" alt="" height="50" width="50" />
                                                     <% } %>
-                                                        <% if(!user.subscription) { %>
-                                                            <span class="user-subhead">User</span>
+                                                        <% if(!user.photoUrl) { %>
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" height="50" width="50" />
                                                             <% } %>
+                                                                <a href="/user/<%= user._id %>" class="user-link">
+                                                                    <%= user.name %>
+                                                                </a>
+                                                                <% if(user.subscription) { %>
+                                                                    <span class="user-subhead">Premium User</span>
+                                                                    <% } %>
+                                                                        <% if(!user.subscription) { %>
+                                                                            <span class="user-subhead">User</span>
+                                                                            <% } %>
                                             </td>
-                                            <td>2013/08/08</td>
+                                            <td>
+                                                <% var bdate1 = user.createdAt + "" %>
+                                                    <% var date1 = bdate1.split(" "); %>
+                                                        <% var date = date1[2] + " " + date1[1] + " " + date1[3] %>
+                                                            <%= date %>
+                                            </td>
                                             <td class="text-center">
-                                                <span class="label label-default">Inactive</span>
+                                                <span class="label label-default">₹ <%= user.reward %></span>
                                             </td>
                                             <td>
                                                 <a href="#">
@@ -80,21 +95,51 @@
                         </div>
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
+                                <% if(prev >= 1) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/user/page/<%= prev %>" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                        <% if(prev < 1) { %>
+                                            <li class="page-item">
+                                                <a class="page-link disable" href="/user/page/<%= prev %>" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
+                                            <% } %>
+                                                <li class="page-item"><a class="page-link" href="/user/page/1">1</a></li>
+                                                <% if(pages >= 2) { %>
+                                                    <li class="page-item"><a class="page-link" href="/user/page/2">2</a></li>
+                                                    <% } %>
+                                                        <% if(pages < 2) { %>
+                                                            <li class="page-item "><a class="page-link disable" href="#">2</a></li>
+                                                            <% } %>
+                                                                <% if(pages >= 3) { %>
+                                                                    <li class="page-item"><a class="page-link" href="/user/page/3">3</a></li>
+                                                                    <% } %>
+                                                                        <% if(pages < 3) { %>
+                                                                            <li class="page-item "><a class="page-link disable" href="/user/page/3">3</a></li>
+                                                                            <% } %>
+                                                                                <% if(next<=pages) { %>
+                                                                                    <li class="page-item">
+                                                                                        <a class="page-link" href="/user/page/<%= next %>" aria-label="Next">
+                                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                                            <span class="sr-only">Next</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <% } %>
+                                                                                        <% if(next>pages) { %>
+                                                                                            <li class="page-item">
+                                                                                                <a class="page-link disable" href="#" aria-label="Next">
+                                                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                                                    <span class="sr-only">Next</span>
+                                                                                                </a>
+                                                                                            </li>
+                                                                                            <% } %>
                             </ul>
                         </nav>
                     </div>

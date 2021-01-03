@@ -6,16 +6,57 @@ let Question = require("../models/question");
 let Response = require("../models/response");
 
 //All Quiz list
-quizRouter.get("/", async (req, res) => {
-  await Quiz.find({}, (err, allQuiz) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("adminUI/allQuiz", {
-        allQuiz: allQuiz,
-      });
-    }
-  });
+// quizRouter.get("/", async (req, res) => {
+//   await Quiz.find({}, (err, allQuiz) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.render("adminUI/allQuiz", {
+//         allQuiz: allQuiz,
+//       });
+//     }
+//   });
+// });
+//Pagination Quiz List
+quizRouter.get("/page/:index", async (req, res) => {
+  var i;
+  await Quiz.find()
+    .sort({ createdAt: -1 })
+    .exec((err, allQuizzes) => {
+      if (err) {
+        console.log(err);
+      } else {
+        var quizCount = 0;
+        var quizzes = [];
+        allQuizzes.forEach(function (quiz) {
+          quizzes.push(quiz);
+          quizCount++;
+        });
+        var pages = parseInt(quizCount / 10);
+        var add = quizCount % 10;
+        if (add > 0) {
+          pages++;
+        }
+
+        var quizArray = [];
+        index = parseInt(req.params.index);
+        for (i = index * 10 - 10; i < index * 10; i++) {
+          if (quizzes[i]) {
+            quizArray.push(quizzes[i]);
+          } else {
+            break;
+          }
+        }
+
+        res.render("adminUI/allQuiz", {
+          allQuiz: quizArray,
+          next: index + 1,
+          prev: index - 1,
+          quizCount: quizCount,
+          pages: pages,
+        });
+      }
+    });
 });
 //Add Quiz
 quizRouter.get("/add", (req, res) => {
@@ -29,22 +70,23 @@ quizRouter.get("/:id", async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        res.render("adminUI/showQuiz", { quiz: quiz });
+        res.render("adminUI/quizInfo", { quiz: quiz });
       }
     });
 });
 quizRouter.post("/", verify, async (req, res) => {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, "0");
-  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var yyyy = today.getFullYear();
+  // var today = new Date();
+  // var dd = String(today.getDate()).padStart(2, "0");
+  // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  // var yyyy = today.getFullYear();
 
-  today = dd + "/" + mm + "/" + yyyy;
-  // var startTime = new Date(req.body.start);
-  // var endTime = new Date(req.body.end);
+  // today = dd + "/" + mm + "/" + yyyy;
+  var bodyDate = req.body.date.split("-");
+  var today = bodyDate[2] + "/" + bodyDate[1] + "/" + bodyDate[0];
 
   const newQuiz = new Quiz({
     name: req.body.name,
+    description: req.body.description,
     slot: req.body.slot,
     reward: req.body.reward,
     correct_score: req.body.correct_score,
@@ -58,7 +100,7 @@ quizRouter.post("/", verify, async (req, res) => {
 
   try {
     const savedQuiz = await newQuiz.save();
-    res.redirect("quiz");
+    res.redirect("/quiz/page/1");
   } catch (err) {
     res.status(400).send(err);
   }
@@ -71,7 +113,7 @@ quizRouter.post("/date", async (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.render("adminUI/allQuiz", { allQuiz: allQuiz });
+      res.render("adminUI/quizbyDate", { allQuiz: allQuiz });
     }
   });
 });
@@ -87,12 +129,16 @@ quizRouter.get("/:id/edit", verify, async (req, res) => {
 });
 
 quizRouter.put("/:id", async (req, res) => {
+  var bodyDate = req.body.date.split("-");
+  var today = bodyDate[2] + "/" + bodyDate[1] + "/" + bodyDate[0];
   var newData = {
     name: req.body.name,
+    description: req.body.description,
     slot: req.body.slot,
     reward: req.body.reward,
     correct_score: req.body.correct_score,
     incorrect_score: req.body.incorrect_score,
+    date: today,
     startTime: req.body.start,
     endTime: req.body.end,
     minutes: req.body.minutes,
@@ -117,7 +163,7 @@ quizRouter.delete("/:id", verify, async (req, res) => {
     if (err) {
       console.log("PROBLEM!");
     } else {
-      res.redirect("/quiz/");
+      res.redirect("/quiz/page/1");
     }
   });
 });

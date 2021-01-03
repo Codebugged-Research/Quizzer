@@ -1,5 +1,5 @@
 <%- include("./partials/header") %>
-    <form action="/quiz/<%= quiz_id %>/questions/<%= question._id %>?_method=PUT" method="POST">
+    <form action="/quiz/<%= quiz_id %>/questions/qz/<%= question._id %>?_method=PUT" method="POST">
         <div class="form-group">
             <input class="form-control" type="text" name="description" value="<%= question.description %>">
         </div>

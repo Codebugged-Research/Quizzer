@@ -1,0 +1,45 @@
+<%- include("./partials/header") %>
+    <form action="/quiz/<%= quiz_id %>/questions/qn/<%= question._id %>?_method=PUT" method="POST">
+        <div class="form-group">
+            <input class="form-control" type="text" name="description" value="<%= question.description %>">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Option 1</span>
+
+            </div>
+            <input type="text" name="option1" class="form-control" value="<%= question.options[0] %>">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Option 2</span>
+
+            </div>
+            <input type="text" name="option2" class="form-control" value="<%= question.options[1] %>">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Option 3</span>
+
+            </div>
+            <input type="text" name="option3" class="form-control" value="<%= question.options[2] %>">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Option 4</span>
+
+            </div>
+            <input type="text" name="option4" class="form-control" value="<%= question.options[3] %>">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">What will be the correct option</label>
+            <input type="number" class="form-control" id="exampleFormControlSelect1" name="answer" value="<%= question.answer %>" min="1" max="4">
+
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-success">Update</button>
+        </div>
+    </form>
+    <%- include("./partials/footer") %>

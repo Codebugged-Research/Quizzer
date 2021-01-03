@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Quiz</title>
+    <link href="/stylesheets/main.css" type="text/css" rel="stylesheet">
+</head>
+<%- include("./partials/header") %>
+    <div class="container">
+        <div class="page-title-heading">
+            <h1 class="jumbotron" style="text-align: center;">All Quizzes</h1>
+        </div>
+        <form action="/quiz/date" method="POST">
+            <label for="date">Date:</label>
+            <input type="date" name="date">
+            <button type="submit" class="btn btn-success d-inline">Search</button>
+        </form>
+
+
+        <div class="row">
+            <% allQuiz.forEach(function(quiz) { %>
+
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= quiz.name %>
+                            </h5>
+                            <p class="card-text">Quiz Slot:
+                                <%= quiz.slot %>
+                            </p>
+                            <p class="card-text">Quiz Reward:
+                                <%= quiz.reward %>
+                            </p>
+                            <p class="card-text">
+                                <%= quiz.date %>
+                            </p>
+                            <a href="/quiz/<%= quiz._id %>" class="btn btn-primary">More Info</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <% }) %>
+        </div>
+    </div>
+    <%- include("./partials/footer") %>

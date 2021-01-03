@@ -21,18 +21,14 @@
                         <div class="page-title-wrapper">
                             <div class="page-title-heading">
                                 <div class="page-title-icon">
-                                    <span>
-                                        <img src="/assets/images/web_hi_res_512.png" alt="" height="50" width="50">
-                                    </span>
-
-
+                                    <img src="/assets/images/web_hi_res_512.png" alt="" height="50" width="50">
                                 </div>
                                 <div>Quiz Adda Analytics Dashboard
                                     <div class="page-title-subheading">This is a dashboard which shows the analytics of your application
                                     </div>
                                 </div>
                             </div>
-                            <div class="page-title-actions">
+                            <!-- <div class="page-title-actions">
                                 <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom" class="btn-shadow mr-3 btn btn-dark">
                                         <i class="fa fa-star"></i>
                                     </button>
@@ -82,7 +78,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="card-deck mb-3">
@@ -148,8 +144,8 @@
                                     <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i> Expenses Report
                                 </div>
                                 <ul class="nav">
-                                    <li class="nav-item"><a href="javascript:void(0);" class="active nav-link">Last</a></li>
-                                    <li class="nav-item"><a href="javascript:void(0);" class="nav-link second-tab-toggle">Current</a></li>
+                                    <li class="nav-item"><a href="javascript:void(0);" class="active nav-link">Top 10</a></li>
+
                                 </ul>
                             </div>
                             <div class="card-body">
@@ -166,32 +162,49 @@
                                         <div class="scroll-area-sm">
                                             <div class="scrollbar-container">
                                                 <ul class="rm-list-borders rm-list-borders-scroll list-group list-group-flush">
-                                                    <% allUsers.forEach(function(user) { %>
-                                                        <li class="list-group-item">
-                                                            <div class="widget-content p-0">
-                                                                <div class="widget-content-wrapper">
-                                                                    <div class="widget-content-left mr-3">
-                                                                        <img width="42" class="rounded-circle" src="/assets/images/avatars/9.jpg" alt="">
-                                                                    </div>
-                                                                    <div class="widget-content-left">
-                                                                        <div class="widget-heading">
-                                                                            <%= user.name %>
+
+                                                    <% for(var i=0;i<10;i++) { %>
+                                                        <% if(allUsers[i]) { %>
+
+                                                            <li class="list-group-item">
+                                                                <div class="widget-content p-0">
+                                                                    <div class="widget-content-wrapper">
+                                                                        <div class="widget-content-left mr-3">
+                                                                            <% if(allUsers[i].photoUrl) { %>
+                                                                                <img src="<%= allUsers[i].photoUrl %>" alt="Admin" class="rounded-circle" height="45" width="45">
+                                                                                <% } %>
+                                                                                    <% if(!allUsers[i].photoUrl) { %>
+                                                                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" alt="" height="45" width="45" />
+                                                                                        <% } %>
                                                                         </div>
-                                                                        <div class="widget-subheading">Web Developer</div>
-                                                                    </div>
-                                                                    <div class="widget-content-right">
-                                                                        <div class="font-size-xlg text-muted">
-                                                                            <small class="opacity-5 pr-1">₹</small>
-                                                                            <span><%= user.reward %></span>
-                                                                            <small class="text-danger pl-2">
+                                                                        <div class="widget-content-left">
+                                                                            <div class="widget-heading">
+                                                                                <%= allUsers[i].name %>
+                                                                            </div>
+                                                                            <% if(!allUsers[i].subscription) { %>
+                                                                                <div class="widget-subheading">User</div>
+                                                                                <% } %>
+                                                                                    <% if(allUsers[i].subscription) { %>
+                                                                                        <div class="widget-subheading">Premium User</div>
+
+                                                                                        <% } %>
+                                                                        </div>
+                                                                        <div class="widget-content-right">
+                                                                            <div class="font-size-xlg text-muted">
+                                                                                <small class="opacity-5 pr-1">₹</small>
+                                                                                <span><%= allUsers[i].reward %></span>
+                                                                                <small class="text-danger pl-2">
                                                                                     <i class="fa fa-angle-down"></i>
                                                                                 </small>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </li>
-                                                        <% }) %>
+                                                            </li>
+                                                            <% } %>
+
+
+                                                                <% } %>
                                                 </ul>
                                             </div>
                                         </div>
@@ -208,8 +221,8 @@
                                     <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i> Quiz Overview
                                 </div>
                                 <ul class="nav">
-                                    <li class="nav-item"><a href="javascript:void(0);" class="active nav-link">Last</a></li>
-                                    <li class="nav-item"><a href="javascript:void(0);" class="nav-link second-tab-toggle">Current</a></li>
+                                    <li class="nav-item"><a href="javascript:void(0);" class="active nav-link">Today</a></li>
+
                                 </ul>
                             </div>
                             <div class="card-body">
@@ -342,8 +355,8 @@
                             <div class="card-header">Active Users
                                 <div class="btn-actions-pane-right">
                                     <div role="group" class="btn-group-sm btn-group">
-                                        <button class="active btn btn-focus">Last Week</button>
-                                        <button class="btn btn-focus">All Month</button>
+                                        <button class="active btn btn-focus">Recent 15</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -353,61 +366,72 @@
                                         <tr>
                                             <th class="text-center">#</th>
                                             <th>Name</th>
-                                            <th class="text-center">City</th>
+                                            <th>Username</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% var i=1; %>
-                                            <% allUsers.forEach(function(user) { %>
+
+                                        <% for(var j=0;j<15;j++) { %>
+                                            <% if(allUsers[j]) { %>
 
                                                 <tr>
-                                                    <td class="text-center text-muted">#345</td>
+                                                    <td class="text-center text-muted">
+                                                        <%= j+1 %>
+                                                    </td>
                                                     <td>
                                                         <div class="widget-content p-0">
                                                             <div class="widget-content-wrapper">
                                                                 <div class="widget-content-left mr-3">
                                                                     <div class="widget-content-left">
-                                                                        <img width="40" class="rounded-circle" src="/assets/images/avatars/<%= i %>.jpg" alt="">
+                                                                        <img width="40" class="rounded-circle" src="<%= allUsers[j].photoUrl %>" alt="">
                                                                     </div>
                                                                 </div>
                                                                 <div class="widget-content-left flex2">
                                                                     <div class="widget-heading">
-                                                                        <%= user.name %>
+                                                                        <%= allUsers[j].name %>
                                                                     </div>
-                                                                    <div class="widget-subheading opacity-7">Web Developer</div>
+                                                                    <% if(!allUsers[j].subscription) { %>
+                                                                        <div class="widget-subheading opacity-7">User</div>
+                                                                        <% } %>
+                                                                            <% if(allUsers[j].subscription) { %>
+                                                                                <div class="widget-subheading opacity-7">Premium User</div>
                                                                 </div>
+                                                                <% } %>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="text-center">Madrid</td>
+                                                    <td>
+                                                        <%= allUsers[j].username %>
+                                                    </td>
                                                     <td class="text-center">
-                                                        <% if(user.role==="2") { %>
+                                                        <% if(allUsers[j].role==="2") { %>
                                                             <div class="badge badge-success">Subscribed</div>
                                                             <% } %>
-                                                                <% if(user.role!="2") { %>
+                                                                <% if(allUsers[j].role!="2") { %>
                                                                     <div class="badge badge-warning">User</div>
                                                                     <% } %>
                                                     </td>
                                                     <td class="text-center">
-                                                        <a href="/payments" class="btn btn-info">Pay</a>
+                                                        <a href="/user/<%= allUsers[j]._id %>" class="btn btn-info">Info</a>
                                                     </td>
                                                 </tr>
-                                                <% i++; %>
-                                                    <% }) %>
+                                                <% } %>
+
+                                                    <% } %>
 
                                     </tbody>
                                 </table>
                             </div>
                             <div class="d-block text-center card-footer">
-                                <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>
-                                <button class="btn-wide btn btn-success">Save</button>
+
+                                <a href="/user/page/1" class="btn-wide btn btn-success">All Users</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-6 col-lg-3">
                         <div class="card-shadow-danger mb-3 widget-chart widget-chart2 text-left card">
                             <div class="widget-content">
@@ -492,7 +516,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
         </div>

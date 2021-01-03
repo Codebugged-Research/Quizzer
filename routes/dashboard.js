@@ -21,7 +21,7 @@ router.get("/", verify, async (req, res) => {
       quizzes.forEach(function (quiz) {
         quizCount++;
       });
-      await User.find({})
+      await User.find({ role: { $ne: "0" } })
         .sort({ reward: -1 })
         .collation({ locale: "en_US", numericOrdering: true })
         .exec(async (err, allUsers) => {

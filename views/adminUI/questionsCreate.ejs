@@ -1,9 +1,10 @@
 <%- include("./partials/header") %>
-    <h1 style="text-align: center;">
-        Add a new Question to
-        <%= quiz.name %>
-    </h1>
     <div class="container">
+        <h1 class="jumbotron" style="text-align: center;">
+            Add a new Question to
+            <%= quiz.name %>
+        </h1>
+
         <form action="/quiz/<%= quiz._id %>/questions" method="POST">
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Enter Question Description</label>
@@ -49,9 +50,60 @@
             </div>
 
             <div class="form-group">
-                <button class="btn btn-success">Post</button>
+                <button class="btn btn-success">Add</button>
             </div>
         </form>
+
+        <% var i=1; %>
+            <% var count = parseInt(qCount); %>
+
+                <% for(var j=count-1;j>=0;j--) { %>
+
+                    <div class="card">
+                        <div class="card-header">
+                            Question
+                            <%= j+1 %>
+                        </div>
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                                <p>
+                                    <%= quiz.questions[j].description %>
+                                </p>
+                            </blockquote>
+                            <% var k=0; %>
+                                <ul class="list-group">
+                                    <% for(k=0;k<4;k++) { %>
+                                        <% if(k+1==quiz.questions[j].answer) { %>
+                                            <li class="list-group-item active">
+                                                <%= quiz.questions[j].options[k] %>
+                                            </li>
+                                            <% } %>
+                                                <% if(k+1!=quiz.questions[j].answer) { %>
+                                                    <li class="list-group-item">
+                                                        <%= quiz.questions[j].options[k] %>
+                                                    </li>
+                                                    <% } %>
+                                                        <% } %>
+                                </ul>
+
+
+
+
+                        </div>
+                        <form class="pull-right" action="/quiz/<%=quiz._id%>/questions/qn/<%=quiz.questions[j]._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-sm btn-danger">DELETE</button>
+                            <a href="/quiz/<%=quiz._id%>/questions/qn/<%=quiz.questions[j]._id%>/edit" class="btn btn-sm btn-warning">EDIT</a>
+                        </form>
+
+                    </div>
+                    <br>
+
+                    <% i++; %>
+                        <% } %>
+                            <div class="form-group" style="text-align: center;">
+                                <a class="btn btn-warning" href="/quiz/<%= quiz._id %>">Finalize</a>
+                            </div>
+
     </div>
 
     <%- include("./partials/footer") %>

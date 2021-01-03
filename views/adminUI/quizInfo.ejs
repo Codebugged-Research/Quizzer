@@ -1,0 +1,116 @@
+<%- include("./partials/header") %>
+    <div class="container">
+        <h1 class=" jumbotron" style="text-align: center;">
+            <%= quiz.name %>
+        </h1>
+        <div class="card ">
+
+            <div class="card-body">
+                <h5 class="card-title">Description :
+                </h5>
+                <p class="card-text">
+
+                    <%= quiz.description %>
+
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card ">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <strong>
+                            Created on
+                            <%= quiz.date %>
+                            </strong>
+                        </p>
+                        <a href="/quiz/<%= quiz._id %>/edit" class="btn btn-warning">Edit</a>
+                        <form class="delete-form" action="/quiz/<%=quiz._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete Quiz</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card ">
+                    <div class="card-body">
+                        <h5 class="card-title">Reward:
+                            <%= quiz.reward %>
+                        </h5>
+                        <h5 class="card-title">
+                            Slot:
+                            <%= quiz.slot %>
+                        </h5>
+                        <span>&nbsp;</span>
+                        <h5 class="card-text">Duration:
+                            <%= quiz.startTime %> to
+                                <%= quiz.endTime %>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-deck" style="padding-left: 20px;">
+            <div class="row">
+                <div class="card-body">
+                    <a class="btn btn-success" href="/quiz/<%= quiz._id %>/questions/add">Add new question</a>
+                </div>
+                <div class="card-body">
+                    <a href="/quiz/<%= quiz._id %>/leaderboard/page/1" class="btn btn-info">View Leaderboard</a>
+                </div>
+            </div>
+        </div>
+        <% var i=1; %>
+
+            <% quiz.questions.forEach(function(question) { %>
+
+                <div class="card">
+                    <div class="card-header">
+                        Question
+                        <%= i %>
+                    </div>
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <p>
+                                <%= question.description %>
+                            </p>
+                        </blockquote>
+                        <% var j=0; %>
+                            <ul class="list-group">
+                                <% for(j=0;j<4;j++) { %>
+                                    <% if(j+1==question.answer) { %>
+                                        <li class="list-group-item active">
+                                            <%= question.options[j] %>
+                                        </li>
+                                        <% } %>
+                                            <% if(j+1!=question.answer) { %>
+                                                <li class="list-group-item">
+                                                    <%= question.options[j] %>
+                                                </li>
+                                                <% } %>
+                                                    <% } %>
+                            </ul>
+
+
+
+
+                    </div>
+                    <form class="pull-right" action="/quiz/<%=quiz._id%>/questions/qz/<%=question._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-sm btn-danger">DELETE</button>
+                        <a href="/quiz/<%=quiz._id%>/questions/qz/<%=question._id%>/edit" class="btn btn-sm btn-warning">EDIT</a>
+                    </form>
+
+                </div>
+                <br>
+                <% i++; %>
+                    <% }) %>
+
+
+
+
+
+
+    </div>
+
+    <%- include("./partials/footer") %>

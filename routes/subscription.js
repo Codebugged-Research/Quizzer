@@ -1,9 +1,10 @@
 const express = require("express");
 const subscriptionRouter = express.Router();
 const Subscription = require("../models/subscription");
+const redeem = require("./redeemOffer");
 const User = require("../models/user");
 //Create Subscription
-subscriptionRouter.post("/create", async (req, res) => {
+subscriptionRouter.post("/create", redeem, async (req, res) => {
   const subscription = new Subscription(req.body);
   await subscription.save((err, subscription) => {
     if (err) {

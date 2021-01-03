@@ -40,26 +40,64 @@ userRouter.put("/update/:id", async (req, res) => {
   );
 });
 
-userRouter.get("/", async (req, res) => {
-  await User.find({ role: { $ne: "0" } }, (err, allUser) => {
+// userRouter.get("/", async (req, res) => {
+//   await User.find({ role: { $ne: "0" } }, (err, allUser) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.render("adminUI/allUser", {
+//         allUser: allUser,
+//       });
+//     }
+//   });
+// });
+//Get all users with paginatiion
+userRouter.get("/page/:index", async (req, res) => {
+  var i, j;
+  await User.find({ role: { $ne: "0" } }, (err, allUsers) => {
     if (err) {
       console.log(err);
     } else {
-      res.render("adminUI/allUser", {
-        allUser: allUser,
+      var userCount = 0;
+      var users = [];
+      allUsers.forEach(function (user) {
+        users.push(user);
+        userCount++;
+      });
+      var pages = parseInt(userCount / 10);
+      var add = userCount % 10;
+      if (add > 0) {
+        pages++;
+      }
+
+      var userArray = [];
+      index = parseInt(req.params.index);
+      for (i = index * 10 - 10; i < index * 10; i++) {
+        if (users[i]) {
+          userArray.push(users[i]);
+        } else {
+          break;
+        }
+      }
+
+      res.render("adminUI/newUserTable", {
+        allUser: userArray,
+        next: index + 1,
+        prev: index - 1,
+        userCount: userCount,
+        pages: pages,
       });
     }
   });
 });
 userRouter.post("/", verify, async (req, res) => {
-  var bodyName = req.body.email.split("@");
-  var username = bodyName[0];
+  var email = req.body.username + "@gmail.com";
   let newUser = {
     name: req.body.name,
-    email: req.body.email,
+    email: email,
     reward: req.body.reward,
-    image: req.body.image,
-    username: username,
+    photoUrl: req.body.image,
+    username: req.body.username,
     role: "3",
   };
 
@@ -71,13 +109,13 @@ userRouter.post("/", verify, async (req, res) => {
         if (err) {
           console.log(err);
         } else {
-          console.log(quiz.name);
           const newResponse = {
             correct: "10",
             wrong: "0",
             userRole: "3",
             user: user._id,
             quiz: quiz._id,
+            reward: quiz.reward,
             score: req.body.score,
             paid: true,
           };
@@ -85,7 +123,7 @@ userRouter.post("/", verify, async (req, res) => {
             if (err) {
               console.log(err);
             } else {
-              res.redirect("/user");
+              res.redirect("/user/page/1");
             }
           });
         }

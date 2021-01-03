@@ -8,6 +8,7 @@ var admin = require("firebase-admin");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
+
 const Razorpay = require("razorpay");
 var Quiz = require("./models/quiz");
 var Question = require("./models/question");
@@ -21,7 +22,6 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-
 mongoose.connect(
   process.env.DATABASE,
   {
@@ -32,6 +32,7 @@ mongoose.connect(
   },
   () => console.log("Connected to db")
 );
+
 const razorPayRoute = require("./routes/payment");
 const authRoute = require("./routes/auth");
 const dashboardRoute = require("./routes/dashboard");
@@ -44,6 +45,7 @@ const fileRoute = require("./routes/fileUpload");
 const leaderboardRoute = require("./routes/leaderboard");
 const feedRoute = require("./routes/feedRouter");
 const fcmRoute = require("./routes/notification");
+const offerRoute = require("./routes/offerRouter");
 // const paymentRoute = require("./routes/payment");
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
@@ -66,9 +68,10 @@ app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// app.get("/", function (req, res) {
-//   res.send("server is live");
-// });
+app.get("/", function (req, res) {
+  res.redirect("/login");
+});
+
 app.use(authRoute);
 app.use("/api/admin/dashboard", dashboardRoute);
 app.use("/quiz", quizRoute);
@@ -82,36 +85,37 @@ app.use("/subscription", subscriptionRoute);
 app.use("/razorPay", razorPayRoute);
 app.use("/file", fileRoute);
 app.use("/feed", feedRoute);
+app.use("/offer", offerRoute);
 // Payment Routes
-app.get("/payments", (req, res) => {
-  res.render("adminUI/payment", { key: process.env.KEY_ID });
-});
-app.post("/api/payment/order", (req, res) => {
-  params = req.body;
-  instance.orders
-    .create(params)
-    .then((data) => {
-      res.send({ sub: data, status: "success" });
-    })
-    .catch((error) => {
-      res.send({ sub: error, status: "failed" });
-    });
-});
+// app.get("/payments", (req, res) => {
+//   res.render("adminUI/payment", { key: process.env.KEY_ID });
+// });
+// app.post("/api/payment/order", (req, res) => {
+//   params = req.body;
+//   instance.orders
+//     .create(params)
+//     .then((data) => {
+//       res.send({ sub: data, status: "success" });
+//     })
+//     .catch((error) => {
+//       res.send({ sub: error, status: "failed" });
+//     });
+// });
 
-app.post("/api/payment/verify", (req, res) => {
-  body = req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
-  var crypto = require("crypto");
-  var expectedSignature = crypto
-    .createHmac("sha256", process.env.KEY_SECRET)
-    .update(body.toString())
-    .digest("hex");
-  // console.log("sig" + req.body.razorpay_signature);
-  // console.log("sig" + expectedSignature);
-  var response = { status: "failure" };
-  if (expectedSignature === req.body.razorpay_signature)
-    response = { status: "success" };
-  res.send(response);
-});
+// app.post("/api/payment/verify", (req, res) => {
+//   body = req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
+//   var crypto = require("crypto");
+//   var expectedSignature = crypto
+//     .createHmac("sha256", process.env.KEY_SECRET)
+//     .update(body.toString())
+//     .digest("hex");
+// console.log("sig" + req.body.razorpay_signature);
+// console.log("sig" + expectedSignature);
+//   var response = { status: "failure" };
+//   if (expectedSignature === req.body.razorpay_signature)
+//     response = { status: "success" };
+//   res.send(response);
+// });
 
 // app.listen(3000, () => console.log("Server started"));
 const httpServer = http.createServer(app);
