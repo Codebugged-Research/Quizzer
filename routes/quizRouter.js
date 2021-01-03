@@ -63,12 +63,6 @@ quizRouter.get("/:id", async (req, res) => {
     });
 });
 quizRouter.post("/", verify, async (req, res) => {
-  // var today = new Date();
-  // var dd = String(today.getDate()).padStart(2, "0");
-  // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  // var yyyy = today.getFullYear();
-
-  // today = dd + "/" + mm + "/" + yyyy;
   var bodyDate = req.body.date.split("-");
   var today = bodyDate[2] + "/" + bodyDate[1] + "/" + bodyDate[0];
 
@@ -85,31 +79,25 @@ quizRouter.post("/", verify, async (req, res) => {
     minutes: req.body.minutes,
     seconds: req.body.seconds,
   });
+  var payload = {
+    notification: {
+      title: "New Quiz Update !",
+      body: `New quiz "${req.body.name}" has been added.`,
+    },
+  };
+  var topic = "quiz";
+  admin
+    .messaging()
+    .sendToTopic(topic, payload)
+    .then(function (response) {
+      console.log("true");
+    })
+    .catch(function (error) {
+      console.log("false");
+    });
 
   try {
-    const savedQuiz = await newQuiz.save();
-    var payload = {
-      notification: {
-        title: "New Quiz Update !",
-        body: `New quiz "${req.body.name}" has been added.`,
-      },
-    };
-    var topic = "quiz";
-    admin
-      .messaging()
-      .sendToTopic(topic, payload)
-      .then(function (response) {
-        console.log("true");
-        // return res.json({
-        //   message: "Successfully Send",
-        // });
-      })
-      .catch(function (error) {
-        console.log("false");
-        // return res.json({
-        //   message: "Not Send",
-        // });
-      });
+    const savedQuiz = await newQuiz.save();    
     res.redirect("/quiz/page/1");
   } catch (err) {
     res.status(400).send(err);
