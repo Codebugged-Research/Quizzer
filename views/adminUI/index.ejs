@@ -406,10 +406,10 @@
                                                         <%= allUsers[j].username %>
                                                     </td>
                                                     <td class="text-center">
-                                                        <% if(allUsers[j].role==="2") { %>
+                                                        <% if(allUsers[j].subscription) { %>
                                                             <div class="badge badge-success">Subscribed</div>
                                                             <% } %>
-                                                                <% if(allUsers[j].role!="2") { %>
+                                                                <% if(!allUsers[j].subscription) { %>
                                                                     <div class="badge badge-warning">User</div>
                                                                     <% } %>
                                                     </td>
