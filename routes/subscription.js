@@ -3,6 +3,7 @@ const subscriptionRouter = express.Router();
 const Subscription = require("../models/subscription");
 const redeem = require("./redeemOffer");
 const User = require("../models/user");
+
 //Create Subscription
 subscriptionRouter.post("/create", redeem, async (req, res) => {
   const subscription = new Subscription(req.body);
@@ -41,6 +42,7 @@ subscriptionRouter.get("/:id", async (req, res) => {
     }
   });
 });
+
 //Update Subscription
 subscriptionRouter.put("/:id", async (req, res) => {
   await Subscription.findByIdAndUpdate(

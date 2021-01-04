@@ -89,7 +89,7 @@ leadRouter.put("/:id", async (req, res) => {
             if (err) {
               console.log(err);
             } else {
-              res.redirect("/quiz/" + response.quiz + "/leaderboard");
+              res.redirect("/quiz/" + response.quiz + "/leaderboard/page/1");
             }
           }
         );

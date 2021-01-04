@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema(
     },
     contactId: {
       type: String,
-    },    
+    },
     deviceToken: {
       type: String,
     },
@@ -53,7 +53,7 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subscription",
     },
-    reward: { type: String },
+    reward: { type: String, default: "0" },
   },
   { timestamps: true }
 );

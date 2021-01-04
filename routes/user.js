@@ -92,14 +92,24 @@ userRouter.get("/page/:index", async (req, res) => {
 });
 userRouter.post("/", verify, async (req, res) => {
   var email = req.body.username + "@gmail.com";
-  let newUser = {
-    name: req.body.name,
-    email: email,
-    reward: req.body.reward,
-    photoUrl: req.body.image,
-    username: req.body.username,
-    role: "3",
-  };
+  if (req.body.image) {
+    var newUser = {
+      name: req.body.name,
+      email: email,
+      reward: req.body.reward,
+      photoUrl: req.body.image,
+      username: req.body.username,
+      role: "3",
+    };
+  } else {
+    var newUser = {
+      name: req.body.name,
+      email: email,
+      reward: req.body.reward,
+      username: req.body.username,
+      role: "3",
+    };
+  }
 
   await User.create(newUser, async (err, user) => {
     if (err) {
