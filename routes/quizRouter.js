@@ -6,7 +6,7 @@ let Question = require("../models/question");
 let Response = require("../models/response");
 var admin = require("firebase-admin");
 
-quizRouter.get("/page/:index", async (req, res) => {
+quizRouter.get("/page/:index", verify, async (req, res) => {
   var i;
   await Quiz.find()
     .sort({ createdAt: -1 })
@@ -47,11 +47,11 @@ quizRouter.get("/page/:index", async (req, res) => {
     });
 });
 //Add Quiz
-quizRouter.get("/add", (req, res) => {
+quizRouter.get("/add", verify, (req, res) => {
   res.render("adminUI/create-quiz");
 });
 
-quizRouter.get("/:id", async (req, res) => {
+quizRouter.get("/:id", verify, async (req, res) => {
   await Quiz.findById(req.params.id)
     .populate("questions")
     .exec(function (err, quiz) {
@@ -97,7 +97,7 @@ quizRouter.post("/", verify, async (req, res) => {
     });
 
   try {
-    const savedQuiz = await newQuiz.save();    
+    const savedQuiz = await newQuiz.save();
     res.redirect("/quiz/page/1");
   } catch (err) {
     res.status(400).send(err);
@@ -126,7 +126,7 @@ quizRouter.get("/:id/edit", verify, async (req, res) => {
   });
 });
 
-quizRouter.put("/:id", async (req, res) => {
+quizRouter.put("/:id", verify, async (req, res) => {
   var bodyDate = req.body.date.split("-");
   var today = bodyDate[2] + "/" + bodyDate[1] + "/" + bodyDate[0];
   var newData = {

@@ -78,7 +78,7 @@ questionRouter.get("/qn/:questionId/edit", verify, async (req, res) => {
   });
 });
 
-questionRouter.put("/qz/:questionId", async (req, res) => {
+questionRouter.put("/qz/:questionId", verify, async (req, res) => {
   var newData = {
     description: req.body.description,
     options: [
@@ -102,7 +102,7 @@ questionRouter.put("/qz/:questionId", async (req, res) => {
     }
   );
 });
-questionRouter.put("/qn/:questionId", async (req, res) => {
+questionRouter.put("/qn/:questionId", verify, async (req, res) => {
   var newData = {
     description: req.body.description,
     options: [

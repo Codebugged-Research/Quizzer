@@ -5,7 +5,7 @@ const Quiz = require("../models/quiz");
 const Response = require("../models/response");
 const User = require("../models/user");
 //Quiz Leaderboard
-leadRouter.get("/page/:index", async (req, res) => {
+leadRouter.get("/page/:index", verify, async (req, res) => {
   await Response.find({ quiz: req.params.id })
     .populate("user")
     .populate("quiz")
@@ -63,7 +63,7 @@ leadRouter.get("/page/:index", async (req, res) => {
 //       }
 //     });
 // });
-leadRouter.put("/:id", async (req, res) => {
+leadRouter.put("/:id", verify, async (req, res) => {
   var newData = {
     reward: req.body.reward,
     paid: true,

@@ -11,10 +11,10 @@ offerRouter.get("/", async (req, res) => {
     }
   });
 });
-offerRouter.get("/add", async (req, res) => {
+offerRouter.get("/add", verify, async (req, res) => {
   res.render("adminUI/createOffer");
 });
-offerRouter.post("/", async (req, res) => {
+offerRouter.post("/", verify, async (req, res) => {
   var bdate1 = req.body.start.split("-");
   var date1 = bdate1[2] + "/" + bdate1[1] + "/" + bdate1[0];
   var bdate2 = req.body.end.split("-");

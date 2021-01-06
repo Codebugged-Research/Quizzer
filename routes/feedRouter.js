@@ -27,11 +27,11 @@ feedRouter.get("/", (req, res) => {
     });
 });
 
-feedRouter.get("/upload", (req, res) => {
+feedRouter.get("/upload", verify, (req, res) => {
   res.render("adminUI/feedUpload");
 });
 
-feedRouter.post("/uploadFeed", (req, res) => {
+feedRouter.post("/uploadFeed", verify, (req, res) => {
   console.log(req.body);
   const upload = multer({
     storage: multerS3({

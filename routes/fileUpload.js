@@ -29,7 +29,7 @@ fileRouter.get("/", async (req, res) => {
   });
 });
 
-fileRouter.get("/upload", async (req, res) => {
+fileRouter.get("/upload", verify, async (req, res) => {
   res.render("adminUI/fileUpload");
 });
 fileRouter.get("/allCards", (req, res) => {
@@ -42,7 +42,7 @@ fileRouter.get("/allCards", (req, res) => {
   });
 });
 
-fileRouter.post("/uploadfile", (req, res) => {
+fileRouter.post("/uploadfile", verify, (req, res) => {
   console.log(req.body);
   const upload = multer({
     storage: multerS3({

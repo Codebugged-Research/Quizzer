@@ -52,7 +52,7 @@ userRouter.put("/update/:id", async (req, res) => {
 //   });
 // });
 //Get all users with paginatiion
-userRouter.get("/page/:index", async (req, res) => {
+userRouter.get("/page/:index", verify, async (req, res) => {
   var i, j;
   await User.find({ role: { $ne: "0" } }, (err, allUsers) => {
     if (err) {
@@ -142,7 +142,7 @@ userRouter.post("/", verify, async (req, res) => {
   });
 });
 
-userRouter.get("/add", async (req, res) => {
+userRouter.get("/add", verify, async (req, res) => {
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
   var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
