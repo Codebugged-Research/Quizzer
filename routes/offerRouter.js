@@ -36,6 +36,46 @@ offerRouter.post("/", verify, async (req, res) => {
     }
   });
 });
+offerRouter.get("/:id/edit", verify, async (req, res) => {
+  await Offer.findById(req.params.id).exec((err, offer) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("adminUI/editOffer", { offer: offer });
+    }
+  });
+});
+offerRouter.put("/:id", verify, async (req, res) => {
+  var newData = {
+    name: req.body.name,
+    description: req.body.description,
+    amount: req.body.description,
+    start: req.body.start,
+    end: req.body.end,
+  };
+  await Offer.findByIdAndUpdate(
+    req.params.id,
+    { $set: newData },
+    function (err, offer) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect("/offer");
+      }
+    }
+  );
+});
+
+offerRouter.delete("/:id", verify, async (req, res) => {
+  await Offer.findByIdAndRemove(req.params.id, function (err) {
+    if (err) {
+      console.log("PROBLEM!");
+    } else {
+      res.redirect("/offer");
+    }
+  });
+});
+
 //App routes
 offerRouter.get("/app", async (req, res) => {
   await Offer.find().exec((err, allOffers) => {
@@ -46,4 +86,5 @@ offerRouter.get("/app", async (req, res) => {
     }
   });
 });
+
 module.exports = offerRouter;

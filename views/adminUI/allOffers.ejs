@@ -28,6 +28,7 @@
                                     <th class="column4">Starts On</th>
                                     <th class="column5">Ends On</th>
                                     <th class="column6">Redeems</th>
+                                    <th class="column7">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,6 +52,9 @@
                                         </td>
                                         <td class="column6">
                                             <%= offer.redeems %>
+                                        </td>
+                                        <td class="column7">
+                                            <a class="btn btn-warning" href="/offer/<%= offer._id %>/edit">Edit</a>
                                         </td>
                                     </tr>
                                     <% }) %>
