@@ -102,7 +102,7 @@ responseRouter.get("/getByQuiz/:id", async (req, res) => {
         path: "questions",
       },
     })
-    .sort({ userRole: -1, score: -1, createdAt: 1 })
+    .sort({ userRole: -1, score: -1})
     .exec((err, allResponses) => {
       if (err) {
         console.log(err);
