@@ -40,28 +40,10 @@ responseRouter.get("/getByUser/:id", async (req, res) => {
     });
 });
 //Get responses by user id and date
-responseRouter.get("/UserDate/:id", async (req, res) => {
-  var today = new Date();
+responseRouter.get("/UserDate/:id/:date", async (req, res) => {
   Response.find({
     user: req.params.id,
-    createdAt: {
-      $gte: new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate(),
-        5,
-        30,
-        0
-      ),
-      $lte: new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate(),
-        today.getHours(),
-        today.getMinutes(),
-        today.getSeconds()
-      ),
-    },
+    date: req.params.date,
   })
     .populate("user")
     .populate({
@@ -86,6 +68,7 @@ responseRouter.get("/UserDate/:id", async (req, res) => {
       }
     });
 });
+
 responseRouter.get("/getByQuiz/:id", async (req, res) => {
   Response.find({ quiz: req.params.id })
     .populate("user")
@@ -102,7 +85,7 @@ responseRouter.get("/getByQuiz/:id", async (req, res) => {
         path: "questions",
       },
     })
-    .sort({ userRole: -1, score: -1, createdAt: 1 })
+    .sort({ userRole: -1, score: -1})
     .exec((err, allResponses) => {
       if (err) {
         console.log(err);
@@ -112,23 +95,5 @@ responseRouter.get("/getByQuiz/:id", async (req, res) => {
       }
     });
 });
-//After payment update response
-// responseRouter.put("/:id", async (req, res) => {
-//   var newData = {
-//     reward: req.body.reward,
-//     paid: true,
-//   };
-//   await Response.findByIdAndUpdate(
-//     req.params.id,
-//     { $set: newData },
-//     function (err, response) {
-//       if (err) {
-//         console.log(err);
-//       } else {
-//         res.redirect("/quiz/" + response.quiz + "/leaderboard");
-//       }
-//     }
-//   );
-// });
 
 module.exports = responseRouter;
