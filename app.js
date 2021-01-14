@@ -68,7 +68,13 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.get("/", function (req, res) {
-  res.redirect("/login");
+  res.render("adminUI/landing");
+});
+app.get("/privacy", (req, res) => {
+  res.render("adminUI/privacy-policy");
+});
+app.get("/terms", (req, res) => {
+  res.render("adminUI/terms-conditions");
 });
 
 app.use(authRoute);
@@ -85,6 +91,7 @@ app.use("/razorPay", razorPayRoute);
 app.use("/file", fileRoute);
 app.use("/feed", feedRoute);
 app.use("/offer", offerRoute);
+
 // Payment Routes
 // app.get("/payments", (req, res) => {
 //   res.render("adminUI/payment", { key: process.env.KEY_ID });
@@ -116,8 +123,8 @@ app.use("/offer", offerRoute);
 //   res.send(response);
 // });
 
-app.listen(3000, () => console.log("Server started"));
-// const httpServer = http.createServer(app);
-// httpServer.listen(80, () => {
-//   console.log("HTTP Server running on port 80");
-// });
+// app.listen(3000, () => console.log("Server started"));
+const httpServer = http.createServer(app);
+httpServer.listen(80, () => {
+  console.log("HTTP Server running on port 80");
+});
