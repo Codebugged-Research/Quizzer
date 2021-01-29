@@ -126,8 +126,8 @@ app.use("/offer", offerRoute);
 //   res.send(response);
 // });
 
-app.listen(3000, () => console.log("Server started"));
-// const httpServer = http.createServer(app);
-// httpServer.listen(80, () => {
-//   console.log("HTTP Server running on port 80");
-// });
+// app.listen(3000, () => console.log("Server started"));
+const httpServer = http.createServer(app);
+httpServer.listen(80, () => {
+  console.log("HTTP Server running on port 80");
+});
