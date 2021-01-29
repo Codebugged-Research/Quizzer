@@ -76,6 +76,9 @@ app.get("/privacy", (req, res) => {
 app.get("/terms", (req, res) => {
   res.render("adminUI/terms-conditions");
 });
+app.get("/refund", (req, res) => {
+  res.render("adminUI/refund-policy");
+});
 
 app.use(authRoute);
 app.use("/api/admin/dashboard", dashboardRoute);
