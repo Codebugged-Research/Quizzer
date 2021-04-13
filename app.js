@@ -31,6 +31,7 @@ mongoose.connect(
   },
   () => console.log("Connected to db")
 );
+const paytmRoutes = require("./routes/paytm");
 
 const razorPayRoute = require("./routes/payment");
 const authRoute = require("./routes/auth");
@@ -81,6 +82,7 @@ app.get("/refund", (req, res) => {
 });
 
 app.use(authRoute);
+app.use("/paytm", paytmRoutes);
 app.use("/api/admin/dashboard", dashboardRoute);
 app.use("/quiz", quizRoute);
 app.use("/quiz/:id/questions", questionRoute);
@@ -95,39 +97,8 @@ app.use("/file", fileRoute);
 app.use("/feed", feedRoute);
 app.use("/offer", offerRoute);
 
-// Payment Routes
-// app.get("/payments", (req, res) => {
-//   res.render("adminUI/payment", { key: process.env.KEY_ID });
+app.listen(3000, () => console.log("Server started"));
+// const httpServer = http.createServer(app);
+// httpServer.listen(80, () => {
+//   console.log("HTTP Server running on port 80");
 // });
-// app.post("/api/payment/order", (req, res) => {
-//   params = req.body;
-//   instance.orders
-//     .create(params)
-//     .then((data) => {
-//       res.send({ sub: data, status: "success" });
-//     })
-//     .catch((error) => {
-//       res.send({ sub: error, status: "failed" });
-//     });
-// });
-
-// app.post("/api/payment/verify", (req, res) => {
-//   body = req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
-//   var crypto = require("crypto");
-//   var expectedSignature = crypto
-//     .createHmac("sha256", process.env.KEY_SECRET)
-//     .update(body.toString())
-//     .digest("hex");
-// console.log("sig" + req.body.razorpay_signature);
-// console.log("sig" + expectedSignature);
-//   var response = { status: "failure" };
-//   if (expectedSignature === req.body.razorpay_signature)
-//     response = { status: "success" };
-//   res.send(response);
-// });
-
-// app.listen(3000, () => console.log("Server started"));
-const httpServer = http.createServer(app);
-httpServer.listen(80, () => {
-  console.log("HTTP Server running on port 80");
-});
