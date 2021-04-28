@@ -56,7 +56,6 @@ fileRouter.post("/uploadfile", upload.single("upload"), function (req, res) {
     var url = "http://quizaddaplus.tk/upload/" + Date.now() + "." + fileName;
     card = new Card({ imageURL: url });
     card.save();
-    res.json("OK: received ");
     res.redirect("/file/upload");
   });
   src.on("error", function (err) {
