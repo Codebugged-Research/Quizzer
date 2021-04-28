@@ -45,7 +45,6 @@ feedRouter.post("/uploadFeed", upload.single("upload"), function (req, res) {
     fs.unlinkSync(req.file.path);
 
     var url = "http://quizaddaplus.tk/upload/" + date + "." + fileName;
-    card = new Card({ imageURL: url });
     var ffeed = new feed({ fileURL: url, name: req.body.name });
     ffeed.save();
     res.redirect("/feed/upload");
