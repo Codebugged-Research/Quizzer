@@ -45,7 +45,7 @@ fileRouter.get("/allCards", (req, res) => {
 });
 
 fileRouter.post("/uploadfile", upload.single("upload"), function (req, res) {
-  var name = file.originalname.split(".");
+  var name = req.file.originalname.split(".");
   var fileName = name[name.length - 1];
   var src = fs.createReadStream(req.file.path);
   var dest = fs.createWriteStream("./uploads/" + Date.now() + "." + fileName);
