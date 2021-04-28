@@ -48,12 +48,13 @@ fileRouter.post("/uploadfile", upload.single("upload"), function (req, res) {
   var name = req.file.originalname.split(".");
   var fileName = name[name.length - 1];
   var src = fs.createReadStream(req.file.path);
-  var dest = fs.createWriteStream("./uploads/" + Date.now() + "." + fileName);
+  var date = Date.now();
+  var dest = fs.createWriteStream("./uploads/" + date + "." + fileName);
   src.pipe(dest);
   src.on("end", function () {
     fs.unlinkSync(req.file.path);
 
-    var url = "http://quizaddaplus.tk/upload/" + Date.now() + "." + fileName;
+    var url = "http://quizaddaplus.tk/upload/" + date + "." + fileName;
     card = new Card({ imageURL: url });
     card.save();
     res.redirect("/file/upload");
