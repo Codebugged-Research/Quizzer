@@ -2,6 +2,7 @@ const fileRouter = require("express").Router();
 const verify = require("./verifyToken");
 const multer = require("multer");
 var upload = multer({ dest: "uploads/" });
+var fs = require("fs");
 const multerS3 = require("multer-s3");
 const Card = require("../models/card");
 const aws = require("aws-sdk");
