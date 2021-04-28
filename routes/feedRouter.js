@@ -1,9 +1,11 @@
 const feedRouter = require("express").Router();
 const verify = require("./verifyToken");
 const feed = require("../models/file");
-var fs = require("fs");
+
 const multer = require("multer");
 const multerS3 = require("multer-s3");
+var upload = multer({ dest: "uploads/" });
+var fs = require("fs");
 const aws = require("aws-sdk");
 const feedEndpoint = new aws.Endpoint("ams3.digitaloceanspaces.com/feed");
 aws.config.update({
