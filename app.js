@@ -80,6 +80,10 @@ app.get("/terms", (req, res) => {
 app.get("/refund", (req, res) => {
   res.render("adminUI/refund-policy");
 });
+app.get("/upload/:name", function (req, res) {
+  const src = fs.createReadStream(`./uploads/${req.params.name}`);
+  src.pipe(res);
+});
 
 app.use(authRoute);
 app.use("/paytm", paytmRoutes);
