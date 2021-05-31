@@ -4,17 +4,16 @@ const dotenv = require("dotenv");
 const path = require("path");
 const cors = require("cors");
 const http = require("http");
+const https = require("https");
 var admin = require("firebase-admin");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 var fs = require("fs");
 const Razorpay = require("razorpay");
-var Quiz = require("./models/quiz");
-var Question = require("./models/question");
-var User = require("./models/user");
 dotenv.config();
 let app = express();
+const httpapp = express();
 
 var serviceAccount = require("./fb/serviceAccountKey.json");
 admin.initializeApp({
@@ -62,6 +61,10 @@ app.use(
   })
 );
 
+httpapp.get("*", function (req, res, next) {
+  res.redirect("https://" + req.headers.host + req.path);
+});
+
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
@@ -102,7 +105,18 @@ app.use("/feed", feedRoute);
 app.use("/offer", offerRoute);
 
 // app.listen(3000, () => console.log("Server started"));
-const httpServer = http.createServer(app);
+const httpServer = http.createServer(httpapp);
 httpServer.listen(80, () => {
   console.log("HTTP Server running on port 80");
+});
+const httpsServer = https.createServer(
+  {
+    key: fs.readFileSync(path.resolve(__dirname, "./ssl/key.pem")),
+    cert: fs.readFileSync(path.resolve(__dirname, "./ssl/cert.pem")),
+  },
+  app
+);
+
+httpsServer.listen(443, () => {
+  console.log("HTTPS Server running on port 443");
 });
