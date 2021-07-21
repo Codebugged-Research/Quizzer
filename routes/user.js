@@ -126,7 +126,7 @@ userRouter.post("/", verify, async (req, res) => {
             user: user._id,
             quiz: quiz._id,
             reward: quiz.reward,
-            score: req.body.score,
+            score: parseInt(req.body.score),
             paid: true,
           };
           await Response.create(newResponse, (err, response) => {
