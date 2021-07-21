@@ -68,7 +68,7 @@
                                                 </td>
 
                                                 <td>
-                                                    <% if(i<5 && !response.paid) { %>
+                                                    <% if(i<=5 && !response.paid) { %>
                                                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#<%= response.user.name %>">
                                                         Pay Reward
                                                         </button>

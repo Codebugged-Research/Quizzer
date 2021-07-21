@@ -13,7 +13,7 @@ let responseSchema = mongoose.Schema(
       ref: "Quiz",
     },
     reward: { type: String },
-    score: { type: String },
+    score: { type: Number },
     date: String,
     paid: { type: Boolean, default: false },
   },
