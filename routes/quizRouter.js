@@ -157,11 +157,22 @@ quizRouter.put("/:id", verify, async (req, res) => {
 
 //Delete Quiz
 quizRouter.delete("/:id", verify, async (req, res) => {
+
   await Quiz.findByIdAndRemove(req.params.id, function (err) {
     if (err) {
-      console.log("PROBLEM!");
+      console.log(err);
     } else {
-      res.redirect("/quiz/page/1");
+      try {
+        await Response.deleteMany({ "quiz": req.params.id }, function (err) {
+          if (err) {
+            console.log(err);
+          } else {
+            res.redirect("/quiz/page/1");
+          }
+        });
+      } catch (e) {
+        console.log(e);
+      }
     }
   });
 });
