@@ -158,7 +158,7 @@ quizRouter.put("/:id", verify, async (req, res) => {
 //Delete Quiz
 quizRouter.delete("/:id", verify, async (req, res) => {
 
-  await Quiz.findByIdAndRemove(req.params.id, function (err) {
+  await Quiz.findByIdAndRemove(req.params.id, async function (err) {
     if (err) {
       console.log(err);
     } else {
