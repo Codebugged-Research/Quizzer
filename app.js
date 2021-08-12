@@ -88,6 +88,12 @@ app.get("/upload/:name", function (req, res) {
   src.pipe(res);
 });
 
+app.get("/time", (req, res) => {
+  var date = new Date();
+  console.log(date);
+  res.send(date.getTime());
+})
+
 app.use(authRoute);
 app.use("/paytm", paytmRoutes);
 app.use("/api/admin/dashboard", dashboardRoute);
