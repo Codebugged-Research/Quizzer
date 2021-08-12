@@ -88,10 +88,10 @@ app.get("/upload/:name", function (req, res) {
   src.pipe(res);
 });
 
-app.get("/time", (req, res) => {
+app.get("/api/app/time", (req, res) => {
   var date = new Date();
   console.log(date);
-  res.send(date.getTime());
+  res.json({"date": date.getTime()});
 })
 
 app.use(authRoute);
