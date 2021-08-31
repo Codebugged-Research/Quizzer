@@ -119,6 +119,7 @@ const httpsServer = https.createServer(
   {
     key: fs.readFileSync(path.resolve(__dirname, "./ssl/key.pem")),
     cert: fs.readFileSync(path.resolve(__dirname, "./ssl/cert.pem")),
+    ca: fs.readFileSync(path.resolve(__dirname, "./ssl/fullchain.pem")),
   },
   app
 );
