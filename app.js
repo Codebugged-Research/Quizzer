@@ -55,7 +55,7 @@ const instance = new Razorpay({
 //Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(morgan('Dev'))
+app.use(morgan('combined'))
 app.use(cookieParser());
 app.use(
   bodyParser.urlencoded({
