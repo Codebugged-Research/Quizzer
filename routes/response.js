@@ -5,6 +5,7 @@ const Response = require("../models/response");
 
 responseRouter.post("/submit", async (req, res) => {
   var response = new Response(req.body);
+  console.log("response created");
   try {
     await response.save();
     res.json(response);

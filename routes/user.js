@@ -29,6 +29,7 @@ userRouter.get("/get/:id", async (req, res) => {
     });
 });
 userRouter.put("/update/:id", async (req, res) => {
+  console.log("user udpated");
   await User.findByIdAndUpdate(req.params.id, { $set: req.body }).exec(
     (err, user) => {
       if (err) {
