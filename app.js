@@ -5,6 +5,7 @@ const path = require("path");
 const cors = require("cors");
 const http = require("http");
 const https = require("https");
+const morgan = require('morgan')
 var admin = require("firebase-admin");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -54,6 +55,7 @@ const instance = new Razorpay({
 //Middlewares
 app.use(cors());
 app.use(express.json());
+app.use(morgan('Dev'))
 app.use(cookieParser());
 app.use(
   bodyParser.urlencoded({

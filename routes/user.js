@@ -198,41 +198,5 @@ userRouter.put("/:id", async (req, res) => {
     }
   );
 });
-// userRouter.patch("/:id", async (req, res) => {
-//   await User.findById(req.params.id).exec(async (err, user) => {
-//     if (err) {
-//       res.status(400).send(err);
-//     } else {
-//       var buyer = {
-//         id: user._id,
-//         username: user.name,
-//       };
-//       var newSub = { buyer: buyer };
-
-//       await Subscription.create(newSub, async (err, subscription) => {
-//         if (err) {
-//           console.log(err);
-//         } else {
-//           await subscription.save();
-//           var newData = {
-//             subscription: subscription,
-//             role: "2",
-//           };
-//           await User.findByIdAndUpdate(
-//             req.params.id,
-//             { $set: newData },
-//             function (err, user) {
-//               if (err) {
-//                 console.log(err);
-//               } else {
-//                 res.redirect("/user/" + user._id);
-//               }
-//             }
-//           );
-//         }
-//       });
-//     }
-//   });
-// });
 
 module.exports = userRouter;
