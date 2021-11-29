@@ -37,12 +37,16 @@ notificationrouter.post('/single', (req, res) => {
         body: `New quiz "${req.body.quizname}" has been added.` ,
       },
     };
+    var options = {
+      priority: "high",
+      timeToLive: 60 * 60 * 4,
+    };
   
     var topic = "quiz";
   
     admin
       .messaging()
-      .sendToTopic(topic, payload)
+      .sendToTopic(topic, payload, options)
       .then(function (response) {
         return res.json({
           message: "Successfully Send",

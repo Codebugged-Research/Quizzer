@@ -117,7 +117,7 @@ userRouter.post("/", [verify, upload.single("upload")], async (req, res) => {
     var date = Date.now();
     var dest = fs.createWriteStream("./uploads/" + date + "." + fileName);
     src.pipe(dest);
-    console.log("bahar-------------------" + url);
+    console.log("file uploaded");
     src.on("end", function () {
       fs.unlinkSync(req.file.path);
       url = "https://quizaddaplus.tk/upload/" + date + "." + fileName;
@@ -132,32 +132,26 @@ userRouter.post("/", [verify, upload.single("upload")], async (req, res) => {
       var user = new User(newUser);
       user.save((err, user) => {
         if (err) {
-          Quiz.findById(req.body.quiz).exec(async (err, quiz) => {
+          console.log(err);
+        } else {
+          const newResponse = {
+            correct: "10",
+            wrong: "0",
+            userRole: "3",
+            user: user._id,
+            quiz: req.body.quiz,
+            reward: req.body.reward,
+            score: parseInt(req.body.score),
+            paid: true,
+          };
+          var response = new Response(newResponse);
+          response.save((err, response) => {
             if (err) {
               console.log(err);
             } else {
-              const newResponse = {
-                correct: "10",
-                wrong: "0",
-                userRole: "3",
-                user: user._id,
-                quiz: quiz._id,
-                reward: req.body.reward,
-                score: parseInt(req.body.score),
-                paid: true,
-              };
-              var response = new Response(newResponse);
-              response.save((err, response) => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  res.redirect("/user/page/1");
-                }
-              });
+              res.redirect("/user/page/1");
             }
           });
-        } else {
-          res.redirect("/user/page/1");
         }
       });
     });
@@ -177,27 +171,22 @@ userRouter.post("/", [verify, upload.single("upload")], async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        await Quiz.findById(req.body.quiz).exec(async (err, quiz) => {
+        const newResponse = {
+          correct: "10",
+          wrong: "0",
+          userRole: "3",
+          user: user._id,
+          quiz: req.body.quiz._id,
+          reward: req.body.reward,
+          score: parseInt(req.body.score),
+          paid: true,
+        };
+        var response = new Response(newResponse);
+        response.save((err, response) => {
           if (err) {
             console.log(err);
           } else {
-            const newResponse = {
-              correct: "10",
-              wrong: "0",
-              userRole: "3",
-              user: user._id,
-              quiz: quiz._id,
-              reward: req.body.reward,
-              score: parseInt(req.body.score),
-              paid: true,
-            };
-            await Response.create(newResponse, (err, response) => {
-              if (err) {
-                console.log(err);
-              } else {
-                res.redirect("/user/page/1");
-              }
-            });
+            res.redirect("/user/page/1");
           }
         });
       }
@@ -242,6 +231,32 @@ userRouter.get("/:id/edit", verify, async (req, res) => {
     }
   });
 });
+
+userRouter.delete("/:id", async (req, res) => {
+  console.log("delete");
+  console.log(req.params.id);
+  await User.findByIdAndDelete(req.params.id, (err, user) => {
+    if (err) {
+      console.log(err);
+    } else {
+      Response.find({ user: req.params.id }).exec((err, response) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(response);
+          Response.findByIdAndDelete(response[0]._id, (err, response) => {
+            if (err) {
+              console.log(err);
+            } else {
+              res.redirect("/user/page/1");
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
 userRouter.put("/:id", async (req, res) => {
   var newData = {
     name: req.body.name,
