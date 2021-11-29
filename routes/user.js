@@ -108,7 +108,7 @@ userRouter.get("/page/:index", verify, async (req, res) => {
 });
 userRouter.post("/", [verify, upload.single("upload")], async (req, res) => {
   var email = req.body.username + "@gmail.com";
-  var url = "";
+  let url = "";
 
   if (req.file) {
     var name = req.file.originalname.split(".");
@@ -117,23 +117,55 @@ userRouter.post("/", [verify, upload.single("upload")], async (req, res) => {
     var date = Date.now();
     var dest = fs.createWriteStream("./uploads/" + date + "." + fileName);
     src.pipe(dest);
+    console.log("bahar-------------------" + url);
     src.on("end", function () {
       fs.unlinkSync(req.file.path);
-
       url = "https://quizaddaplus.tk/upload/" + date + "." + fileName;
+      var newUser = {
+        name: req.body.name,
+        email: email,
+        reward: req.body.reward,
+        photoUrl: url,
+        username: req.body.username,
+        role: "3",
+      };
+      var user = new User(newUser);
+      user.save((err, user) => {
+        if (err) {
+          Quiz.findById(req.body.quiz).exec(async (err, quiz) => {
+            if (err) {
+              console.log(err);
+            } else {
+              const newResponse = {
+                correct: "10",
+                wrong: "0",
+                userRole: "3",
+                user: user._id,
+                quiz: quiz._id,
+                reward: req.body.reward,
+                score: parseInt(req.body.score),
+                paid: true,
+              };
+              var response = new Response(newResponse);
+              response.save((err, response) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  res.redirect("/user/page/1");
+                }
+              });
+            }
+          });
+        } else {
+          res.redirect("/user/page/1");
+        }
+      });
     });
     src.on("error", function (err) {
       if (err) res.json("Something went wrong!");
     });
-    var newUser = {
-      name: req.body.name,
-      email: email,
-      reward: req.body.reward,
-      photoUrl: url,
-      username: req.body.username,
-      role: "3",
-    };
-  } else {
+  }
+  else {
     var newUser = {
       name: req.body.name,
       email: email,
@@ -141,37 +173,37 @@ userRouter.post("/", [verify, upload.single("upload")], async (req, res) => {
       username: req.body.username,
       role: "3",
     };
+    User.create(newUser, async (err, user) => {
+      if (err) {
+        console.log(err);
+      } else {
+        await Quiz.findById(req.body.quiz).exec(async (err, quiz) => {
+          if (err) {
+            console.log(err);
+          } else {
+            const newResponse = {
+              correct: "10",
+              wrong: "0",
+              userRole: "3",
+              user: user._id,
+              quiz: quiz._id,
+              reward: req.body.reward,
+              score: parseInt(req.body.score),
+              paid: true,
+            };
+            await Response.create(newResponse, (err, response) => {
+              if (err) {
+                console.log(err);
+              } else {
+                res.redirect("/user/page/1");
+              }
+            });
+          }
+        });
+      }
+    });
   }
 
-  await User.create(newUser, async (err, user) => {
-    if (err) {
-      console.log(err);
-    } else {
-      await Quiz.findById(req.body.quiz).exec(async (err, quiz) => {
-        if (err) {
-          console.log(err);
-        } else {
-          const newResponse = {
-            correct: "10",
-            wrong: "0",
-            userRole: "3",
-            user: user._id,
-            quiz: quiz._id,
-            reward: req.body.reward,
-            score: parseInt(req.body.score),
-            paid: true,
-          };
-          await Response.create(newResponse, (err, response) => {
-            if (err) {
-              console.log(err);
-            } else {
-              res.redirect("/user/page/1");
-            }
-          });
-        }
-      });
-    }
-  });
 });
 
 userRouter.get("/add", verify, async (req, res) => {
