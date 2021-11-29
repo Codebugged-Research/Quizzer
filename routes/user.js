@@ -6,6 +6,21 @@ const Subscription = require("../models/subscription");
 const Response = require("../models/response");
 const Quiz = require("../models/quiz");
 const { SubscriptionPage } = require("twilio/lib/rest/events/v1/subscription");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+var upload = multer({ dest: "uploads/" });
+var fs = require("fs");
+const aws = require("aws-sdk");
+const { urlToHttpOptions } = require("http");
+const feedEndpoint = new aws.Endpoint("ams3.digitaloceanspaces.com/feed");
+aws.config.update({
+  accessKeyId: "AKHJVLMXHVD6T5YWQ4PF",
+  secretAccessKey: "dc5BXjf/zC1ryGMC4TzxUnQLYsJWPIjQS73kHJx+yf0",
+  region: "ams3",
+});
+const uploadFeedS3 = new aws.S3({
+  endpoint: feedEndpoint,
+});
 
 userRouter.get("/allUser", async (req, res) => {
   await User.find({ role: { $ne: "0" } }, (err, allUser) => {
@@ -91,14 +106,30 @@ userRouter.get("/page/:index", verify, async (req, res) => {
     }
   });
 });
-userRouter.post("/", verify, async (req, res) => {
+userRouter.post("/", [verify, upload.single("upload")], async (req, res) => {
   var email = req.body.username + "@gmail.com";
-  if (req.body.image) {
+  var url = "";
+
+  if (req.file) {
+    var name = req.file.originalname.split(".");
+    var fileName = name[name.length - 1];
+    var src = fs.createReadStream(req.file.path);
+    var date = Date.now();
+    var dest = fs.createWriteStream("./uploads/" + date + "." + fileName);
+    src.pipe(dest);
+    src.on("end", function () {
+      fs.unlinkSync(req.file.path);
+
+      url = "https://quizaddaplus.tk/upload/" + date + "." + fileName;
+    });
+    src.on("error", function (err) {
+      if (err) res.json("Something went wrong!");
+    });
     var newUser = {
       name: req.body.name,
       email: email,
       reward: req.body.reward,
-      photoUrl: req.body.image,
+      photoUrl: url,
       username: req.body.username,
       role: "3",
     };

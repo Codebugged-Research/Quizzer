@@ -5,7 +5,7 @@ const path = require("path");
 const cors = require("cors");
 const http = require("http");
 const https = require("https");
-const morgan = require('morgan')
+const morgan = require("morgan");
 var admin = require("firebase-admin");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -55,7 +55,7 @@ const instance = new Razorpay({
 //Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(morgan('combined'))
+app.use(morgan("combined"));
 app.use(cookieParser());
 app.use(
   bodyParser.urlencoded({
@@ -93,8 +93,8 @@ app.get("/upload/:name", function (req, res) {
 app.get("/api/app/time", (req, res) => {
   var date = new Date();
   console.log(date);
-  res.json({"date": date.getTime()});
-})
+  res.json({ date: date.getTime() });
+});
 
 app.use(authRoute);
 app.use("/paytm", paytmRoutes);
@@ -112,20 +112,20 @@ app.use("/file", fileRoute);
 app.use("/feed", feedRoute);
 app.use("/offer", offerRoute);
 
-// app.listen(3000, () => console.log("Server started"));
-const httpServer = http.createServer(httpapp);
-httpServer.listen(80, () => {
-  console.log("HTTP Server running on port 80");
-});
-const httpsServer = https.createServer(
-  {
-    key: fs.readFileSync(path.resolve(__dirname, "./ssl/key.pem")),
-    cert: fs.readFileSync(path.resolve(__dirname, "./ssl/cert.pem")),
-    ca: fs.readFileSync(path.resolve(__dirname, "./ssl/fullchain.pem")),
-  },
-  app
-);
+app.listen(3000, () => console.log("Server started"));
+// const httpServer = http.createServer(httpapp);
+// httpServer.listen(80, () => {
+//   console.log("HTTP Server running on port 80");
+// });
+// const httpsServer = https.createServer(
+//   {
+//     key: fs.readFileSync(path.resolve(__dirname, "./ssl/key.pem")),
+//     cert: fs.readFileSync(path.resolve(__dirname, "./ssl/cert.pem")),
+//     ca: fs.readFileSync(path.resolve(__dirname, "./ssl/fullchain.pem")),
+//   },
+//   app
+// );
 
-httpsServer.listen(443, () => {
-  console.log("HTTPS Server running on port 443");
-});
+// httpsServer.listen(443, () => {
+//   console.log("HTTPS Server running on port 443");
+// });
