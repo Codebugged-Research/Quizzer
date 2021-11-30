@@ -9,6 +9,7 @@ const quizSchema = new mongoose.Schema(
     slot: { type: String },
     correct_score: { type: String, default: 1 },
     incorrect_score: { type: String, default: -1 },
+    checkTime: { type: Date },
     reward: { type: String },
     minutes: { type: String },
     seconds: { type: String },

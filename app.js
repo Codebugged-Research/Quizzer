@@ -33,6 +33,8 @@ mongoose.connect(
 );
 const paytmRoutes = require("./routes/paytm");
 
+let Quiz = require("./models/quiz");
+
 const razorPayRoute = require("./routes/payment");
 const authRoute = require("./routes/auth");
 const dashboardRoute = require("./routes/dashboard");
@@ -93,7 +95,7 @@ app.get("/upload/:name", function (req, res) {
 app.get("/api/app/time", (req, res) => {
   var date = new Date();
   console.log(date);
-  res.json({"date": date.getTime()});
+  res.json({ "date": date.getTime() });
 })
 
 app.use(authRoute);
@@ -112,6 +114,7 @@ app.use("/file", fileRoute);
 app.use("/feed", feedRoute);
 app.use("/offer", offerRoute);
 
+require("./cron/quizcron");
 // app.listen(3000, () => console.log("Server started"));
 const httpServer = http.createServer(httpapp);
 httpServer.listen(80, () => {

@@ -65,7 +65,7 @@ quizRouter.get("/:id", verify, async (req, res) => {
 quizRouter.post("/", verify, async (req, res) => {
   var bodyDate = req.body.date.split("-");
   var today = bodyDate[2] + "/" + bodyDate[1] + "/" + bodyDate[0];
-
+  var start = new Date(parseInt(bodyDate[0]), parseInt(bodyDate[1]) - 1, parseInt(bodyDate[2]), parseInt(req.body.start.split(":")[0]), parseInt(req.body.start.split(":")[1]));
   const newQuiz = new Quiz({
     name: req.body.name,
     description: req.body.description,
@@ -73,31 +73,32 @@ quizRouter.post("/", verify, async (req, res) => {
     reward: req.body.reward,
     correct_score: req.body.correct_score,
     incorrect_score: req.body.incorrect_score,
+    checkTime: start,
     date: today,
     startTime: req.body.start,
     endTime: req.body.end,
     minutes: req.body.minutes,
     seconds: req.body.seconds,
   });
-  var payload = {
-    notification: {
-      title: "New Quiz Update !",
-      body: `New quiz "${req.body.name}" has been added.`,
-    },
-  };
-  var topic = "quiz";
-  admin
-    .messaging()
-    .sendToTopic(topic, payload)
-    .then(function (response) {
-      console.log("true");
-    })
-    .catch(function (error) {
-      console.log("false");
-    });
+  // var payload = {
+  //   notification: {
+  //     title: "New Quiz Update !",
+  //     body: `New quiz "${req.body.name}" has been added.`,
+  //   },
+  // };
+  // var topic = "quiz";
+  // admin
+  //   .messaging()
+  //   .sendToTopic(topic, payload)
+  //   .then(function (response) {
+  //     console.log("true");
+  //   })
+  //   .catch(function (error) {
+  //     console.log("false");
+  //   });
 
   try {
-    const savedQuiz = await newQuiz.save();
+    await newQuiz.save();
     res.redirect("/quiz/page/1");
   } catch (err) {
     res.status(400).send(err);
